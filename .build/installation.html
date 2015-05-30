@@ -1,0 +1,49 @@
+<h1 id="installation">Installation</h1>
+<p class="lead">
+The recommended way to install Bridge is through the automated installer.
+It is available on <a href="//pub.dartlang.org">pub</a> and can be globally activated:
+</p>
+
+<pre><code class="prettyprint lang-bash prettyprinted" data-lang="bash" style=""><span class="pln">pub global activate new</span><span class="pun">-</span><span class="pln">bridge</span></code></pre>
+<p>Then, you can create new applications just by running the following command.</p>
+<pre><code class="prettyprint lang-bash prettyprinted" data-lang="bash" style=""><span class="pln">new</span><span class="pun">-</span><span class="pln">bridge my</span><span class="pun">-</span><span class="pln">blog</span></code></pre>
+<hr>
+<h2 id="manual-install">Manual install</h2>
+<p>Bridge is a modular ecosystem, and therefore it is perfectly possible to construct your own folder structure. To create your app from scratch, these are the steps you have to take.</p>
+<pre><code class="prettyprint lang-bash prettyprinted" data-lang="bash" style=""><span class="com"># Create the project directory</span><span class="pln">
+mkdir my</span><span class="pun">-</span><span class="pln">blog </span><span class="pun">&amp;&amp;</span><span class="pln"> cd my</span><span class="pun">-</span><span class="pln">blog
+
+</span><span class="com"># Add Bridge as a dependency</span><span class="pln">
+cat </span><span class="pun">&gt;</span><span class="pln"> pubspec</span><span class="pun">.</span><span class="pln">yaml
+name</span><span class="pun">:</span><span class="pln"> my</span><span class="pun">-</span><span class="pln">blog
+dependencies</span><span class="pun">:</span><span class="pln">
+  bridge</span><span class="pun">:</span><span class="pln"> any
+
+pub get</span></code></pre>
+<p>We need to create the binary file to be responsible for starting up the shell. In the app package, this is the file <code>bridge</code>. You can call it whatever you want.</p>
+<p>Inside that file we'll export both our own library, which we will be creating in a minute, and the Bridge command line initializer.</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">export </span><span class="str">'package:my_blog/my_blog.dart'</span><span class="pun">;</span><span class="pln">
+export </span><span class="str">'package:bridge/cli_init.dart'</span><span class="pun">;</span></code></pre>
+<blockquote>
+<p>If you use the built in initializer, the <code>config</code> folder will be used as the root for configuration files.</p>
+</blockquote>
+<p>To override this, your startup file must look like this instead:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">export </span><span class="str">'package:my_blog/my_blog.dart'</span><span class="pun">;</span><span class="pln">
+
+main</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> m</span><span class="pun">)</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> bootstrap</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> m</span><span class="pun">,</span><span class="pln"> configPath</span><span class="pun">:</span><span class="pln"> </span><span class="str">'my/config/path'</span><span class="pun">);</span></code></pre>
+<p>Whatever folder you choose, you must create a file called <code>app.yaml</code> inside it.</p>
+<p>To hook into Bridge, you must create at least one Service Provider, and register it inside <code>app.yaml</code>.</p>
+<pre><code class="prettyprint lang-yaml prettyprinted" data-lang="yaml" style=""><span class="kwd">service_providers:
+</span><span class="pln">  </span><span class="pun">-</span><span class="pln"> my_blog.MyBlogServiceProvider</span></code></pre>
+<p>Now, let's create the <code>lib/my_blog.dart</code> file we referenced in the start file.</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">library</span><span class="pln"> my_blog</span><span class="pun">;</span><span class="pln">
+
+</span><span class="kwd">import</span><span class="pln"> </span><span class="str">'package:bridge/core.dart'</span><span class="pun">;</span><span class="pln">
+
+</span><span class="kwd">class</span><span class="pln"> MyBlogServiceProvider </span><span class="kwd">implements</span><span class="pln"> ServiceProvider </span><span class="pun">{</span><span class="pln">
+
+</span><span class="pun">}</span></code></pre>
+<blockquote>
+<p>Go <a href="#core/service-provider">here</a> to learn about how to use the Service Provider.</p>
+</blockquote>
+

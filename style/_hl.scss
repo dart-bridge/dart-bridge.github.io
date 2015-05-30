@@ -1,0 +1,162 @@
+$keyword: #2249d4;
+$string: $brand-info;
+$comment: #9fabb2;
+$type: #29a52b;
+$literal: #2fbcb2;
+$punctuation: #757575;
+
+pre {
+  background-color: #f7f7f7;
+  padding: 1.3em;
+  //font-size:.7em;
+  border:0;
+  color: #4d463e;
+  box-shadow: 0 0.15em 0.3em transparentize(black, 0.9);
+  position: relative;
+  word-wrap: normal;
+  max-width:100%;
+  line-height: 1.9;
+  //padding-right:5em;
+
+  code:before {
+    //display: inline-block;
+    //position: absolute;
+    float:right;
+    right: 1em;
+    top:1.65em;
+    background-color: rgba(247, 247, 246, 0.8);
+    z-index: 2000;
+    border-radius: 0.3em;
+    line-height: 1.1;
+    padding: 0.4em 0.6em;
+    content: attr(data-lang);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 0.8em;
+    color: $comment;
+    text-shadow: 0 0.1em white;
+  }
+}
+
+.pln {
+  color: #4d4d4d
+}
+
+@media screen {
+  .str {
+    color: $string;
+  }
+
+  .kwd {
+    color: $keyword;
+  }
+
+  .com {
+    color: $comment;
+  }
+
+  .typ {
+    color: $type;
+  }
+
+  .lit {
+    color: $literal;
+  }
+
+  .pun, .opn, .clo {
+    color: $punctuation;
+  }
+
+  .tag {
+    color: $keyword
+  }
+
+  .atn {
+    color: $type
+  }
+
+  .atv {
+    color: $string
+  }
+
+  .dec, .var {
+    color: $literal;
+  }
+
+  .fun {
+    color: red
+  }
+}
+
+@media print, projection {
+  .str {
+    color: #060
+  }
+
+  .kwd {
+    color: #006;
+    font-weight: bold
+  }
+
+  .com {
+    color: #600;
+    font-style: italic
+  }
+
+  .typ {
+    color: #404;
+    font-weight: bold
+  }
+
+  .lit {
+    color: #044
+  }
+
+  .pun, .opn, .clo {
+    color: #440
+  }
+
+  .tag {
+    color: #006;
+    font-weight: bold
+  }
+
+  .atn {
+    color: #404
+  }
+
+  .atv {
+    color: #060
+  }
+}
+
+ol.linenums {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 8px;
+  color: #bebebe
+}
+
+pre.prettyprint li {
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+  background: #f6f6f6;
+  padding: 2px 0
+}
+
+pre.prettyprint li:first-child {
+  padding-top: 20px
+}
+
+pre.prettyprint li:last-child {
+  padding-bottom: 20px
+}
+
+pre.prettyprint a {
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace
+}
+
+li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
+  list-style-type: none
+}
