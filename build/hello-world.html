@@ -7,8 +7,8 @@ a simple "Hello, world" message.
 <p>The most simple response can be created directly in <code>lib/http/routes.dart</code>.</p>
 <pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">part of</span><span class="pln"> framework</span><span class="pun">;</span><span class="pln">
 
-</span><span class="kwd">class</span><span class="pln"> Routes </span><span class="pun">{</span><span class="pln">
-  register</span><span class="pun">(</span><span class="pln">Router router</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">Routes</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  register</span><span class="pun">(</span><span class="typ">Router</span><span class="pln"> router</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
     router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> </span><span class="str">'Hello, world'</span><span class="pun">);</span><span class="pln">
   </span><span class="pun">}</span><span class="pln">
 </span><span class="pun">}</span></code></pre>
@@ -20,7 +20,7 @@ a simple "Hello, world" message.
 let's call it <code>hello_world_controller.dart</code>.</p>
 <pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">part of</span><span class="pln"> controllers</span><span class="pun">;</span><span class="pln">
 
-</span><span class="kwd">class</span><span class="pln"> HelloWorldController </span><span class="pun">{</span><span class="pln">
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">HelloWorldController</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
   index</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
     </span><span class="kwd">return</span><span class="pln"> </span><span class="str">'Hello, world'</span><span class="pun">;</span><span class="pln">
   </span><span class="pun">}</span><span class="pln">
@@ -29,8 +29,8 @@ let's call it <code>hello_world_controller.dart</code>.</p>
 controller.</p>
 <pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">part of</span><span class="pln"> framework</span><span class="pun">;</span><span class="pln">
 
-</span><span class="kwd">class</span><span class="pln"> Routes </span><span class="pun">{</span><span class="pln">
-  register</span><span class="pun">(</span><span class="pln">Router router</span><span class="pun">,</span><span class="pln"> HelloWorldController controller</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">Routes</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  register</span><span class="pun">(</span><span class="typ">Router</span><span class="pln"> router</span><span class="pun">,</span><span class="pln"> </span><span class="typ">HelloWorldController</span><span class="pln"> controller</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
     router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> controller</span><span class="pun">.</span><span class="pln">index</span><span class="pun">);</span><span class="pln">
   </span><span class="pun">}</span><span class="pln">
 </span><span class="pun">}</span></code></pre>
@@ -44,7 +44,7 @@ browser.</p>
 <p>Then, let's modify the <code>index</code> method in <code>lib/http/controllers/hello_world_controller.dart</code>.</p>
 <pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">part of</span><span class="pln"> controllers</span><span class="pun">;</span><span class="pln">
 
-</span><span class="kwd">class</span><span class="pln"> HelloWorldController </span><span class="pun">{</span><span class="pln">
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">HelloWorldController</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
   index</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
     </span><span class="kwd">return</span><span class="pln"> template</span><span class="pun">(</span><span class="str">'index'</span><span class="pun">);</span><span class="pln">
   </span><span class="pun">}</span><span class="pln">

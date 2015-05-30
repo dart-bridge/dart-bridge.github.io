@@ -15,7 +15,7 @@ provides the bootstrapper with a hook to decide if a class should be loaded or n
 <h2 id="a-custom-service-provider">A custom Service Provider</h2>
 <pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">library</span><span class="pln"> my_library</span><span class="pun">;</span><span class="pln">
 
-</span><span class="kwd">class</span><span class="pln"> MyServiceProvider </span><span class="kwd">implements</span><span class="pln"> ServiceProvider </span><span class="pun">{</span><span class="pln">
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">MyServiceProvider</span><span class="pln"> </span><span class="kwd">implements</span><span class="pln"> </span><span class="typ">ServiceProvider</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
 
 </span><span class="pun">}</span></code></pre>
 <p>The path of this class is <code>my_library.MyServiceProvider</code>. So we register that in
@@ -30,8 +30,8 @@ methods have specific responsibilities, which always should be followed.</p>
 <h4 id="1-setup-">1. <code>setUp</code></h4>
 <p>This method should <em>only</em> be used for interaction with the 
 <a href="#/core/container">IoC Container</a> for the <em>component's own classes</em>.</p>
-<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">class</span><span class="pln"> ExampleServiceProvider </span><span class="kwd">implements</span><span class="pln"> ServiceProvider </span><span class="pun">{</span><span class="pln">
-  setUp</span><span class="pun">(</span><span class="pln">Container container</span><span class="pun">,</span><span class="pln"> MyClass myClass</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">ExampleServiceProvider</span><span class="pln"> </span><span class="kwd">implements</span><span class="pln"> </span><span class="typ">ServiceProvider</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  setUp</span><span class="pun">(</span><span class="typ">Container</span><span class="pln"> container</span><span class="pun">,</span><span class="pln"> </span><span class="typ">MyClass</span><span class="pln"> myClass</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
     container</span><span class="pun">.</span><span class="pln">singleton</span><span class="pun">(</span><span class="pln">myClass</span><span class="pun">);</span><span class="pln">
   </span><span class="pun">}</span><span class="pln">
 </span><span class="pun">}</span></code></pre>
@@ -41,14 +41,14 @@ with it.</p>
 <p>In this method, we <em>interact</em> with both our own and other services. Because the <code>setUp</code>
 method has been run on all providers, we can rest assured that the container is ready
 to inject whatever we ask for.</p>
-<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">load</span><span class="pun">(</span><span class="pln">MyClass myClass</span><span class="pun">,</span><span class="pln"> bridge_http</span><span class="pun">.</span><span class="pln">Server server</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">load</span><span class="pun">(</span><span class="typ">MyClass</span><span class="pln"> myClass</span><span class="pun">,</span><span class="pln"> bridge_http</span><span class="pun">.</span><span class="typ">Server</span><span class="pln"> server</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
   server</span><span class="pun">.</span><span class="pln">addMiddleware</span><span class="pun">(...);</span><span class="pln">
 </span><span class="pun">}</span></code></pre>
 <h4 id="3-run-">3. <code>run</code></h4>
 <p>When other services have interacted with our service, we can react to that interaction
 in the <code>run</code> method. Usually, this is accomplished by binding a singleton in <code>setUp</code>
 and letting other services inject that singleton in <code>load</code>.</p>
-<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">run</span><span class="pun">(</span><span class="pln">MySingleton singleton</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">run</span><span class="pun">(</span><span class="typ">MySingleton</span><span class="pln"> singleton</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
   singleton</span><span class="pun">.</span><span class="pln">doSomething</span><span class="pun">();</span><span class="pln">
 </span><span class="pun">}</span></code></pre>
 <h4 id="4-teardown-">4. <code>tearDown</code></h4>
@@ -57,7 +57,7 @@ and letting other services inject that singleton in <code>load</code>.</p>
 <p><strong>Note</strong> that this will never be run if <kbd>^C</kbd> is used to
 exit the program.</p>
 </blockquote>
-<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">tearDown</span><span class="pun">(</span><span class="pln">MyClass myClass</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">tearDown</span><span class="pun">(</span><span class="typ">MyClass</span><span class="pln"> myClass</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
   myClass
     </span><span class="pun">..</span><span class="pln">dumpSomeInfo</span><span class="pun">()</span><span class="pln">
     </span><span class="pun">..</span><span class="pln">closeSomeConnection</span><span class="pun">();</span><span class="pln">
