@@ -13,7 +13,7 @@ class Page extends React.Component {
     componentDidMount() {
         new Request().send({
             method: 'GET',
-            url: `/.build/${this.props.page}.html`
+            url: `/build/${this.props.page}.html`
         }).then((res) => {
             if (res.status !== 200)
                 throw new Error(`Error: ${res.status}`);
