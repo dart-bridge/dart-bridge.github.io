@@ -1,17 +1,18 @@
 # Installation
 <p class='lead'>
 The recommended way to install Bridge is through the automated installer.
-It is available on [pub](//pub.dartlang.org) and can be globally activated:
+It is available on [pub](//pub.dartlang.org/packages/new_bridge) and can be
+globally activated:
 </p>
 
 ```bash
-pub global activate new-bridge
+pub global activate new_bridge
 ```
 
 Then, you can create new applications just by running the following command.
 
 ```bash
-new-bridge my-blog
+new_bridge my_blog
 ```
 
 ---
@@ -21,11 +22,11 @@ Bridge is a modular ecosystem, and therefore it is perfectly possible to constru
 
 ```bash
 # Create the project directory
-mkdir my-blog && cd my-blog
+mkdir my_blog && cd my_blog
 
 # Add Bridge as a dependency
 cat > pubspec.yaml
-name: my-blog
+name: my_blog
 dependencies:
   bridge: any
 
