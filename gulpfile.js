@@ -219,16 +219,16 @@ var spawn = require('child_process').execSync;
 gulp.task('build', function () {
     return gulp.src('content/**/*.md')
         .pipe(markdown())
-        //.pipe(entities('decode'))
+        // <HORRIBLE HORRIBLE HORRIBLE HACKS>
         .pipe(replace(/^/, '<html><head></head><body>'))
         .pipe(replace(/$/, '<script src="/google-code-prettify/prettify.js"></script><script src="/google-code-prettify/lang-dart.js"><script src="/google-code-prettify/lang-css.js"></script><script src="/google-code-prettify/lang-yaml.js"></script><script>prettyPrint()</script></body></html>'))
         .pipe(replace(/class="lang-(\w+)"/g, 'class="prettyprint lang-$1" data-lang="$1"'))
-        //.pipe(entities('encode'))
         .pipe(gulp.dest('build'))
         .pipe(tap(function (file) {
             file.contents = new Buffer(spawn('phantomjs pretty-print-phantom.js ' + path.relative(process.cwd(), file.path.toString()).replace(/^content/, '.build')));
             return file;
         }))
+        // </OH THE HORROR>
         .pipe(gulp.dest('build'))
         .pipe(livereload())
 });
