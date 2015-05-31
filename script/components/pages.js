@@ -10,6 +10,7 @@ export default {
     },
     'Http': {
         '/http/router': 'Router',
+        '/http/error-pages': 'Error Pages',
         '/http/middleware': 'Middleware',
     },
     'Tether': {
