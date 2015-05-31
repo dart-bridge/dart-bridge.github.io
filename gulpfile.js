@@ -221,7 +221,7 @@ gulp.task('build', function () {
         .pipe(markdown())
         // <HORRIBLE HORRIBLE HORRIBLE HACKS>
         .pipe(replace(/^/, '<html><head></head><body>'))
-        .pipe(replace(/$/, '<script src="/google-code-prettify/prettify.js"></script><script src="/google-code-prettify/lang-dart.js"><script src="/google-code-prettify/lang-css.js"></script><script src="/google-code-prettify/lang-yaml.js"></script><script>prettyPrint()</script></body></html>'))
+        .pipe(replace(/$/, '<script src="/google-code-prettify/prettify.js"></script><script src="/google-code-prettify/lang-dart.js"></script><script src="/google-code-prettify/lang-css.js"></script><script src="/google-code-prettify/lang-yaml.js"></script><script>prettyPrint()</script></body></html>'))
         .pipe(replace(/class="lang-(\w+)"/g, 'class="prettyprint lang-$1" data-lang="$1"'))
         .pipe(gulp.dest('build'))
         .pipe(tap(function (file) {
