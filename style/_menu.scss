@@ -6,8 +6,8 @@
   padding-left: 0;
 
   img {
-    width: 100%;
-    margin-bottom: 1em;
+    width: 80%;
+    margin: 0% 10% 1em;
   }
 
   .desc {
@@ -30,6 +30,8 @@
     &.active {
       border-left-width: 0.3em;
       background-color: lighten($brand-primary, 45%);
+      color: $brand-primary;
+      font-weight: bold;
     }
   }
   ul {

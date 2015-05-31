@@ -5,7 +5,7 @@ export default {
     },
     'Core': {
         '/core/container': 'IoC Container',
-        '/core/service-provider': 'Service Provider',
+        '/core/service-providers': 'Service Providers',
         '/core/config': 'Config',
     },
     'Http': {
@@ -14,5 +14,12 @@ export default {
     },
     'Tether': {
         '/tether': 'Tether',
+        '/tether/manager': 'Manager',
+    },
+    'View': {
+        '/view/templates': 'Templates',
+    },
+    'Database': {
+        '/database/active-record': 'Active Record',
     },
 }

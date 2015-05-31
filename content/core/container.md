@@ -5,7 +5,7 @@ into the classes, resulting in testable and clean code, and a solid application
 architecture.
 </p>
 
-The methods in [Service Providers](#/core/service-provider), and the HTTP layer is
+The methods in [Service Providers](#/core/service-providers), and the HTTP layer is
 resolved through the Container. That means that we can simply *ask for* what
 we need, and get an instance of that class.
 
@@ -33,7 +33,7 @@ class MyServiceProvider implements ServiceProvider {
 <p class='lead'>
 If we inject the container itself, we can interact with it. This is the whole
 purpose of the Service Providers, as you can learn about 
-[here](#/core/service-provider).
+[here](#/core/service-providers).
 </p>
 
 Create an instance of a class, and resolve all its dependencies with the `make` method.

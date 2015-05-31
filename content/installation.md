@@ -48,6 +48,7 @@ To override this, your startup file must look like this instead:
 
 ```dart
 export 'package:my_blog/my_blog.dart';
+import 'package:bridge/cli.dart' show bootstrap;
 
 main(a, m) => bootstrap(a, m, configPath: 'my/config/path');
 ```

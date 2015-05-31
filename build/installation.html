@@ -23,13 +23,14 @@ dependencies</span><span class="pun">:</span><span class="pln">
 pub get</span></code></pre>
 <p>We need to create the binary file to be responsible for starting up the shell. In the app package, this is the file <code>bridge</code>. You can call it whatever you want.</p>
 <p>Inside that file we'll export both our own library, which we will be creating in a minute, and the Bridge command line initializer.</p>
-<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">export </span><span class="str">'package:my_blog/my_blog.dart'</span><span class="pun">;</span><span class="pln">
-export </span><span class="str">'package:bridge/cli_init.dart'</span><span class="pun">;</span></code></pre>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">export</span><span class="pln"> </span><span class="str">'package:my_blog/my_blog.dart'</span><span class="pun">;</span><span class="pln">
+</span><span class="kwd">export</span><span class="pln"> </span><span class="str">'package:bridge/cli_init.dart'</span><span class="pun">;</span></code></pre>
 <blockquote>
 <p>If you use the built in initializer, the <code>config</code> folder will be used as the root for configuration files.</p>
 </blockquote>
 <p>To override this, your startup file must look like this instead:</p>
-<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">export </span><span class="str">'package:my_blog/my_blog.dart'</span><span class="pun">;</span><span class="pln">
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">export</span><span class="pln"> </span><span class="str">'package:my_blog/my_blog.dart'</span><span class="pun">;</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> </span><span class="str">'package:bridge/cli.dart'</span><span class="pln"> </span><span class="kwd">show</span><span class="pln"> bootstrap</span><span class="pun">;</span><span class="pln">
 
 main</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> m</span><span class="pun">)</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> bootstrap</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> m</span><span class="pun">,</span><span class="pln"> configPath</span><span class="pun">:</span><span class="pln"> </span><span class="str">'my/config/path'</span><span class="pun">);</span></code></pre>
 <p>Whatever folder you choose, you must create a file called <code>app.yaml</code> inside it.</p>

@@ -1,4 +1,4 @@
-# Service Provider
+# Service Providers
 <p class='lead'>
 Bridge *revolves* around Service Providers. Each on is loaded when the application
 starts, and can use the [IoC Container](#/core/container) to inject the functionality

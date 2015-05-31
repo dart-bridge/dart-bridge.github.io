@@ -216,7 +216,7 @@ var tap = require('gulp-tap');
 var path = require('path');
 var spawn = require('child_process').execSync;
 
-gulp.task('build', function () {
+gulp.task('_build', function () {
     return gulp.src('content/**/*.md')
         .pipe(markdown())
         // <HORRIBLE HORRIBLE HORRIBLE HACKS>
@@ -230,5 +230,8 @@ gulp.task('build', function () {
         }))
         // </OH THE HORROR>
         .pipe(gulp.dest('build'))
-        .pipe(livereload())
+});
+
+gulp.task('build', ['_build'], function() {
+    livereload.changed('index.html');
 });
