@@ -1,0 +1,29 @@
+<h1 id="router">Router</h1>
+<p class="lead">
+The router provides easy ways to listen for, and respond to, requests to specific
+endpoints.
+</p>
+
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/path/:wildcard'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">({</span><span class="typ">String</span><span class="pln"> wildcard</span><span class="pun">})</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> </span><span class="str">"You're looking for $wildcard"</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">});</span></code></pre>
+<p>The <a href="#/core/container">IoC Container</a> resolves the callback, so we can inject dependencies
+to be used in the response.</p>
+<p>The <code>Input</code> class can be used to get access to data sent with the request, and the 
+<a href="//pub.dartlang.org/packages/shelf">Shelf</a> <code>Request</code> class can be injected to provide
+information about the actual HTTP request.</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">router</span><span class="pun">.</span><span class="pln">post</span><span class="pun">(</span><span class="str">'/store'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="typ">Input</span><span class="pln"> input</span><span class="pun">,</span><span class="pln"> shelf</span><span class="pun">.</span><span class="typ">Request</span><span class="pln"> request</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> </span><span class="str">'This is ${request.url.path}, and you posted ${input}'</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">});</span></code></pre>
+<h2 id="controllers">Controllers</h2>
+<p>Using controllers instead of closures directly in the router method is of course
+a good pattern. Just replace the closure with a method reference, and you're good to go.</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">var</span><span class="pln"> controller </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">PagesController</span><span class="pun">();</span><span class="pln">
+
+router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/pages'</span><span class="pun">,</span><span class="pln"> controller</span><span class="pun">.</span><span class="pln">index</span><span class="pun">);</span><span class="pln">
+router</span><span class="pun">.</span><span class="pln">post</span><span class="pun">(</span><span class="str">'/pages'</span><span class="pun">,</span><span class="pln"> controller</span><span class="pun">.</span><span class="pln">store</span><span class="pun">);</span><span class="pln">
+router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/pages/:id'</span><span class="pun">,</span><span class="pln"> controller</span><span class="pun">.</span><span class="kwd">show</span><span class="pun">);</span><span class="pln">
+router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/pages/:id/edit'</span><span class="pun">,</span><span class="pln"> controller</span><span class="pun">.</span><span class="pln">edit</span><span class="pun">);</span><span class="pln">
+router</span><span class="pun">.</span><span class="pln">update</span><span class="pun">(</span><span class="str">'/pages/:id'</span><span class="pun">,</span><span class="pln"> controller</span><span class="pun">.</span><span class="pln">update</span><span class="pun">);</span><span class="pln">
+router</span><span class="pun">.</span><span class="pln">delete</span><span class="pun">(</span><span class="str">'/pages/:id'</span><span class="pun">,</span><span class="pln"> controller</span><span class="pun">.</span><span class="pln">destroy</span><span class="pun">);</span></code></pre>
+
