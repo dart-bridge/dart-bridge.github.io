@@ -35,3 +35,11 @@ $code-color: $brand-primary;
     top:0;
   }
 }
+
+pre + pre {
+  margin-top: -1em;
+  //padding-top: 0.6em;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: 0.08em solid lighten($comment, 17%);
+}

@@ -1,0 +1,34 @@
+<h1 id="models-wip-">Models <code>WIP</code></h1>
+<p class="lead">
+Bridge Models are similar to 
+<a href="http://en.wikipedia.org/wiki/Active_record_pattern">Active Records</a>, but the connection
+between the models and the database is handled by <a href="#/database/repositories">Repositories</a>.
+</p>
+
+<hr>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">Task</span><span class="pln"> </span><span class="kwd">extends</span><span class="pln"> </span><span class="typ">Model</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="lit">@field</span><span class="pln"> </span><span class="typ">String</span><span class="pln"> title</span><span class="pun">;</span><span class="pln">
+  </span><span class="lit">@field</span><span class="pln"> </span><span class="typ">bool</span><span class="pln"> completed </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">false</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>The <code>Model</code> class is a data structure, so it doesn't add state to your model. It
+provides these properties, however:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">abstract</span><span class="pln"> </span><span class="kwd">class</span><span class="pln"> </span><span class="typ">Model</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="lit">@field</span><span class="pln"> </span><span class="kwd">var</span><span class="pln"> id</span><span class="pun">;</span><span class="pln">
+  </span><span class="lit">@field</span><span class="pln"> </span><span class="typ">DateTime</span><span class="pln"> createdAt</span><span class="pun">;</span><span class="pln">
+  </span><span class="lit">@field</span><span class="pln"> </span><span class="typ">DateTime</span><span class="pln"> updatedAt</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>If you need to inherit your model from a base class, <code>Model</code> can be used as a mixin.</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">Task</span><span class="pln"> </span><span class="kwd">extends</span><span class="pln"> </span><span class="typ">BaseTask</span><span class="pln"> with </span><span class="typ">Model</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="lit">@field</span><span class="pln"> </span><span class="typ">String</span><span class="pln"> title</span><span class="pun">;</span><span class="pln">
+  </span><span class="lit">@field</span><span class="pln"> </span><span class="typ">bool</span><span class="pln"> completed </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">false</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>That means, given you already have a business data structure that looks like
+this:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">Task</span><span class="pln"> </span><span class="kwd">extends</span><span class="pln"> </span><span class="typ">BaseTask</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="typ">String</span><span class="pln"> title</span><span class="pun">;</span><span class="pln">
+  </span><span class="typ">bool</span><span class="pln"> completed </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">false</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>You can just add the mixin and the <code>@field</code> annotation on the properties you want to
+persist, and your original structure will remain unchanged, meaning you don't have
+to worry about Bridge when you're designing your app.</p>
+

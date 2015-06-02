@@ -15,12 +15,11 @@ globally activated:
 mkdir my_blog </span><span class="pun">&amp;&amp;</span><span class="pln"> cd my_blog
 
 </span><span class="com"># Add Bridge as a dependency</span><span class="pln">
-cat </span><span class="pun">&gt;</span><span class="pln"> pubspec</span><span class="pun">.</span><span class="pln">yaml
-name</span><span class="pun">:</span><span class="pln"> my_blog
-dependencies</span><span class="pun">:</span><span class="pln">
-  bridge</span><span class="pun">:</span><span class="pln"> any
-
-pub get</span></code></pre>
+cat </span><span class="pun">&gt;</span><span class="pln"> pubspec</span><span class="pun">.</span><span class="pln">yaml</span></code></pre>
+<pre><code class="prettyprint lang-yaml prettyprinted" data-lang="yaml" style=""><span class="kwd">name: </span><span class="pln">my_blog
+</span><span class="kwd">dependencies:
+</span><span class="pln">  </span><span class="kwd">bridge: </span><span class="pln">any</span></code></pre>
+<pre><code class="prettyprint lang-bash prettyprinted" data-lang="bash" style=""><span class="pln">pub get</span></code></pre>
 <p>We need to create the binary file to be responsible for starting up the shell. In the app package, this is the file <code>bridge</code>. You can call it whatever you want.</p>
 <p>Inside that file we'll export both our own library, which we will be creating in a minute, and the Bridge command line initializer.</p>
 <pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">export</span><span class="pln"> </span><span class="str">'package:my_blog/my_blog.dart'</span><span class="pun">;</span><span class="pln">
@@ -46,6 +45,6 @@ main</span><span class="pun">(</span><span class="pln">a</span><span class="pun"
 
 </span><span class="pun">}</span></code></pre>
 <blockquote>
-<p>Go <a href="#core/service-provider">here</a> to learn about how to use the Service Provider.</p>
+<p>Go <a href="#core/service-providers">here</a> to learn about how to use the Service Provider.</p>
 </blockquote>
 

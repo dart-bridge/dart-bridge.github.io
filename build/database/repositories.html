@@ -1,0 +1,35 @@
+<h1 id="repositories-wip-">Repositories <code>WIP</code></h1>
+<p></p><p class="lead">
+Handles models in the database, removing framework code from business objects.</p>
+<p>
+
+</p><p>Repositories can be both extended and injected, so in a route, you could have:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="typ">Repository</span><span class="pun">&lt;</span><span class="typ">Task</span><span class="pun">&gt;</span><span class="pln"> repo</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> repo</span><span class="pun">.</span><span class="pln">all</span><span class="pun">();</span><span class="pln">
+</span><span class="pun">});</span></code></pre>
+<pre><code class="prettyprint lang-json prettyprinted" data-lang="json" style=""><span class="pun">[</span><span class="pln">
+  </span><span class="pun">{</span><span class="pln">
+    </span><span class="str">"id"</span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"title"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Go to the store"</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"completed"</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">true</span><span class="pln">
+  </span><span class="pun">},</span><span class="pln">
+  </span><span class="pun">{</span><span class="pln">
+    </span><span class="str">"id"</span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"title"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Work on latest open source project"</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"completed"</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">false</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">]</span></code></pre>
+<p>If you want to provide query scopes, or other functionality to your repository, create
+a derivative, which you can then inject in the same way, for example in the router.</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">TaskRepository</span><span class="pln"> </span><span class="kwd">extends</span><span class="pln"> </span><span class="typ">Repository</span><span class="pun">&lt;</span><span class="typ">Task</span><span class="pun">&gt;</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="typ">Selector</span><span class="pln"> completed</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">where</span><span class="pun">(</span><span class="str">'completed'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">Is</span><span class="pun">.</span><span class="pln">equalTo</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">true</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="typ">TaskRepository</span><span class="pln"> repo</span><span class="pun">)</span><span class="pln"> async </span><span class="pun">{</span><span class="pln">
+  </span><span class="typ">Task</span><span class="pln"> completedTask </span><span class="pun">=</span><span class="pln"> await repo</span><span class="pun">.</span><span class="pln">completed</span><span class="pun">().</span><span class="pln">first</span><span class="pun">();</span><span class="pln">
+
+  </span><span class="kwd">return</span><span class="pln"> completedTask</span><span class="pun">.</span><span class="pln">title</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">});</span></code></pre>
+<pre><code>Go to the store
+</code></pre>

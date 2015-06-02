@@ -9,7 +9,7 @@ function Workflow() {
     // this.output.directory = 'public_html';
     // this.watch.script = '**/*.ts';
 
-    this.watch.build = 'content/**/*.md';
+    //this.watch.build = 'content/**/*.md';
 
     this.watch.style = this.input.directory + '/' + this.input.style.replace(/.+?\.(.+)$/, '**/*.$1');
 }
@@ -55,7 +55,7 @@ var rename = require('gulp-rename');
 var markdown = require('gulp-markdown');
 var highlight = require('gulp-highlight');
 var replace = require('gulp-replace');
-var entities = require('gulp-html-entities');
+var entities = new (require('html-entities').XmlEntities)();
 // ------------------------------------------------------------
 //     Console
 // ------------------------------------------------------------
@@ -182,7 +182,7 @@ gulp.task('style', function () {
 //     Watch task
 // ------------------------------------------------------------
 
-gulp.task('watch', ['style', 'watchScript', 'build'], function () {
+gulp.task('watch', ['style', 'watchScript', 'watchBuild'], function () {
     livereload.listen();
 
     var watches = workflow.watch;
@@ -215,23 +215,51 @@ gulp.task('default', ['script', 'style', 'build']);
 var tap = require('gulp-tap');
 var path = require('path');
 var spawn = require('child_process').execSync;
+var highlight = require('gulp-highlight');
+var hljs = require('highlight.js');
+hljs.registerLanguage('bridge', require('./bridge-html-hl'));
 
-gulp.task('_build', function () {
-    return gulp.src('content/**/*.md')
+gulp.task('build', function () {
+    return compileMarkdown('content/**/*.md');
+});
+
+gulp.task('watchBuild', function () {
+    gulp.watch('content/**/*.md').on('change', function (file) {
+        return compileMarkdown(file.path);
+    });
+});
+
+function compileMarkdown(target) {
+    var dest = (target == 'content/**/*.md') ? 'build' : 'build/' + path.relative(process.cwd() + '/content', path.dirname(target));
+    return gulp.src(target)
         .pipe(markdown())
+        //.pipe(tap(function (file) {
+        //    function unescapeMatch(m, $1, $2, $3) {
+        //        return '<' + $1 + $2 + '>'
+        //            + entities.decode(entities.decode($3))
+        //            + '</' + $1 + '>';
+        //    }
+        //
+        //    function unescapeCodePre(str) {
+        //        return str
+        //            //.replace(/<(pre)(.*?)>([^]*?)<\/pre>/g, unescapeMatch)
+        //            .replace(/<(code)(.*?)>([^]*?)<\/code>/g, unescapeMatch);
+        //    }
+        //
+        //    file.contents = new Buffer(unescapeCodePre(file.contents.toString()));
+        //}))
         // <HORRIBLE HORRIBLE HORRIBLE HACKS>
         .pipe(replace(/^/, '<html><head></head><body>'))
-        .pipe(replace(/$/, '<script src="/google-code-prettify/prettify.js"></script><script src="/google-code-prettify/lang-dart.js"></script><script src="/google-code-prettify/lang-css.js"></script><script src="/google-code-prettify/lang-yaml.js"></script><script>prettyPrint()</script></body></html>'))
+        .pipe(replace(/$/, '<script src="/google-code-prettify/prettify.js"></script><script src="/google-code-prettify/lang-dart.js"></script><script src="/google-code-prettify/lang-css.js"></script><script src="/google-code-prettify/lang-yaml.js"></script><script src="/google-code-prettify/lang-bridge-html.js"></script><script>prettyPrint()</script></body></html>'))
+        //.pipe(replace(/class="lang-(?!bridge)(\w+)"/g, 'class="prettyprint lang-$1" data-lang="$1"'))
         .pipe(replace(/class="lang-(\w+)"/g, 'class="prettyprint lang-$1" data-lang="$1"'))
-        .pipe(gulp.dest('build'))
+        //.pipe(highlight())
+        .pipe(gulp.dest(dest))
         .pipe(tap(function (file) {
             file.contents = new Buffer(spawn('phantomjs pretty-print-phantom.js ' + path.relative(process.cwd(), file.path.toString()).replace(/^content/, '.build')));
             return file;
         }))
         // </OH THE HORROR>
-        .pipe(gulp.dest('build'))
-});
-
-gulp.task('build', ['_build'], function() {
-    livereload.changed('index.html');
-});
+        .pipe(gulp.dest(dest))
+        .pipe(livereload())
+}

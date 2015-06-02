@@ -46,47 +46,47 @@ pre {
 }
 
 @media screen {
-  .str {
+  .str, .hljs-string {
     color: $string;
   }
 
-  .kwd {
+  .kwd, .hljs-keyword {
     color: $keyword;
   }
 
-  .com {
+  .com, .hljs-comment {
     color: $comment;
   }
 
-  .typ {
+  .typ, .hljs-type {
     color: $type;
   }
 
-  .lit {
+  .lit, .hljs-literal {
     color: $literal;
   }
 
-  .pun, .opn, .clo {
+  .pun, .opn, .clo, .hljs-punctuation {
     color: $punctuation;
   }
 
-  .tag {
+  .tag, .hljs-tag {
     color: $keyword
   }
 
-  .atn {
+  .atn, .hljs-attribute {
     color: $type
   }
 
-  .atv {
+  .atv, .hljs-value {
     color: $string
   }
 
-  .dec, .var {
+  .dec, .var, .hljs-variable {
     color: $literal;
   }
 
-  .fun {
+  .fun, .hljs-function {
     color: red
   }
 }

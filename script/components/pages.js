@@ -21,6 +21,7 @@ export default {
         '/view/templates': 'Templates',
     },
     'Database': {
-        '/database/active-record': 'Active Record',
+        '/database/models': 'Models',
+        '/database/repositories': 'Repositories',
     },
 }

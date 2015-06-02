@@ -26,10 +26,13 @@ mkdir my_blog && cd my_blog
 
 # Add Bridge as a dependency
 cat > pubspec.yaml
+```
+```yaml
 name: my_blog
 dependencies:
   bridge: any
-
+```
+```bash
 pub get
 ```
 
@@ -74,4 +77,4 @@ class MyBlogServiceProvider implements ServiceProvider {
 }
 ```
 
-> Go [here](#core/service-provider) to learn about how to use the Service Provider.
+> Go [here](#core/service-providers) to learn about how to use the Service Provider.
