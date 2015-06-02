@@ -19,11 +19,11 @@ PR.registerLangHandler(
         [],
         [
             //[PR.PR_PLAIN,       /^(?:\\#|[^<?/#\\])+/],
-            [PR.PR_PLAIN,       /^[^<?/#\\]+/],
+            [PR.PR_PLAIN,       /^[^<?/\$\\]+/],
             [PR.PR_DECLARATION, /^<!\w[^>]*(?:>|$)/],
             [PR.PR_COMMENT,     /^\/\/.*/],
-            [PR.PR_PUNCTUATION,     /^\\#/],
-            [PR.PR_LITERAL,     /^(?!\\)#[\w.]+/],
+            [PR.PR_PUNCTUATION,     /^\\\$/],
+            [PR.PR_LITERAL,     /^(?!\\)\$\{?[\w.]+}?/],
             // Unescaped content in an unknown language
             ['lang-',        /^<\?([\s\S]+?)(?:\?>|$)/],
             ['lang-',        /^<%([\s\S]+?)(?:%>|$)/],
@@ -43,7 +43,7 @@ PR.registerLangHandler(
             [PR.PR_ATTRIB_VALUE, /^(?:\"[^\"]*\"?|\'[^\']*\'?)/, null, '\"\'']
         ],
         [
-            [PR.PR_LITERAL,     /^=(?!\\)#[\w.]+/],
+            [PR.PR_LITERAL,     /^=(?!\\)\$\{?[\w.]+}?/],
             [PR.PR_TAG,          /^^<\/?[a-z](?:[\w.:-]*\w)?|\/?>$/i],
             [PR.PR_ATTRIB_NAME,  /^(?!style[\s=]|on)[a-z](?:[\w:-]*\w)?/i],
             ['lang-uq.val',   /^=\s*([^>\'\"\s]*(?:[^>\'\"\s\/]|\/(?=\s)))/],

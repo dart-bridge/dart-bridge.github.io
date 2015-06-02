@@ -45,10 +45,10 @@ once the templates has been sent to the client.
   <import template='partials.breadcrumbs'/>
   
   // List all the comments
-  <for each=#comment in=#comments>
+  <for each=$comment in=$comments>
     <div>
-      <h5>#comment.author.firstName</h5>
-      <p>#comment.body</p>
+      <h5>${comment.author.firstName}</h5>
+      <p>${comment.body}</p>
     </div>
   </for>
   
@@ -61,8 +61,8 @@ once the templates has been sent to the client.
   </script>
   
   <footer>
-    // Escaped # symbol
-    Tweet to the hashtag \#MyCoolBlog
+    // Escaped $ symbol
+    I got \$wag
   </footer>
 </body>
 ```

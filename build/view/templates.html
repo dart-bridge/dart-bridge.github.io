@@ -40,10 +40,10 @@ once the templates has been sent to the client.</p>
   </span><span class="tag">&lt;import</span><span class="pln"> </span><span class="atn">template</span><span class="pun">=</span><span class="atv">'partials.breadcrumbs'</span><span class="tag">/&gt;</span><span class="pln">
 
   </span><span class="com">// List all the comments</span><span class="pln">
-  </span><span class="tag">&lt;for</span><span class="pln"> </span><span class="atn">each</span><span class="lit">=#comment</span><span class="pln"> </span><span class="atn">in</span><span class="lit">=#comments</span><span class="tag">&gt;</span><span class="pln">
+  </span><span class="tag">&lt;for</span><span class="pln"> </span><span class="atn">each</span><span class="lit">=$comment</span><span class="pln"> </span><span class="atn">in</span><span class="lit">=$comments</span><span class="tag">&gt;</span><span class="pln">
     </span><span class="tag">&lt;div&gt;</span><span class="pln">
-      </span><span class="tag">&lt;h5&gt;</span><span class="lit">#comment.author.firstName</span><span class="tag">&lt;/h5&gt;</span><span class="pln">
-      </span><span class="tag">&lt;p&gt;</span><span class="lit">#comment.body</span><span class="tag">&lt;/p&gt;</span><span class="pln">
+      </span><span class="tag">&lt;h5&gt;</span><span class="lit">${comment.author.firstName}</span><span class="tag">&lt;/h5&gt;</span><span class="pln">
+      </span><span class="tag">&lt;p&gt;</span><span class="lit">${comment.body}</span><span class="tag">&lt;/p&gt;</span><span class="pln">
     </span><span class="tag">&lt;/div&gt;</span><span class="pln">
   </span><span class="tag">&lt;/for&gt;</span><span class="pln">
 
@@ -56,8 +56,8 @@ once the templates has been sent to the client.</p>
   </span><span class="tag">&lt;/script&gt;</span><span class="pln">
 
   </span><span class="tag">&lt;footer&gt;</span><span class="pln">
-    </span><span class="com">// Escaped # symbol</span><span class="pln">
-    Tweet to the hashtag </span><span class="pun">\#</span><span class="pln">MyCoolBlog
+    </span><span class="com">// Escaped $ symbol</span><span class="pln">
+    I got </span><span class="pun">\$</span><span class="pln">wag
   </span><span class="tag">&lt;/footer&gt;</span><span class="pln">
 </span><span class="tag">&lt;/body&gt;</span></code></pre>
 <pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
