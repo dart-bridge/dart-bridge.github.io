@@ -52,14 +52,6 @@ once the templates has been sent to the client.
     </div>
   </for>
   
-  <script>
-    import 'package:bridge/bridge.dart';
-  
-    main(List<String> arguments) {
-      print(arguments);
-    }
-  </script>
-  
   <footer>
     // Escaped $ symbol
     I got \$wag
