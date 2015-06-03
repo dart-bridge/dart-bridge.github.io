@@ -106,7 +106,7 @@ router.get('/', () {
       </div>
       
       <footer>
-        My Twitter handle is @example
+        I got $wag
       </footer>
     </main>
 </body>
@@ -145,7 +145,7 @@ so that it can be parsed by the front end script.
       {{/comments}}
       
       <footer>
-        My Twitter handle is @example
+        I got $wag
       </footer>
     </main>
 </body>
