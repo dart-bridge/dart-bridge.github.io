@@ -6,13 +6,13 @@ globally activated:
 </p>
 
 ```bash
-pub global activate new_bridge
+$ pub global activate new_bridge
 ```
 
 Then, you can create new applications just by running the following command.
 
 ```bash
-new_bridge my_blog
+$ new_bridge my_blog
 ```
 
 ---
@@ -22,10 +22,10 @@ Bridge is a modular ecosystem, and therefore it is perfectly possible to constru
 
 ```bash
 # Create the project directory
-mkdir my_blog && cd my_blog
+$ mkdir my_blog && cd my_blog
 
 # Add Bridge as a dependency
-cat > pubspec.yaml
+$ cat > pubspec.yaml
 ```
 ```yaml
 name: my_blog
@@ -33,7 +33,7 @@ dependencies:
   bridge: any
 ```
 ```bash
-pub get
+$ pub get
 ```
 
 We need to create the binary file to be responsible for starting up the shell. In the app package, this is the file `bridge`. You can call it whatever you want.
@@ -45,7 +45,7 @@ export 'package:my_blog/my_blog.dart';
 export 'package:bridge/cli_init.dart';
 ```
 
-> If you use the built in initializer, the `config` folder will be used as the root for configuration files.
+> **Note:** If you use the built in initializer, the `config` folder will be used as the root for configuration files.
 
 To override this, your startup file must look like this instead:
 
@@ -53,7 +53,7 @@ To override this, your startup file must look like this instead:
 export 'package:my_blog/my_blog.dart';
 import 'package:bridge/cli.dart' show bootstrap;
 
-main(a, m) => bootstrap(a, m, configPath: 'my/config/path');
+main(a) => bootstrap(a, configPath: 'my/config/path');
 ```
 
 Whatever folder you choose, you must create a file called `app.yaml` inside it.

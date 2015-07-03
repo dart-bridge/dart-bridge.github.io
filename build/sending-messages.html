@@ -27,7 +27,7 @@ returns. So how does the code look in the client code?</p>
 <pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">import</span><span class="pln"> </span><span class="str">'package:bridge/tether_client.dart'</span><span class="pun">;</span><span class="pln">
 </span><span class="kwd">import</span><span class="pln"> </span><span class="str">'package:app/client.dart'</span><span class="pun">;</span><span class="pln">
 
-main</span><span class="pun">()</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> 
+main</span><span class="pun">()</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
   </span><span class="kwd">await</span><span class="pln"> globalTether</span><span class="pun">();</span><span class="pln">
 </span><span class="pun">}</span></code></pre>
 <p>That first line of the <code>main</code> function is important. It's where we shake hands with the server and agrees upon a Tether

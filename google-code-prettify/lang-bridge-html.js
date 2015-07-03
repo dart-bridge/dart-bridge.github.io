@@ -34,7 +34,7 @@ PR.registerLangHandler(
             [PR.PR_PUNCTUATION, /^\\\$/],
             [PR.PR_LITERAL, /^\$[a-z_]\w*/i],
             ['lang-in.expression-bridgehtml', /^(@(?:if|else\s*if|for)\s*\([^]*?\))/],
-            [PR.PR_LITERAL, /^@(?:end\s*if|else|end\s*for)/],
+            [PR.PR_KEYWORD, /^@(?:end\s*if|else|end\s*for)/],
             ['lang-in.expression-bridgehtml', /^(\$\{[^]*?})/i],
             // Unescaped content in an unknown language
             ['lang-', /^<\?([\s\S]+?)(?:\?>|$)/],
@@ -52,7 +52,7 @@ PR.registerLangHandler(
     PR.createSimpleLexer(
         [],
         [
-            [PR.PR_LITERAL, /^@(?:if|else\s*if|for)/],
+            [PR.PR_KEYWORD, /^@(?:if|else\s*if|for)/],
             [PR.PR_LITERAL, /^(?:\$\{|}$)/i],
             ['lang-dart', /^((?:[^](?!})[^])*)/],
         ]),

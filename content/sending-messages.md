@@ -39,7 +39,7 @@ Let's check out <mark>web/main.dart</mark>. You'll see something like this:
 import 'package:bridge/tether_client.dart';
 import 'package:app/client.dart';
 
-main() async 
+main() async {
   await globalTether();
 }
 ```

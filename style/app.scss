@@ -43,3 +43,15 @@ pre + pre {
   border-top-right-radius: 0;
   border-top: 0.08em solid lighten($comment, 17%);
 }
+
+blockquote {
+  border: 0.1em solid $brand-danger;
+  border-bottom-width: 0.2em;
+  font:inherit;
+  background: lighten($brand-danger, 5%);
+  color:white;
+  border-radius: 0.3em;
+  @media(min-width: $screen-sm-min) {
+    margin-left: -1.4em;
+  }
+}

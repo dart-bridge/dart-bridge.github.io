@@ -33,17 +33,17 @@ method</p>
 <h2 id="directives">Directives</h2>
 <p>Trivial logic can be performed with directives, like so:</p>
 <pre><code class="prettyprint lang-bridgehtml prettyprinted" data-lang="bridgehtml" style=""><span class="tag">&lt;p&gt;</span><span class="pln">
-  </span><span class="lit">@if</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">true)</span><span class="pln">
+  </span><span class="kwd">@if</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">true)</span><span class="pln">
     This content will always be shown
-  </span><span class="lit">@else if</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">false</span><span class="pun">)</span><span class="pln">
+  </span><span class="kwd">@else if</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">false</span><span class="pun">)</span><span class="pln">
     This content will never be shown
-  </span><span class="lit">@else</span><span class="pln">
+  </span><span class="kwd">@else</span><span class="pln">
     Neither will this
-  </span><span class="lit">@end if</span><span class="pln">
+  </span><span class="kwd">@end if</span><span class="pln">
 
-  </span><span class="lit">@for</span><span class="pln"> </span><span class="pun">(</span><span class="pln">item </span><span class="kwd">in</span><span class="pln"> someList)
+  </span><span class="kwd">@for</span><span class="pln"> </span><span class="pun">(</span><span class="pln">item </span><span class="kwd">in</span><span class="pln"> someList)
     </span><span class="lit">$item</span><span class="pln">
-  </span><span class="lit">@end for</span><span class="pln">
+  </span><span class="kwd">@end for</span><span class="pln">
 </span><span class="tag">&lt;/p&gt;</span></code></pre>
 <h2 id="comments">Comments</h2>
 <p>Besides supporting HTML comments, Bridge templates have normal double-slash syntax for comments, that disappear when
