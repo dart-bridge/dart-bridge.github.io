@@ -216,8 +216,8 @@ var tap = require('gulp-tap');
 var path = require('path');
 var spawn = require('child_process').execSync;
 var highlight = require('gulp-highlight');
-var hljs = require('highlight.js');
-hljs.registerLanguage('bridge', require('./bridge-html-hl'));
+//var hljs = require('highlight.js');
+//hljs.registerLanguage('bridge', require('./bridge-html-hl'));
 
 gulp.task('build', function () {
     return compileMarkdown('content/**/*.md');
