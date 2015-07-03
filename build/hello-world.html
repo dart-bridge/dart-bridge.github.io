@@ -1,53 +1,60 @@
-<h1 id="hello-world">Hello world</h1>
+<h1 id="hello-world">Hello World</h1>
 <p class="lead">
-To learn how the HTTP requests go through the app, let's see
-a simple "Hello, world" message.
+Let's open up the app in our favourite editor, and navigate the directory structure. We're going to change what we're
+seeing in the browser window.
 </p>
 
-<p>The most simple response can be created directly in <code>lib/http/routes.dart</code>.</p>
-<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">part of</span><span class="pln"> framework</span><span class="pun">;</span><span class="pln">
+<h2 id="api">API</h2>
+<p>Check out the file <mark>lib/api/api.dart</mark>. The file will look something like this:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">import</span><span class="pln"> </span><span class="str">'package:bridge/http.dart'</span><span class="pun">;</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> </span><span class="str">'package:bridge/tether.dart'</span><span class="pun">;</span><span class="pln">
 
-</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">Routes</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
-  register</span><span class="pun">(</span><span class="typ">Router</span><span class="pln"> router</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
-    router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> </span><span class="str">'Hello, world'</span><span class="pun">);</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> </span><span class="str">'pages_controller.dart'</span><span class="pun">;</span><span class="pln">
+
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">Api</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="typ">PagesController</span><span class="pln"> controller</span><span class="pun">;</span><span class="pln">
+
+  </span><span class="typ">Api</span><span class="pun">(</span><span class="typ">PagesController</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">controller</span><span class="pun">);</span><span class="pln">
+
+  routes</span><span class="pun">(</span><span class="typ">Router</span><span class="pln"> router</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/'</span><span class="pun">,</span><span class="pln"> controller</span><span class="pun">.</span><span class="pln">index</span><span class="pun">,</span><span class="pln"> name</span><span class="pun">:</span><span class="pln"> </span><span class="str">'index'</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+
+  tether</span><span class="pun">(</span><span class="typ">Tether</span><span class="pln"> tether</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
   </span><span class="pun">}</span><span class="pln">
 </span><span class="pun">}</span></code></pre>
-<p>Start up the application by running this command in the terminal:</p>
-<pre><code class="prettyprint lang-bash prettyprinted" data-lang="bash" style=""><span class="pln">dart bridge start</span></code></pre>
-<p>Now go to <a href="http://localhost:1337">http://localhost:1337</a> to see your message.</p>
-<h2 id="controller">Controller</h2>
-<p>In your <code>lib/http/controllers.dart</code> library, add a <code>part</code> import to a new controller,
-let's call it <code>hello_world_controller.dart</code>.</p>
-<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">part of</span><span class="pln"> controllers</span><span class="pun">;</span><span class="pln">
-
-</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">HelloWorldController</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
-  index</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
-    </span><span class="kwd">return</span><span class="pln"> </span><span class="str">'Hello, world'</span><span class="pun">;</span><span class="pln">
-  </span><span class="pun">}</span><span class="pln">
+<p>The <code>routes</code> method on the <code>Api</code> class is where we register HTTP routes. Right now, only <code>/</code> is registered. Let's modify
+it.</p>
+<p>First, we can remove the <code>name</code> parameter, it's not important right now. Next, replace <code>controller.index</code> with a simple
+closure, that returns the string <code>"Hello, world"</code>.</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">routes</span><span class="pun">(</span><span class="typ">Router</span><span class="pln"> router</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> </span><span class="str">'Hello, world!'</span><span class="pun">;</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
 </span><span class="pun">}</span></code></pre>
-<p>Now modify <code>routes.dart</code> to <a href="#/core/dependency-injection">inject</a> the 
-controller.</p>
-<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">part of</span><span class="pln"> framework</span><span class="pun">;</span><span class="pln">
-
-</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">Routes</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
-  register</span><span class="pun">(</span><span class="typ">Router</span><span class="pln"> router</span><span class="pun">,</span><span class="pln"> </span><span class="typ">HelloWorldController</span><span class="pln"> controller</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
-    router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> controller</span><span class="pun">.</span><span class="pln">index</span><span class="pun">);</span><span class="pln">
-  </span><span class="pun">}</span><span class="pln">
+<pre><code>Hello, world!
+</code></pre><p>That's all we need to do. Go back to the command line, <em>reload and restart the server</em>, and then check out your work in
+the browser.</p>
+<h2 id="casting">Casting</h2>
+<p>The router will cast the returned value to a format that can be sent as a text document. In our case, it's already a
+string, so we're all right. However, more complicated structures will be cast to JSON:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">routes</span><span class="pun">(</span><span class="typ">Router</span><span class="pln"> router</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> </span><span class="pun">{</span><span class="str">'response'</span><span class="pun">:</span><span class="pln"> </span><span class="str">'Hello, world!'</span><span class="pun">};</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
 </span><span class="pun">}</span></code></pre>
-<p>Run <code>reload</code> in the command line, and you should see the exact same result in your
-browser.</p>
-<h2 id="template">Template</h2>
-<p>Next, let's create (or edit) <code>lib/templates/index.hbs</code>.</p>
-<pre><code class="prettyprint lang-html prettyprinted" data-lang="html" style=""><span class="tag">&lt;body&gt;</span><span class="pln">
-  </span><span class="tag">&lt;h1&gt;</span><span class="pln">Hello world</span><span class="tag">&lt;/h1&gt;</span><span class="pln">
-</span><span class="tag">&lt;/body&gt;</span></code></pre>
-<p>Then, let's modify the <code>index</code> method in <code>lib/http/controllers/hello_world_controller.dart</code>.</p>
-<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">part of</span><span class="pln"> controllers</span><span class="pun">;</span><span class="pln">
-
-</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">HelloWorldController</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
-  index</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+<pre><code class="prettyprint lang-json prettyprinted" data-lang="json" style=""><span class="pun">{</span><span class="str">"response"</span><span class="pun">:</span><span class="str">"Hello, world!"</span><span class="pun">}</span></code></pre>
+<h2 id="returning-a-template">Returning a template</h2>
+<p>Enough of this. Let's return som HTML, shall we?</p>
+<p>Modify <mark>lib/templates/index.html</mark> to your hearts content, then change the route response to the following:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">routes</span><span class="pun">(</span><span class="typ">Router</span><span class="pln"> router</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
     </span><span class="kwd">return</span><span class="pln"> template</span><span class="pun">(</span><span class="str">'index'</span><span class="pun">);</span><span class="pln">
-  </span><span class="pun">}</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
 </span><span class="pun">}</span></code></pre>
-<p>Hit <code>reload</code>, and you should see the heading in the browser.</p>
+<pre><code class="prettyprint lang-html prettyprinted" data-lang="html" style=""><span class="com">&lt;!-- lib/templates/index.html --&gt;</span><span class="pln">
+</span><span class="tag">&lt;h1&gt;</span><span class="pln">Hello, world!</span><span class="tag">&lt;/h1&gt;</span></code></pre>
+<blockquote>
+<p><strong>Note:</strong> Remember to <code>reload</code> and <code>start</code> the server back up between edits.</p>
+</blockquote>
 

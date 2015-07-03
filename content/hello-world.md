@@ -1,78 +1,82 @@
-# Hello world
+# Hello World
 <p class='lead'>
-To learn how the HTTP requests go through the app, let's see
-a simple "Hello, world" message.
+Let's open up the app in our favourite editor, and navigate the directory structure. We're going to change what we're
+seeing in the browser window.
 </p>
 
-The most simple response can be created directly in `lib/http/routes.dart`.
+## API
+Check out the file <mark>lib/api/api.dart</mark>. The file will look something like this:
 
 ```dart
-part of framework;
+import 'package:bridge/http.dart';
+import 'package:bridge/tether.dart';
 
-class Routes {
-  register(Router router) {
-    router.get('/', () => 'Hello, world');
+import 'pages_controller.dart';
+
+class Api {
+  PagesController controller;
+
+  Api(PagesController this.controller);
+
+  routes(Router router) {
+    router.get('/', controller.index, name: 'index');
+  }
+
+  tether(Tether tether) {
   }
 }
 ```
 
-Start up the application by running this command in the terminal:
+The `routes` method on the `Api` class is where we register HTTP routes. Right now, only `/` is registered. Let's modify
+it.
 
-```bash
-dart bridge start
-```
-
-Now go to http://localhost:1337 to see your message.
-
-## Controller
-In your `lib/http/controllers.dart` library, add a `part` import to a new controller,
-let's call it `hello_world_controller.dart`.
+First, we can remove the `name` parameter, it's not important right now. Next, replace `controller.index` with a simple
+closure, that returns the string `"Hello, world"`.
 
 ```dart
-part of controllers;
-
-class HelloWorldController {
-  index() {
-    return 'Hello, world';
-  }
+routes(Router router) {
+  router.get('/', () {
+    return 'Hello, world!';
+  });
 }
 ```
+```
+Hello, world!
+```
 
-Now modify `routes.dart` to [inject](#/core/dependency-injection) the 
-controller.
+That's all we need to do. Go back to the command line, *reload and restart the server*, and then check out your work in
+the browser.
+
+## Casting
+The router will cast the returned value to a format that can be sent as a text document. In our case, it's already a
+string, so we're all right. However, more complicated structures will be cast to JSON:
 
 ```dart
-part of framework;
-
-class Routes {
-  register(Router router, HelloWorldController controller) {
-    router.get('/', () => controller.index);
-  }
+routes(Router router) {
+  router.get('/', () {
+    return {'response': 'Hello, world!'};
+  });
 }
 ```
-
-Run `reload` in the command line, and you should see the exact same result in your
-browser.
-
-## Template
-Next, let's create (or edit) `lib/templates/index.hbs`.
-
-```html
-<body>
-  <h1>Hello world</h1>
-</body>
+```json
+{"response":"Hello, world!"}
 ```
 
-Then, let's modify the `index` method in `lib/http/controllers/hello_world_controller.dart`.
+## Returning a template
+Enough of this. Let's return som HTML, shall we?
+
+Modify <mark>lib/templates/index.html</mark> to your hearts content, then change the route response to the following:
 
 ```dart
-part of controllers;
-
-class HelloWorldController {
-  index() {
+routes(Router router) {
+  router.get('/', () {
     return template('index');
-  }
+  });
 }
 ```
+```html
+<!-- lib/templates/index.html -->
+<h1>Hello, world!</h1>
+```
 
-Hit `reload`, and you should see the heading in the browser.
+> **Note:** Remember to `reload` and `start` the server back up between edits.
