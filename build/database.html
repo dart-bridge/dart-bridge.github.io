@@ -1,0 +1,52 @@
+<h1 id="database">Database</h1>
+<p class="lead">
+Often, we'll want to store some things in a database. For simple use cases, Bridge has you covered out of the box. And
+if that's not enough, you can use whatever persistence library you like.
+</p>
+
+<h2 id="models-and-repositories">Models and Repositories</h2>
+<p>At a glance, this is how Bridge's built in database API works:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">Post</span><span class="pln"> </span><span class="kwd">extends</span><span class="pln"> </span><span class="typ">Model</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="lit">@field</span><span class="pln"> </span><span class="typ">String</span><span class="pln"> title</span><span class="pun">;</span><span class="pln">
+  </span><span class="lit">@field</span><span class="pln"> </span><span class="typ">String</span><span class="pln"> body</span><span class="pun">;</span><span class="pln">
+  </span><span class="lit">@field</span><span class="pln"> </span><span class="typ">int</span><span class="pln"> authorId</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">PostRepository</span><span class="pln"> </span><span class="kwd">extends</span><span class="pln"> </span><span class="typ">Repository</span><span class="pun">&lt;</span><span class="typ">Post</span><span class="pun">&gt;</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">List</span><span class="pun">&lt;</span><span class="typ">Post</span><span class="pun">&gt;&gt;</span><span class="pln"> getPostsFromAuthorId</span><span class="pun">(</span><span class="typ">int</span><span class="pln"> authorId</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> where</span><span class="pun">(</span><span class="str">'authorId'</span><span class="pun">,</span><span class="pln"> isEqualTo</span><span class="pun">:</span><span class="pln"> authorId</span><span class="pun">).</span><span class="kwd">get</span><span class="pun">();</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>Models are simply <em>Plain Old Dart Objects</em> extending (or mixing in, or implementing) the <code>Model</code> class.</p>
+<p>They are saved to and retrieved from the database through a <code>Repository&lt;Model&gt;</code>, which can be inherited for implementing
+extended functionality, like query scopes.</p>
+<p>The <code>Repository&lt;Post&gt;</code> can be injected through Bridge's service container. So for a simple project, a RESTful controller
+could look something like this:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">PostsController</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="typ">Repository</span><span class="pun">&lt;</span><span class="typ">Post</span><span class="pun">&gt;</span><span class="pln"> _posts</span><span class="pun">;</span><span class="pln">
+
+  </span><span class="typ">PostsController</span><span class="pun">(</span><span class="typ">Repository</span><span class="pun">&lt;</span><span class="typ">Post</span><span class="pun">&gt;</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">_posts</span><span class="pun">);</span><span class="pln">
+
+  index</span><span class="pun">()</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> template</span><span class="pun">(</span><span class="str">'pages.index'</span><span class="pun">,</span><span class="pln"> withData</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      </span><span class="str">'pages'</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">await</span><span class="pln"> _pages</span><span class="pun">.</span><span class="pln">all</span><span class="pun">()</span><span class="pln">
+    </span><span class="pun">});</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+
+  create</span><span class="pun">()</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> template</span><span class="pun">(</span><span class="str">'pages.create'</span><span class="pun">);</span><span class="pln">
+
+  store</span><span class="pun">(</span><span class="typ">Input</span><span class="pln"> input</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">var</span><span class="pln"> post </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Post</span><span class="pun">()</span><span class="pln">
+        </span><span class="pun">..</span><span class="pln">title </span><span class="pun">=</span><span class="pln"> input</span><span class="pun">[</span><span class="str">'title'</span><span class="pun">]</span><span class="pln">
+        </span><span class="pun">..</span><span class="pln">body </span><span class="pun">=</span><span class="pln"> input</span><span class="pun">[</span><span class="str">'body'</span><span class="pun">]</span><span class="pln">
+        </span><span class="pun">..</span><span class="pln">authorId </span><span class="pun">=</span><span class="pln"> input</span><span class="pun">[</span><span class="str">'author_id'</span><span class="pun">];</span><span class="pln">
+
+    </span><span class="kwd">await</span><span class="pln"> _posts</span><span class="pun">.</span><span class="pln">save</span><span class="pun">(</span><span class="pln">post</span><span class="pun">);</span><span class="pln">
+
+    </span><span class="kwd">return</span><span class="pln"> redirect</span><span class="pun">(</span><span class="str">'pages'</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+
+  </span><span class="com">// ...</span><span class="pln">
+
+</span><span class="pun">}</span></code></pre>
+

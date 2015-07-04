@@ -5,5 +5,6 @@ export default {
         '/hello-world': 'Hello World',
         '/templating': 'Templating',
         '/sending-messages': 'Sending Messages',
+        '/database': 'Database',
     },
 }
