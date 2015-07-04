@@ -58,3 +58,43 @@ class PostsController {
   
 }
 ```
+
+## Sending models to the client
+If we place our models in a shared library – for instance as a part of <mark>lib/shared/library.dart</mark> – we can
+import it into our client side script. If we then make it serializable we can send it through the Tether.
+
+```dart
+// lib/shared/post.dart
+
+class Post extends Model implements Serializable {
+  @field String title;
+  @field String body;
+  
+  factory Post.deserialize(Map serialized) {
+    return new Post()
+        ..title = serialized['title']
+        ..body = serialized['body'];
+  }
+  
+  Map serialize() => {
+    'title': title,
+    'body': body,
+  };
+}
+```
+```dart
+// lib/api/api.dart
+
+tether(Tether tether, Repository<Post> posts) {
+  tether.listen('posts.all', (_) => posts.all());
+}
+```
+```dart
+// web/main.dart
+
+main() async {
+  await globalTether();
+  
+  List<Post> allPosts = await tether.send('posts.all');
+}
+```
