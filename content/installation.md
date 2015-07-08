@@ -62,7 +62,7 @@ main(a) => bootstrap(a, configPath: 'my/config/path');
 
 Whatever folder you choose, you must create a file called <mark>app.yaml</mark> inside it.
 
-To hook into Bridge, you must create at least one [Service Provider](/core/service-providers), and register it inside
+To hook into Bridge, you must create at least one [Service Provider](#/core/service-providers), and register it inside
 <mark>app.yaml</mark>.
 
 ```yaml

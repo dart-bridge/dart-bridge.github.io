@@ -26,7 +26,7 @@ Models are simply *Plain Old Dart Objects* extending (or mixing in, or implement
 They are saved to and retrieved from the database through a `Repository<Model>`, which can be inherited for implementing
 extended functionality, like query scopes.
 
-The `Repository<Post>` can be injected through Bridge's [Service Container](/core/service-container). So for a simple
+The `Repository<Post>` can be injected through Bridge's [Service Container](#/core/service-container). So for a simple
 project, a RESTful controller could look something like this:
 
 ```dart

@@ -1,7 +1,7 @@
 # Bridge Core Library <small>bridge.core</small>
 <p class='lead'>
 Bridge, at its core, really is nothing more than an empty shell. It is extended through what's called 
-[Service Providers](/core/service-providers). Think of them as sockets that is used to connect a library or service to
+[Service Providers](#/core/service-providers). Think of them as sockets that is used to connect a library or service to
 the rest of the application.
 </p>
 
@@ -14,11 +14,11 @@ From the left, we see the operating system (currently only Unix based systems ar
 environment variables, which are registered in the Config.
 
 We also see the entry point, `$ dart bridge`. The command will initialize the Bridge CLI. The CLI creates the
-[Service Container](/core/service-container) and injects itself into it. The Config is also registered.
+[Service Container](#/core/service-container) and injects itself into it. The Config is also registered.
 
-Then the [Service Container](/core/service-container) will run all registered
-[Service Providers](/core/service-providers). They connect the service or library in question to the rest of the
-application, using the [Service Container](/core/service-container).
+Then the [Service Container](#/core/service-container) will run all registered
+[Service Providers](#/core/service-providers). They connect the service or library in question to the rest of the
+application, using the [Service Container](#/core/service-container).
 
-The [Service Providers](/core/service-providers) can register commands in the CLI; an easy way to provide a UI for the
+The [Service Providers](#/core/service-providers) can register commands in the CLI; an easy way to provide a UI for the
 service.

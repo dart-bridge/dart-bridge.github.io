@@ -5,7 +5,7 @@ YAML files, and can also be sorted in subdirectories.
 </p>
 
 <p>The only necessary config file, really, is <mark>config/app.yaml</mark>, which should contain a key called
-<code>service_providers</code>, which should be a list of fully qualified names of the <a href="/core/service-providers">Service Providers</a>
+<code>service_providers</code>, which should be a list of fully qualified names of the <a href="#/core/service-providers">Service Providers</a>
 to use in the app. For example, it should look something like this:</p>
 <pre><code class="prettyprint lang-yaml prettyprinted" data-lang="yaml" style=""><span class="kwd">service_providers:
 </span><span class="pln">  </span><span class="pun">-</span><span class="pln"> bridge.http.HttpServiceProvider
@@ -47,7 +47,7 @@ super simple:</p>
 </code></pre><p>This file should not be included in version control. Bridge comes with a file called <mark>.env.development</mark>,
 which sets the <code>APP_ENV</code> variable to <code>development</code>. This does a few things. For example, script tags in your
 templates will be injected as <code>application/dart</code> instead of as JavaScript.</p>
-<p>If you install Bridge with the <a href="/installation">installer</a>, <mark>.env.development</mark> will automatically be copied to
+<p>If you install Bridge with the <a href="#/installation">installer</a>, <mark>.env.development</mark> will automatically be copied to
 <mark>.env</mark>, so you're up and running instantly.</p>
 <p>Without an <code>APP_ENV</code> variable, Bridge will default to production mode.</p>
 

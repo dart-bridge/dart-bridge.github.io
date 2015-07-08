@@ -12,5 +12,26 @@ export default {
         '/core/service-container': 'Service Container',
         '/core/service-providers': 'Service Providers',
         '/core/config': 'Config',
-    }
+    },
+    'bridge.cli': {
+        '/cli': 'Overview',
+    },
+    'bridge.http': {
+        '/http': 'Overview',
+    },
+    'bridge.view': {
+        '/view': 'Overview',
+    },
+    'bridge.tether': {
+        '/tether': 'Overview',
+    },
+    'bridge.database': {
+        '/database': 'Overview',
+    },
+    'bridge.validation': {
+        '/validation': 'Overview',
+    },
+    'bridge.events': {
+        '/events': 'Overview',
+    },
 }

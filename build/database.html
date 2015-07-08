@@ -20,7 +20,7 @@ if that's not enough, you can use whatever persistence library you like.
 <p>Models are simply <em>Plain Old Dart Objects</em> extending (or mixing in, or implementing) the <code>Model</code> class.</p>
 <p>They are saved to and retrieved from the database through a <code>Repository&lt;Model&gt;</code>, which can be inherited for implementing
 extended functionality, like query scopes.</p>
-<p>The <code>Repository&lt;Post&gt;</code> can be injected through Bridge's <a href="/core/service-container">Service Container</a>. So for a simple
+<p>The <code>Repository&lt;Post&gt;</code> can be injected through Bridge's <a href="#/core/service-container">Service Container</a>. So for a simple
 project, a RESTful controller could look something like this:</p>
 <pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">PostsController</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
   </span><span class="typ">Repository</span><span class="pun">&lt;</span><span class="typ">Post</span><span class="pun">&gt;</span><span class="pln"> </span><span class="typ">_posts</span><span class="pun">;</span><span class="pln">

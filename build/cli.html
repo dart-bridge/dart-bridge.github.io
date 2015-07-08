@@ -8,12 +8,12 @@ started though the command line, and can be interacted with while it's running.
 <p>Starting up Bridge is super simple:</p>
 <pre><code class="prettyprint lang-bash prettyprinted" data-lang="bash" style=""><span class="pln">$ dart bridge</span></code></pre>
 <p>At this point, the entire application will be bootstrapped, through what's called 
-<a href="/core/service-providers">Service Providers</a>. When that is done, you'll see the Bridge shell indicator – an equals sign:</p>
+<a href="#/core/service-providers">Service Providers</a>. When that is done, you'll see the Bridge shell indicator – an equals sign:</p>
 <pre><code class="prettyprint lang-bridge prettyprinted" data-lang="bridge" style=""><span class="lit">=</span></code></pre>
 <p>Now we're ready to interact with the running application. To see the available commands, type <code>help</code> or simply press
-tab. Most of the commands are actually dynamically added by the <a href="/core/service-providers">Service Providers</a>, so if
+tab. Most of the commands are actually dynamically added by the <a href="#/core/service-providers">Service Providers</a>, so if
 you're missing a command, that's probably because you haven't registered the
-<a href="/core/service-providers">Service Provider</a> responsible for the command.</p>
+<a href="#/core/service-providers">Service Provider</a> responsible for the command.</p>
 <p>For now, let's focus on seeing something in the browser. That's easy, just type <code>start</code> and press <kbd>↵</kbd>.</p>
 <pre><code class="prettyprint lang-bridge prettyprinted" data-lang="bridge" style=""><span class="lit">=</span><span class="pln"> start
 Server started on http://localhost:1337
@@ -44,6 +44,6 @@ your way:</p>
 <p>To stop watching, just run <code>unwatch</code>.</p>
 <h2 id="exiting">Exiting</h2>
 <p>Using <kbd>^C</kbd> to exit interrupts the app completely, making it impossible for the program to react to the fact
-that it is being shut down. To gently exit the program, allowing the <a href="/core/service-providers">Service Providers</a> to
+that it is being shut down. To gently exit the program, allowing the <a href="#/core/service-providers">Service Providers</a> to
 tear down their service, you can either use the <code>exit</code> command, or the shortcut <kbd>^X</kbd>.</p>
 

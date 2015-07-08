@@ -11,16 +11,16 @@ $ dart bridge
 ```
 
 At this point, the entire application will be bootstrapped, through what's called 
-[Service Providers](/core/service-providers). When that is done, you'll see the Bridge shell indicator – an equals sign:
+[Service Providers](#/core/service-providers). When that is done, you'll see the Bridge shell indicator – an equals sign:
 
 ```bridge
 = 
 ```
 
 Now we're ready to interact with the running application. To see the available commands, type `help` or simply press
-tab. Most of the commands are actually dynamically added by the [Service Providers](/core/service-providers), so if
+tab. Most of the commands are actually dynamically added by the [Service Providers](#/core/service-providers), so if
 you're missing a command, that's probably because you haven't registered the
-[Service Provider](/core/service-providers) responsible for the command.
+[Service Provider](#/core/service-providers) responsible for the command.
 
 For now, let's focus on seeing something in the browser. That's easy, just type `start` and press <kbd>↵</kbd>.
 
@@ -69,5 +69,5 @@ To stop watching, just run `unwatch`.
 
 ## Exiting
 Using <kbd>^C</kbd> to exit interrupts the app completely, making it impossible for the program to react to the fact
-that it is being shut down. To gently exit the program, allowing the [Service Providers](/core/service-providers) to
+that it is being shut down. To gently exit the program, allowing the [Service Providers](#/core/service-providers) to
 tear down their service, you can either use the `exit` command, or the shortcut <kbd>^X</kbd>.

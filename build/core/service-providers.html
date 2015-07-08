@@ -1,10 +1,10 @@
 <h1 id="service-providers">Service Providers</h1>
 <p class="lead">
 To attach anything to the Bridge application, we need an entry point where we can connect our entities to the
-<a href="/core/service-container">Service Container</a>. That's where Service Providers come in.
+<a href="#/core/service-container">Service Container</a>. That's where Service Providers come in.
 </p>
 
-<p>What good is a <a href="/core/service-container">Service Container</a> if it isn't shared? And if we design all classes to conform
+<p>What good is a <a href="#/core/service-container">Service Container</a> if it isn't shared? And if we design all classes to conform
 to the dependency injection pattern, where does it... start?</p>
 <h2 id="setting-up-and-tearing-down">Setting up and tearing down</h2>
 <p>Imagine a database service. Somewhere in the lifecycle of our app, we need to establish a connection to the database,
@@ -32,7 +32,7 @@ executed when <code>exit</code> (or <kbd>^X</kbd>) is run.</p>
 <p>And since we are adding the <code>MyDatabaseClass</code> instance as a singleton, <em>everywhere</em> in your application, where a
 <code>MyDatabaseClass</code> is requested, the same instance will be used. Instead of using a global object (which makes the code
 hard to test), dependency injection is leveraged instead.</p>
-<p>All the methods are resolved out of the <a href="/core/service-container">Service Container</a>. So we can have all the
+<p>All the methods are resolved out of the <a href="#/core/service-container">Service Container</a>. So we can have all the
 dependencies we want in the constructor of <code>MyDatabaseClass</code>, and we can even add new dependencies, without having to
 change the Service Provider.</p>
 <h2 id="interaction">Interaction</h2>

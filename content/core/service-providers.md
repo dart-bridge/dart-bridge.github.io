@@ -1,10 +1,10 @@
 # Service Providers
 <p class='lead'>
 To attach anything to the Bridge application, we need an entry point where we can connect our entities to the
-[Service Container](/core/service-container). That's where Service Providers come in.
+[Service Container](#/core/service-container). That's where Service Providers come in.
 </p>
 
-What good is a [Service Container](/core/service-container) if it isn't shared? And if we design all classes to conform
+What good is a [Service Container](#/core/service-container) if it isn't shared? And if we design all classes to conform
 to the dependency injection pattern, where does it... start?
 
 ## Setting up and tearing down
@@ -42,7 +42,7 @@ And since we are adding the `MyDatabaseClass` instance as a singleton, *everywhe
 `MyDatabaseClass` is requested, the same instance will be used. Instead of using a global object (which makes the code
 hard to test), dependency injection is leveraged instead.
 
-All the methods are resolved out of the [Service Container](/core/service-container). So we can have all the
+All the methods are resolved out of the [Service Container](#/core/service-container). So we can have all the
 dependencies we want in the constructor of `MyDatabaseClass`, and we can even add new dependencies, without having to
 change the Service Provider.
 
