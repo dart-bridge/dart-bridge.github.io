@@ -13,9 +13,9 @@ export default {
         '/core/service-providers': 'Service Providers',
         '/core/config': 'Config',
     },
-    //'bridge.cli': {
-    //    '/cli/overview': 'Overview',
-    //},
+    'bridge.cli': {
+        '/cli/custom-commands': 'Custom Commands',
+    },
     //'bridge.http': {
     //    '/http/overview': 'Overview',
     //},

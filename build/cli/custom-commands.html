@@ -1,0 +1,84 @@
+<h1 id="custom-commands-small-bridge-cli-small-">Custom Commands <small>bridge.cli</small></h1>
+<p class="lead">
+Even though Bridge is a web app framework, the primary entry point to the system is through the console. It is an
+interactive shell that interacts with the <code>dart</code> process <em>while it's running</em>.
+</p>
+
+<pre><code class="prettyprint lang-bash prettyprinted" data-lang="bash" style=""><span class="pln">$ dart bridge</span></code></pre>
+<pre><code class="prettyprint lang-bridge prettyprinted" data-lang="bridge" style=""><span class="lit">=</span></code></pre>
+<p>Use the <code>help</code> command to see all the available commands (or just tap <kbd>⇥</kbd>).</p>
+<h2 id="adding-commands">Adding commands</h2>
+<p>The CLI is completely modular, and without any <a href="#/core/service-providers">Service Providers</a>, the list of commands
+would be useless. By injecting the <code>Program</code> class into a provider, we can add commands, like so:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">CustomCommandServiceProvider</span><span class="pln"> </span><span class="kwd">implements</span><span class="pln"> </span><span class="typ">ServiceProvider</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  load</span><span class="pun">(</span><span class="typ">Program</span><span class="pln"> program</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    program</span><span class="pun">.</span><span class="pln">addCommand</span><span class="pun">(</span><span class="pln">say_hello</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+
+  </span><span class="lit">@Command</span><span class="pun">(</span><span class="str">'Say hello to someone'</span><span class="pun">)</span><span class="pln">
+  </span><span class="lit">@Option</span><span class="pun">(</span><span class="pln">#name</span><span class="pun">,</span><span class="pln"> </span><span class="str">'The name to say hello to'</span><span class="pun">)</span><span class="pln">
+  say_hello</span><span class="pun">(</span><span class="typ">String</span><span class="pln"> name</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    print</span><span class="pun">(</span><span class="str">'Hello, $name!'</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<pre><code class="prettyprint lang-bridge prettyprinted" data-lang="bridge" style=""><span class="lit">=</span><span class="pln"> say_hello Emil
+Hello, Emil!</span></code></pre>
+<p>Add a flag by adding a named argument:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="lit">@Command</span><span class="pun">(</span><span class="str">'Say hello to someone'</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">@Option</span><span class="pun">(</span><span class="pln">#name</span><span class="pun">,</span><span class="pln"> </span><span class="str">'The name to say hello to'</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">@Option</span><span class="pun">(</span><span class="pln">#shout</span><span class="pun">,</span><span class="pln"> </span><span class="str">'Whether to shout the greeting'</span><span class="pun">)</span><span class="pln">
+say_hello</span><span class="pun">(</span><span class="typ">String</span><span class="pln"> name</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="typ">bool</span><span class="pln"> shout</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">false</span><span class="pun">})</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> message </span><span class="pun">=</span><span class="pln"> </span><span class="str">'Hello, $name!'</span><span class="pun">;</span><span class="pln">
+  print</span><span class="pun">(</span><span class="pln">shout </span><span class="pun">?</span><span class="pln"> message</span><span class="pun">.</span><span class="pln">toUpperCase</span><span class="pun">()</span><span class="pln"> </span><span class="pun">:</span><span class="pln"> message</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<pre><code class="prettyprint lang-bridge prettyprinted" data-lang="bridge" style=""><span class="lit">=</span><span class="pln"> say_hello Rachel
+Hello, Rachel!
+</span><span class="lit">=</span><span class="pln"> say_hello Ross --shout
+HELLO, ROSS!</span></code></pre>
+<p>The flag can take an argument as well:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="lit">@Command</span><span class="pun">(</span><span class="str">'Say hello to someone'</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">@Option</span><span class="pun">(</span><span class="pln">#name</span><span class="pun">,</span><span class="pln"> </span><span class="str">'Optional name to say hello to'</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">@Option</span><span class="pun">(</span><span class="pln">#shout</span><span class="pun">,</span><span class="pln"> </span><span class="str">'Whether to shout the greeting'</span><span class="pun">)</span><span class="pln">
+say_hello</span><span class="pun">({</span><span class="typ">String</span><span class="pln"> name</span><span class="pun">:</span><span class="pln"> </span><span class="str">'buddy'</span><span class="pun">,</span><span class="pln"> </span><span class="typ">bool</span><span class="pln"> shout</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">false</span><span class="pun">})</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> message </span><span class="pun">=</span><span class="pln"> </span><span class="str">'Hello, $name!'</span><span class="pun">;</span><span class="pln">
+  print</span><span class="pun">(</span><span class="pln">shout </span><span class="pun">?</span><span class="pln"> message</span><span class="pun">.</span><span class="pln">toUpperCase</span><span class="pun">()</span><span class="pln"> </span><span class="pun">:</span><span class="pln"> message</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<pre><code class="prettyprint lang-bridge prettyprinted" data-lang="bridge" style=""><span class="lit">=</span><span class="pln"> say_hello --shout
+HELLO, BUDDY!
+</span><span class="lit">=</span><span class="pln"> say_hello --name</span><span class="lit">=</span><span class="pln">'Pheobe'
+Hello, Pheobe!</span></code></pre>
+<p>Using optional arguments is just as easy.</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="lit">@Command</span><span class="pun">(</span><span class="str">'Say hello to someone'</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">@Option</span><span class="pun">(</span><span class="pln">#name</span><span class="pun">,</span><span class="pln"> </span><span class="str">'Optional name to say hello to'</span><span class="pun">)</span><span class="pln">
+say_hello</span><span class="pun">([</span><span class="typ">String</span><span class="pln"> name </span><span class="pun">=</span><span class="pln"> </span><span class="str">'buddy'</span><span class="pun">])</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  print</span><span class="pun">(</span><span class="str">'Hello, $name!'</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<pre><code class="prettyprint lang-bridge prettyprinted" data-lang="bridge" style=""><span class="lit">=</span><span class="pln"> say_hello
+Hello, buddy!
+</span><span class="lit">=</span><span class="pln"> say_hello Monica
+Hello, Monica!</span></code></pre>
+<p>Type an argument as <code>List</code> to achieve a rest-like syntax</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="lit">@Command</span><span class="pun">(</span><span class="str">'Say hello to someone'</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">@Option</span><span class="pun">(</span><span class="pln">#friends</span><span class="pun">,</span><span class="pln"> </span><span class="str">'The friends to say hello to'</span><span class="pun">)</span><span class="pln">
+say_hello</span><span class="pun">(</span><span class="typ">List</span><span class="pun">&lt;</span><span class="typ">String</span><span class="pun">&gt;</span><span class="pln"> friends</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  print</span><span class="pun">(</span><span class="str">'Hello to ${friends.join('</span><span class="pun">,</span><span class="pln"> </span><span class="str">')}!'</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<pre><code class="prettyprint lang-bridge prettyprinted" data-lang="bridge" style=""><span class="lit">=</span><span class="pln"> say_hello Ross Rachel Monica Chandler Phoebe Joey
+Hello to Ross, Rachel, Monica, Chandler, Phoebe, Joey!</span></code></pre>
+<p>The type for an argument is used to both validate the input, and cast it:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="lit">@Command</span><span class="pun">(</span><span class="str">'Say hello to someone'</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">@Option</span><span class="pun">(</span><span class="pln">#times</span><span class="pun">,</span><span class="pln"> </span><span class="str">'The number of times to say hello'</span><span class="pun">)</span><span class="pln">
+say_hello</span><span class="pun">({</span><span class="typ">int</span><span class="pln"> times</span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">})</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  print</span><span class="pun">(</span><span class="str">'hello'</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> times</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<pre><code class="prettyprint lang-bridge prettyprinted" data-lang="bridge" style=""><span class="lit">=</span><span class="pln"> say_hello --times</span><span class="lit">=</span><span class="pln">3
+hellohellohello</span></code></pre>
+<h2 id="pretty-print">Pretty print</h2>
+<p>To prettify the console, the following methods on the <code>Program</code> class are available:</p>
+<ul>
+<li><code>printInfo</code> – blue text</li>
+<li><code>printWarning</code> – yellow text</li>
+<li><code>printDanger</code> – red text</li>
+<li><code>printAccomplishment</code> – green text</li>
+</ul>
+
