@@ -8,30 +8,30 @@ export default {
         '/database': 'Database',
     },
     'bridge.core': {
-        '/core': 'Overview',
+        '/core/overview': 'Overview',
         '/core/service-container': 'Service Container',
         '/core/service-providers': 'Service Providers',
         '/core/config': 'Config',
     },
-    'bridge.cli': {
-        '/cli': 'Overview',
-    },
-    'bridge.http': {
-        '/http': 'Overview',
-    },
-    'bridge.view': {
-        '/view': 'Overview',
-    },
-    'bridge.tether': {
-        '/tether': 'Overview',
-    },
-    'bridge.database': {
-        '/database': 'Overview',
-    },
-    'bridge.validation': {
-        '/validation': 'Overview',
-    },
-    'bridge.events': {
-        '/events': 'Overview',
-    },
+    //'bridge.cli': {
+    //    '/cli/overview': 'Overview',
+    //},
+    //'bridge.http': {
+    //    '/http/overview': 'Overview',
+    //},
+    //'bridge.view': {
+    //    '/view/overview': 'Overview',
+    //},
+    //'bridge.tether': {
+    //    '/tether/overview': 'Overview',
+    //},
+    //'bridge.database': {
+    //    '/database/overview': 'Overview',
+    //},
+    //'bridge.validation': {
+    //    '/validation/overview': 'Overview',
+    //},
+    //'bridge.events': {
+    //    '/events/overview': 'Overview',
+    //},
 }
