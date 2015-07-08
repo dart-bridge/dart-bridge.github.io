@@ -28,9 +28,9 @@ class Page extends React.Component {
 
     render() {
         return (
-            <div dangerouslySetInnerHTML={{__html: this.state.page}}>
+            <article dangerouslySetInnerHTML={{__html: this.state.page}}>
 
-            </div>
+            </article>
         );
     }
 }

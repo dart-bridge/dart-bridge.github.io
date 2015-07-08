@@ -1,0 +1,53 @@
+<h1 id="config">Config</h1>
+<p class="lead">
+The <mark>config</mark> directory is a unified place for all the options associated with the framework. It contains
+YAML files, and can also be sorted in subdirectories.
+</p>
+
+<p>The only necessary config file, really, is <mark>config/app.yaml</mark>, which should contain a key called
+<code>service_providers</code>, which should be a list of fully qualified names of the <a href="/core/service-providers">Service Providers</a>
+to use in the app. For example, it should look something like this:</p>
+<pre><code class="prettyprint lang-yaml prettyprinted" data-lang="yaml" style=""><span class="kwd">service_providers:
+</span><span class="pln">  </span><span class="pun">-</span><span class="pln"> bridge.http.HttpServiceProvider
+  </span><span class="pun">-</span><span class="pln"> bridge.view.ViewServiceProvider</span></code></pre>
+<h2 id="the-config-class">The <code>Config</code> class</h2>
+<p>To access these settings, simply inject the <code>Config</code> class. It can then be used to access keys using a dot notation
+syntax. The segments of the path represents <em>subdirectories</em>, <em>filenames</em> and <em>keys</em>.</p>
+<p>Let's say we have a file <mark>config/my/library/options.yaml</mark> containing:</p>
+<pre><code class="prettyprint lang-yaml prettyprinted" data-lang="yaml" style=""><span class="kwd">some_key:
+</span><span class="pln">  </span><span class="kwd">some_sub_key: </span><span class="pln">Some value</span></code></pre>
+<p>We can access that <em>Some value</em> with like so:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="typ">String</span><span class="pln"> getSomeSubKeyValue</span><span class="pun">(</span><span class="typ">Config</span><span class="pln"> config</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> config</span><span class="pun">(</span><span class="str">'my.library.options.some_key.some_sub_key'</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>We can also access any segment of the tree, so <code>my.library</code> would return:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pun">{</span><span class="pln">
+  </span><span class="str">'options'</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="str">'some_key'</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      </span><span class="str">'some_sub_key'</span><span class="pun">:</span><span class="pln"> </span><span class="str">'Some value'</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<h2 id="default-value">Default value</h2>
+<p>To have a fallback if the specified key does not exist in the <mark>config</mark> directory, simply provide a default
+value as the second argument of the call:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">config</span><span class="pun">(</span><span class="str">'some.key.that.does.not.exist'</span><span class="pun">,</span><span class="pln"> </span><span class="str">'Default value'</span><span class="pun">);</span></code></pre>
+<h2 id="environment-variables">Environment variables</h2>
+<p>If you have sensitive variables, or some environment specific options, like database passwords. Or if you simply need to
+have some functionality be different for the development machine and the production machine, Unix environment variables
+is an easy way to provide special information.</p>
+<pre><code class="prettyprint lang-bash prettyprinted" data-lang="bash" style=""><span class="pln">$ export MY_VAR</span><span class="pun">=</span><span class="pln">value
+$ dart bridge</span></code></pre>
+<p>Access this value via the <code>env</code> method on the <code>Config</code> class.</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">config</span><span class="pun">.</span><span class="pln">env</span><span class="pun">(</span><span class="str">'MY_VAR'</span><span class="pun">,</span><span class="pln"> </span><span class="str">'default value'</span><span class="pun">);</span><span class="pln"> </span><span class="com">// 'value'</span></code></pre>
+<h3 id="-mark-env-mark-"><mark>.env</mark></h3>
+<p>An even easier way to mix in environment variables is with a <mark>.env</mark> file in your project root. The syntax is
+super simple:</p>
+<pre><code>MY_VAR=value
+</code></pre><p>This file should not be included in version control. Bridge comes with a file called <mark>.env.development</mark>,
+which sets the <code>APP_ENV</code> variable to <code>development</code>. This does a few things. For example, script tags in your
+templates will be injected as <code>application/dart</code> instead of as JavaScript.</p>
+<p>If you install Bridge with the <a href="/installation">installer</a>, <mark>.env.development</mark> will automatically be copied to
+<mark>.env</mark>, so you're up and running instantly.</p>
+<p>Without an <code>APP_ENV</code> variable, Bridge will default to production mode.</p>
+

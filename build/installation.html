@@ -10,7 +10,8 @@ globally activated:
 <pre><code class="prettyprint lang-bash prettyprinted" data-lang="bash" style=""><span class="pln">$ new_bridge my_blog</span></code></pre>
 <hr>
 <h2 id="manual-install">Manual install</h2>
-<p>Bridge is a modular ecosystem, and therefore it is perfectly possible to construct your own folder structure. To create your app from scratch, these are the steps you have to take.</p>
+<p>Bridge is a modular ecosystem, and therefore it is perfectly possible to construct your own folder structure. To create
+your app from scratch, these are the steps you have to take.</p>
 <pre><code class="prettyprint lang-bash prettyprinted" data-lang="bash" style=""><span class="com"># Create the project directory</span><span class="pln">
 $ mkdir my_blog </span><span class="pun">&amp;&amp;</span><span class="pln"> cd my_blog
 
@@ -20,23 +21,27 @@ $ cat </span><span class="pun">&gt;</span><span class="pln"> pubspec</span><span
 </span><span class="kwd">dependencies:
 </span><span class="pln">  </span><span class="kwd">bridge: </span><span class="pln">any</span></code></pre>
 <pre><code class="prettyprint lang-bash prettyprinted" data-lang="bash" style=""><span class="pln">$ pub get</span></code></pre>
-<p>We need to create the binary file to be responsible for starting up the shell. In the app package, this is the file <code>bridge</code>. You can call it whatever you want.</p>
-<p>Inside that file we'll export both our own library, which we will be creating in a minute, and the Bridge command line initializer.</p>
+<p>We need to create the binary file to be responsible for starting up the shell. In the app package, this is the file
+<mark>bridge</mark>. You can call it whatever you want.</p>
+<p>Inside that file we'll export both our own library, which we will be creating in a minute, and the Bridge command line
+initializer.</p>
 <pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">export</span><span class="pln"> </span><span class="str">'package:my_blog/my_blog.dart'</span><span class="pun">;</span><span class="pln">
 </span><span class="kwd">export</span><span class="pln"> </span><span class="str">'package:bridge/cli_init.dart'</span><span class="pun">;</span></code></pre>
 <blockquote>
-<p><strong>Note:</strong> If you use the built in initializer, the <code>config</code> folder will be used as the root for configuration files.</p>
+<p><strong>Note:</strong> If you use the built in initializer, the <mark>config</mark> folder will be used as the root for
+configuration files.</p>
 </blockquote>
 <p>To override this, your startup file must look like this instead:</p>
 <pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">export</span><span class="pln"> </span><span class="str">'package:my_blog/my_blog.dart'</span><span class="pun">;</span><span class="pln">
 </span><span class="kwd">import</span><span class="pln"> </span><span class="str">'package:bridge/cli.dart'</span><span class="pln"> </span><span class="kwd">show</span><span class="pln"> bootstrap</span><span class="pun">;</span><span class="pln">
 
 main</span><span class="pun">(</span><span class="pln">a</span><span class="pun">)</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> bootstrap</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> configPath</span><span class="pun">:</span><span class="pln"> </span><span class="str">'my/config/path'</span><span class="pun">);</span></code></pre>
-<p>Whatever folder you choose, you must create a file called <code>app.yaml</code> inside it.</p>
-<p>To hook into Bridge, you must create at least one Service Provider, and register it inside <code>app.yaml</code>.</p>
+<p>Whatever folder you choose, you must create a file called <mark>app.yaml</mark> inside it.</p>
+<p>To hook into Bridge, you must create at least one <a href="/core/service-providers">Service Provider</a>, and register it inside
+<mark>app.yaml</mark>.</p>
 <pre><code class="prettyprint lang-yaml prettyprinted" data-lang="yaml" style=""><span class="kwd">service_providers:
 </span><span class="pln">  </span><span class="pun">-</span><span class="pln"> my_blog.MyBlogServiceProvider</span></code></pre>
-<p>Now, let's create the <code>lib/my_blog.dart</code> file we referenced in the start file.</p>
+<p>Now, let's create the <mark>lib/my_blog.dart</mark> file we referenced in the start file.</p>
 <pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">library</span><span class="pln"> my_blog</span><span class="pun">;</span><span class="pln">
 
 </span><span class="kwd">import</span><span class="pln"> </span><span class="str">'package:bridge/core.dart'</span><span class="pun">;</span><span class="pln">

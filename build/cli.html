@@ -7,12 +7,13 @@ started though the command line, and can be interacted with while it's running.
 <h2 id="the-shell">The shell</h2>
 <p>Starting up Bridge is super simple:</p>
 <pre><code class="prettyprint lang-bash prettyprinted" data-lang="bash" style=""><span class="pln">$ dart bridge</span></code></pre>
-<p>At this point, the entire application will be bootstrapped, through what's called Service Providers. When that is done,
-you'll see the Bridge shell indicator – an equals sign:</p>
+<p>At this point, the entire application will be bootstrapped, through what's called 
+<a href="/core/service-providers">Service Providers</a>. When that is done, you'll see the Bridge shell indicator – an equals sign:</p>
 <pre><code class="prettyprint lang-bridge prettyprinted" data-lang="bridge" style=""><span class="lit">=</span></code></pre>
 <p>Now we're ready to interact with the running application. To see the available commands, type <code>help</code> or simply press
-tab. Most of the commands are actually dynamically added by the Service Providers, so if you're missing a command,
-that's probably because you haven't registered the Service Provider responsible for the command.</p>
+tab. Most of the commands are actually dynamically added by the <a href="/core/service-providers">Service Providers</a>, so if
+you're missing a command, that's probably because you haven't registered the
+<a href="/core/service-providers">Service Provider</a> responsible for the command.</p>
 <p>For now, let's focus on seeing something in the browser. That's easy, just type <code>start</code> and press <kbd>↵</kbd>.</p>
 <pre><code class="prettyprint lang-bridge prettyprinted" data-lang="bridge" style=""><span class="lit">=</span><span class="pln"> start
 Server started on http://localhost:1337
@@ -30,8 +31,19 @@ Server stopped
 </span><span class="lit">=</span><span class="pln"> start
 Server started on http://localhost:1337
 </span><span class="lit">=</span></code></pre>
+<h2 id="boot-commands">Boot commands</h2>
+<p>An easy way to quickly get to work is starting the program will boot commands. Just append whatever commands you want
+after <code>dart bridge</code>, separated by commas. The commands will execute in order.</p>
+<pre><code class="prettyprint lang-bash prettyprinted" data-lang="bash" style=""><span class="pln">$ dart bridge build</span><span class="pun">,</span><span class="pln"> start</span></code></pre>
+<h2 id="auto-reloading">Auto reloading</h2>
+<p>It might get tedious to go back to the command line every time you want to see a change in the browser. No sweat, Bridge
+comes with a <code>watch</code> command. It will watch your entire working directory for changes and reload bridge automatically.
+It will remember any boot commands you provided, so for a quick workflow, just run the following command and be on
+your way:</p>
+<pre><code class="prettyprint lang-bash prettyprinted" data-lang="bash" style=""><span class="pln">$ dart bridge start</span><span class="pun">,</span><span class="pln"> watch</span></code></pre>
+<p>To stop watching, just run <code>unwatch</code>.</p>
 <h2 id="exiting">Exiting</h2>
 <p>Using <kbd>^C</kbd> to exit interrupts the app completely, making it impossible for the program to react to the fact
-that it is being shut down. To gently exit the program, allowing the Service Providers to tear down their service, you
-can either use the <code>exit</code> command, or the shortcut <kbd>^X</kbd>.</p>
+that it is being shut down. To gently exit the program, allowing the <a href="/core/service-providers">Service Providers</a> to
+tear down their service, you can either use the <code>exit</code> command, or the shortcut <kbd>^X</kbd>.</p>
 

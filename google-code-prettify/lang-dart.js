@@ -13,7 +13,7 @@ PR.registerLangHandler(
             ["lit", /^@\w+\b/i],
 
             ["typ", /^\b(?:bool|double|dynamic|int|num|object|string|void)\b/i],
-            ["typ", /^\b[A-Z][A-Za-z]+\b/],
+            ["typ", /^\b[_A-Z][A-Za-z0-9_]+\b/],
             ["kwd", /^\b(?:false|null|true)\b/i],
             ["str", /^r?'''[\S\s]*?[^\\]'''/],
             ["str", /^r?"""[\S\s]*?[^\\]"""/],

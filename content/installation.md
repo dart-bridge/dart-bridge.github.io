@@ -18,7 +18,8 @@ $ new_bridge my_blog
 ---
 
 ## Manual install
-Bridge is a modular ecosystem, and therefore it is perfectly possible to construct your own folder structure. To create your app from scratch, these are the steps you have to take.
+Bridge is a modular ecosystem, and therefore it is perfectly possible to construct your own folder structure. To create
+your app from scratch, these are the steps you have to take.
 
 ```bash
 # Create the project directory
@@ -36,16 +37,19 @@ dependencies:
 $ pub get
 ```
 
-We need to create the binary file to be responsible for starting up the shell. In the app package, this is the file `bridge`. You can call it whatever you want.
+We need to create the binary file to be responsible for starting up the shell. In the app package, this is the file
+<mark>bridge</mark>. You can call it whatever you want.
 
-Inside that file we'll export both our own library, which we will be creating in a minute, and the Bridge command line initializer.
+Inside that file we'll export both our own library, which we will be creating in a minute, and the Bridge command line
+initializer.
 
 ```dart
 export 'package:my_blog/my_blog.dart';
 export 'package:bridge/cli_init.dart';
 ```
 
-> **Note:** If you use the built in initializer, the `config` folder will be used as the root for configuration files.
+> **Note:** If you use the built in initializer, the <mark>config</mark> folder will be used as the root for
+configuration files.
 
 To override this, your startup file must look like this instead:
 
@@ -56,16 +60,17 @@ import 'package:bridge/cli.dart' show bootstrap;
 main(a) => bootstrap(a, configPath: 'my/config/path');
 ```
 
-Whatever folder you choose, you must create a file called `app.yaml` inside it.
+Whatever folder you choose, you must create a file called <mark>app.yaml</mark> inside it.
 
-To hook into Bridge, you must create at least one Service Provider, and register it inside `app.yaml`.
+To hook into Bridge, you must create at least one [Service Provider](/core/service-providers), and register it inside
+<mark>app.yaml</mark>.
 
 ```yaml
 service_providers:
   - my_blog.MyBlogServiceProvider
 ```
 
-Now, let's create the `lib/my_blog.dart` file we referenced in the start file.
+Now, let's create the <mark>lib/my_blog.dart</mark> file we referenced in the start file.
 
 ```dart
 library my_blog;

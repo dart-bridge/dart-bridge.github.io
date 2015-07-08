@@ -10,16 +10,17 @@ Starting up Bridge is super simple:
 $ dart bridge
 ```
 
-At this point, the entire application will be bootstrapped, through what's called Service Providers. When that is done,
-you'll see the Bridge shell indicator – an equals sign:
+At this point, the entire application will be bootstrapped, through what's called 
+[Service Providers](/core/service-providers). When that is done, you'll see the Bridge shell indicator – an equals sign:
 
 ```bridge
 = 
 ```
 
 Now we're ready to interact with the running application. To see the available commands, type `help` or simply press
-tab. Most of the commands are actually dynamically added by the Service Providers, so if you're missing a command,
-that's probably because you haven't registered the Service Provider responsible for the command.
+tab. Most of the commands are actually dynamically added by the [Service Providers](/core/service-providers), so if
+you're missing a command, that's probably because you haven't registered the
+[Service Provider](/core/service-providers) responsible for the command.
 
 For now, let's focus on seeing something in the browser. That's easy, just type `start` and press <kbd>↵</kbd>.
 
@@ -46,7 +47,27 @@ Server started on http://localhost:1337
 = 
 ```
 
+## Boot commands
+An easy way to quickly get to work is starting the program will boot commands. Just append whatever commands you want
+after `dart bridge`, separated by commas. The commands will execute in order.
+
+```bash
+$ dart bridge build, start
+```
+
+## Auto reloading
+It might get tedious to go back to the command line every time you want to see a change in the browser. No sweat, Bridge
+comes with a `watch` command. It will watch your entire working directory for changes and reload bridge automatically.
+It will remember any boot commands you provided, so for a quick workflow, just run the following command and be on
+your way:
+
+```bash
+$ dart bridge start, watch
+```
+
+To stop watching, just run `unwatch`.
+
 ## Exiting
 Using <kbd>^C</kbd> to exit interrupts the app completely, making it impossible for the program to react to the fact
-that it is being shut down. To gently exit the program, allowing the Service Providers to tear down their service, you
-can either use the `exit` command, or the shortcut <kbd>^X</kbd>.
+that it is being shut down. To gently exit the program, allowing the [Service Providers](/core/service-providers) to
+tear down their service, you can either use the `exit` command, or the shortcut <kbd>^X</kbd>.
