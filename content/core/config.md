@@ -1,4 +1,4 @@
-# Config
+# Config <small>bridge.core</small>
 <p class='lead'>
 The <mark>config</mark> directory is a unified place for all the options associated with the framework. It contains
 YAML files, and can also be sorted in subdirectories.

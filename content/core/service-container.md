@@ -1,4 +1,4 @@
-# Service Container
+# Service Container <small>bridge.core</small>
 <p class='lead'>
 Bridge depends heavily on *Dependency Injection*. The Service Container will automatically resolve the dependencies of
 classes, to avoid long instantiation chains and help you to write testable code.

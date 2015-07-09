@@ -16,9 +16,10 @@ export default {
     'bridge.cli': {
         '/cli/custom-commands': 'Custom Commands',
     },
-    //'bridge.http': {
-    //    '/http/overview': 'Overview',
-    //},
+    'bridge.http': {
+        '/http/overview': 'Overview',
+        '/http/router': 'Router',
+    },
     //'bridge.view': {
     //    '/view/overview': 'Overview',
     //},

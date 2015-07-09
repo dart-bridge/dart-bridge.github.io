@@ -11,14 +11,15 @@ faded blue circle is all there is to it.
 ![Bridge Services](/images/services-figure.svg)
 
 From the left, we see the operating system (currently only Unix based systems are supported). The black circle is your
-environment variables, which are registered in the Config.
+environment variables, which are registered in the [Config](#/core/config).
 
 We also see the entry point, `$ dart bridge`. The command will initialize the Bridge CLI. The CLI creates the
-[Service Container](#/core/service-container) and injects itself into it. The Config is also registered.
+[Service Container](#/core/service-container) and injects itself into it. The [Config](#/core/config) is also
+registered.
 
 Then the [Service Container](#/core/service-container) will run all registered
 [Service Providers](#/core/service-providers). They connect the service or library in question to the rest of the
 application, using the [Service Container](#/core/service-container).
 
-The [Service Providers](#/core/service-providers) can register commands in the CLI; an easy way to provide a UI for the
-service.
+The [Service Providers](#/core/service-providers) can [register commands](#/cli/custom-commands) in the CLI; an easy way
+to provide a UI for the service.

@@ -1,4 +1,4 @@
-# Service Providers
+# Service Providers <small>bridge.core</small>
 <p class='lead'>
 To attach anything to the Bridge application, we need an entry point where we can connect our entities to the
 [Service Container](#/core/service-container). That's where Service Providers come in.
