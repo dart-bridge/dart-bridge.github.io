@@ -30,7 +30,7 @@ method</p>
 </span><span class="pun">});</span></code></pre>
 <pre><code class="prettyprint lang-bridgehtml prettyprinted" data-lang="bridgehtml" style=""><span class="tag">&lt;p&gt;</span><span class="lit">$key</span><span class="tag">&lt;/p&gt;</span></code></pre>
 <pre><code class="prettyprint lang-html prettyprinted" data-lang="html" style=""><span class="tag">&lt;p&gt;</span><span class="pln">value</span><span class="tag">&lt;/p&gt;</span></code></pre>
-<h2 id="directives">Directives</h2>
+<h2 id="logic">Logic</h2>
 <p>Trivial logic can be performed with directives, like so:</p>
 <pre><code class="prettyprint lang-bridgehtml prettyprinted" data-lang="bridgehtml" style=""><span class="tag">&lt;p&gt;</span><span class="pln">
   </span><span class="kwd">@if</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">true)</span><span class="pln">
@@ -45,6 +45,58 @@ method</p>
     </span><span class="lit">$item</span><span class="pln">
   </span><span class="kwd">@end for</span><span class="pln">
 </span><span class="tag">&lt;/p&gt;</span></code></pre>
+<h2 id="includes-and-extensions">Includes and extensions</h2>
+<p>Bridge templates can be mixed and matched together. If you want to include a partial template right into another, use
+the <code>include</code> directive:</p>
+<pre><code class="prettyprint lang-bridgehtml prettyprinted" data-lang="bridgehtml" style=""><span class="com">// lib/templates/index.html</span><span class="pln">
+</span><span class="tag">&lt;header&gt;</span><span class="pln">
+  </span><span class="kwd">@include</span><span class="pln"> </span><span class="pun">(</span><span class="str">'partials.nav')</span><span class="pln">
+</span><span class="tag">&lt;/header&gt;</span></code></pre>
+<pre><code class="prettyprint lang-bridgehtml prettyprinted" data-lang="bridgehtml" style=""><span class="com">// lib/templates/partials/nav.html</span><span class="pln">
+</span><span class="tag">&lt;nav</span><span class="pln"> </span><span class="atn">role</span><span class="pun">=</span><span class="atv">'navigation'</span><span class="tag">&gt;</span><span class="pln">
+  </span><span class="com">// ...</span><span class="pln">
+</span><span class="tag">&lt;/nav&gt;</span></code></pre>
+<pre><code class="prettyprint lang-html prettyprinted" data-lang="html" style=""><span class="tag">&lt;header&gt;</span><span class="pln">
+  </span><span class="tag">&lt;nav</span><span class="pln"> </span><span class="atn">role</span><span class="pun">=</span><span class="atv">'navigation'</span><span class="tag">&gt;</span><span class="pln">
+  </span><span class="tag">&lt;/nav&gt;</span><span class="pln">
+</span><span class="tag">&lt;/header&gt;</span></code></pre>
+<p>On the other hand, if you want to surround the template with a master, you can use <code>extends</code> and <code>block</code>:</p>
+<pre><code class="prettyprint lang-bridgehtml prettyprinted" data-lang="bridgehtml" style=""><span class="com">// lib/templates/app.html</span><span class="pln">
+</span><span class="tag">&lt;html&gt;</span><span class="pln">
+  </span><span class="tag">&lt;head&gt;</span><span class="pln">
+    </span><span class="tag">&lt;title&gt;</span><span class="pln">My website</span><span class="tag">&lt;/title&gt;</span><span class="pln">
+  </span><span class="tag">&lt;/head&gt;</span><span class="pln">
+  </span><span class="tag">&lt;body&gt;</span><span class="pln">
+    </span><span class="tag">&lt;h1&gt;</span><span class="pln">Welcome to my website!</span><span class="tag">&lt;/h1&gt;</span><span class="pln">
+    </span><span class="tag">&lt;main&gt;</span><span class="pln">
+      </span><span class="kwd">@block</span><span class="pln"> </span><span class="pun">(</span><span class="str">'content'</span><span class="pun">)</span><span class="pln">
+    </span><span class="tag">&lt;/main&gt;</span><span class="pln">
+  </span><span class="tag">&lt;/body&gt;</span><span class="pln">
+</span><span class="tag">&lt;/html&gt;</span></code></pre>
+<pre><code class="prettyprint lang-bridgehtml prettyprinted" data-lang="bridgehtml" style=""><span class="com">// lib/templates/index.html</span><span class="pln">
+</span><span class="kwd">@extends</span><span class="pln"> </span><span class="pun">(</span><span class="str">'app'</span><span class="pun">)</span><span class="pln">
+
+</span><span class="kwd">@block</span><span class="pln"> </span><span class="pun">(</span><span class="str">'content'</span><span class="pun">)</span><span class="pln">
+  </span><span class="tag">&lt;h2&gt;</span><span class="pln">This is the home page</span><span class="tag">&lt;/h2&gt;</span><span class="pln"> 
+</span><span class="kwd">@end block</span></code></pre>
+<pre><code class="prettyprint lang-html prettyprinted" data-lang="html" style=""><span class="tag">&lt;html&gt;</span><span class="pln">
+  </span><span class="tag">&lt;head&gt;</span><span class="pln">
+    </span><span class="tag">&lt;title&gt;</span><span class="pln">My website</span><span class="tag">&lt;/title&gt;</span><span class="pln">
+  </span><span class="tag">&lt;/head&gt;</span><span class="pln">
+  </span><span class="tag">&lt;body&gt;</span><span class="pln">
+    </span><span class="tag">&lt;h1&gt;</span><span class="pln">Welcome to my website!</span><span class="tag">&lt;/h1&gt;</span><span class="pln">
+    </span><span class="tag">&lt;main&gt;</span><span class="pln">
+      </span><span class="tag">&lt;h2&gt;</span><span class="pln">This is the home page</span><span class="tag">&lt;/h2&gt;</span><span class="pln">
+    </span><span class="tag">&lt;/main&gt;</span><span class="pln">
+  </span><span class="tag">&lt;/body&gt;</span><span class="pln">
+</span><span class="tag">&lt;/html&gt;</span></code></pre>
+<p>Since the <code>@block</code> directive is used in multiple contexts – to allow for nested extends – <code>@block</code>/<code>@end block</code> is
+indent sensitive. To create one-liner blocks, you have to use <code>@start block</code> instead:</p>
+<pre><code class="prettyprint lang-bridgehtml prettyprinted" data-lang="bridgehtml" style=""><span class="kwd">@extends</span><span class="pln"> </span><span class="pun">(</span><span class="str">'master')</span><span class="pln">
+
+</span><span class="kwd">@start block</span><span class="pln"> </span><span class="pun">(</span><span class="str">'title'</span><span class="pun">)</span><span class="pln"> My title </span><span class="kwd">@end block</span></code></pre>
+<p>This behaviour doesn't make any difference in the output. It's only to allow for alternative organization in the
+template markup.</p>
 <h2 id="comments">Comments</h2>
 <p>Besides supporting HTML comments, Bridge templates have normal double-slash syntax for comments, that disappear when
 the template is parsed.</p>

@@ -19,6 +19,7 @@ export default {
     'bridge.http': {
         '/http/overview': 'Overview',
         '/http/router': 'Router',
+        '/http/helpers': 'Helpers',
     },
     //'bridge.view': {
     //    '/view/overview': 'Overview',

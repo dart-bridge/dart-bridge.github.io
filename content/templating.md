@@ -57,7 +57,7 @@ return template('index', withData: {
 <p>value</p>
 ```
 
-## Directives
+## Logic
 Trivial logic can be performed with directives, like so:
 ```bridgehtml
 <p>
@@ -74,6 +74,74 @@ Trivial logic can be performed with directives, like so:
   @end for
 </p>
 ```
+
+## Includes and extensions
+Bridge templates can be mixed and matched together. If you want to include a partial template right into another, use
+the `include` directive:
+```bridgehtml
+// lib/templates/index.html
+<header>
+  @include ('partials.nav')
+</header>
+```
+```bridgehtml
+// lib/templates/partials/nav.html
+<nav role='navigation'>
+  // ...
+</nav>
+```
+```html
+<header>
+  <nav role='navigation'>
+  </nav>
+</header>
+```
+
+On the other hand, if you want to surround the template with a master, you can use `extends` and `block`:
+```bridgehtml
+// lib/templates/app.html
+<html>
+  <head>
+    <title>My website</title>
+  </head>
+  <body>
+    <h1>Welcome to my website!</h1>
+    <main>
+      @block ('content')
+    </main>
+  </body>
+</html>
+```
+```bridgehtml
+// lib/templates/index.html
+@extends ('app')
+
+@block ('content')
+  <h2>This is the home page</h2> 
+@end block
+```
+```html
+<html>
+  <head>
+    <title>My website</title>
+  </head>
+  <body>
+    <h1>Welcome to my website!</h1>
+    <main>
+      <h2>This is the home page</h2>
+    </main>
+  </body>
+</html>
+```
+Since the `@block` directive is used in multiple contexts – to allow for nested extends – `@block`/`@end block` is
+indent sensitive. To create one-liner blocks, you have to use `@start block` instead:
+```bridgehtml
+@extends ('master')
+
+@start block ('title') My title @end block
+```
+This behaviour doesn't make any difference in the output. It's only to allow for alternative organization in the
+template markup.
 
 ## Comments
 Besides supporting HTML comments, Bridge templates have normal double-slash syntax for comments, that disappear when
