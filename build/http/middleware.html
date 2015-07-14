@@ -1,0 +1,10 @@
+<h1 id="middleware-small-bridge-http-small-">Middleware <small>bridge.http</small></h1>
+<p class="lead">
+Bridge supports Shelf Middleware directly. Just use the <code>addMiddleware</code> method on the <code>Server</code> class.
+</p>
+
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">server</span><span class="pun">.</span><span class="pln">addMiddleware</span><span class="pun">(</span><span class="pln">shelf</span><span class="pun">.</span><span class="pln">createMiddleware</span><span class="pun">(...));</span></code></pre>
+<p>Since the order of the middleware can not be relied upon, hijacking request-middleware must be explicitly prepended
+to the beginning of the middleware list. Use the <code>highPriority</code> named flag.</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">server</span><span class="pun">.</span><span class="pln">addMiddleware</span><span class="pun">(</span><span class="pln">shelf</span><span class="pun">.</span><span class="pln">createMiddleware</span><span class="pun">(...),</span><span class="pln"> highPriority</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">true</span><span class="pun">);</span></code></pre>
+

@@ -1,7 +1,7 @@
 # Helpers <small>bridge.http</small>
 <p class='lead'>
 There are a few helpers available for easy navigation in the HTTP context. These are mainly meant to be used in
-controllers and templates.
+controllers and [templates](#/view/templates).
 </p>
 
 ## Redirection

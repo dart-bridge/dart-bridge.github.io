@@ -20,10 +20,11 @@ export default {
         '/http/overview': 'Overview',
         '/http/router': 'Router',
         '/http/helpers': 'Helpers',
+        '/http/middleware': 'Middleware',
     },
-    //'bridge.view': {
-    //    '/view/overview': 'Overview',
-    //},
+    'bridge.view': {
+        '/view/templates': 'Templates',
+    },
     //'bridge.tether': {
     //    '/tether/overview': 'Overview',
     //},
