@@ -21,6 +21,7 @@ export default {
         '/http/router': 'Router',
         '/http/helpers': 'Helpers',
         '/http/middleware': 'Middleware',
+        '/http/input': 'Input',
     },
     'bridge.view': {
         '/view/templates': 'Templates',
@@ -37,4 +38,8 @@ export default {
     //'bridge.events': {
     //    '/events/overview': 'Overview',
     //},
+    'Deployment': {
+        '/deployment/dart2js': 'dart2js',
+        '/deployment/production-mode': 'Production mode',
+    },
 }

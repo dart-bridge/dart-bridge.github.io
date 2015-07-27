@@ -1,0 +1,46 @@
+<h1 id="production-mode">Production mode</h1>
+<p class="lead">
+When running your app on a live server, it should be in production mode. This mode will ensure that output is logged
+instead of displayed in a console you don't have access too, as well as deliver JavaScript instead of Dart to the
+client.
+</p>
+
+<h2 id="production-environment">Production environment</h2>
+<p>Bridge will look for an environment variable <code>APP_ENV</code>. This variable can have any value, but only actively
+recognizes a few:</p>
+<ul>
+<li><code>production</code> – This is the default value, if no <code>APP_ENV</code> variable exists.</li>
+<li><code>development</code></li>
+<li><code>testing</code>
+Any other value will set the environment to <code>custom</code>, readable manually through <code>Config.env</code>.</li>
+</ul>
+<p>The easiest way to make sure that a <code>production</code> environment is set is simply to remove the default <mark>.env</mark>
+file from the project on the production server. If you're deploying with Git, you're fine, since the <mark>.env</mark>
+file should be ignored anyway.</p>
+<h2 id="boot-command">Boot command</h2>
+<p>Whatever method you use for deploying your application, somewhere you'll have to specify the shell command that
+starts everything up.</p>
+<p>As mentioned in the <em>Boot commands</em> section <a href="#/cli">here</a>, we can specify commands that will be instantly run when
+the application has initialized.</p>
+<p>Additionally, a special <code>--production</code> flag should be provided. This flag will tell the Bridge CLI to switch from
+it's standard output device – the terminal – to a log file called <mark>cupid.log</mark> in the root of the project.</p>
+<p>Here's what the startup command might look like:</p>
+<pre><code class="prettyprint lang-bash prettyprinted" data-lang="bash" style=""><span class="pln">$ dart bridge </span><span class="pun">--</span><span class="pln">production build</span><span class="pun">,</span><span class="pln"> start</span></code></pre>
+<p>This command will ensure that we're logging output, compiling front end scripts, and starting the server when
+it's done.</p>
+<h3 id="boot-command-proxy">Boot command proxy</h3>
+<p>Some services, like Docker, requires some special convention to be followed, for example that the startup script
+for the server is a file called <code>bin/server.dart</code>. In these cases, it is advised to create a <em>proxy</em> at that location.</p>
+<p>It might look like this:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="com">// bin/server.dart</span><span class="pln">
+
+</span><span class="kwd">import</span><span class="pln"> </span><span class="str">'../bridge'</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> bridge</span><span class="pun">;</span><span class="pln">
+
+main</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  bridge</span><span class="pun">.</span><span class="pln">main</span><span class="pun">([</span><span class="str">'--production'</span><span class="pun">,</span><span class="pln"> </span><span class="str">'build'</span><span class="pun">,</span><span class="pln"> </span><span class="str">','</span><span class="pun">,</span><span class="pln"> </span><span class="str">'start'</span><span class="pun">]);</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<blockquote>
+<p><strong>Note:</strong> The comma argument is necessary. Without it Bridge would try to run the <code>build</code> command with an argument
+of <code>start</code>. Separate each boot command with a comma.</p>
+</blockquote>
+
