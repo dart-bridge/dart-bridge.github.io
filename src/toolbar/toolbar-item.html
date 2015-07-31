@@ -1,0 +1,32 @@
+<dom-module id='toolbar-item'>
+  <style>
+    a {
+      display: inline-block;
+      padding: 1em 1em 0.9em;
+      text-decoration: none;
+      color: #ff0051;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.9em;
+      border-radius: 0.2em;
+      transition: background-color 0.07s, color 0.07s;
+    }
+    a:hover {
+      background-color: #ff0051;
+      color: white;
+    }
+  </style>
+
+  <template>
+    <a href="{{href}}"><content></content></a>
+  </template>
+
+  <script>
+    Polymer({
+      properties: {
+        href: String
+      }
+    })
+  </script>
+</dom-module>

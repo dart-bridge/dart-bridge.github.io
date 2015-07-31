@@ -1,0 +1,40 @@
+<dom-module id='app-page'>
+  <template>
+    <app-router mode='hash'>
+      <app-route path='/' import='pages/page-home.html'></app-route>
+      <app-route path='/quick-tour' import='pages/page-tour.html'></app-route>
+      <app-route path='/getting-started' import='pages/page-getting-started.html'></app-route>
+      <app-route path='/docs' import='pages/page-docs.html'></app-route>
+      <!-- DOCS -->
+      <template is="dom-repeat" items="{{ routes }}">
+        <app-route path$='{{ item.url }}' import$='{{ item.page }}'></app-route>
+      </template>
+    </app-router>
+  </template>
+
+  <script>
+    Polymer({
+      properties: {
+        routes: {
+          type: Array,
+          value: function () {
+            var routes = [];
+            Docs.forEach(function (category, url) {
+              routes.push({
+                url: '/docs' + url,
+                page: 'pages/docs' + url.replace(/\/([^\/]*)$/, '/doc-$1.html')
+              });
+            }.bind(this));
+            return routes;
+          }
+        }
+      },
+
+      attached: function () {
+        setTimeout(function () {
+          this.querySelector('app-router').go(window.location.hash.substring(1));
+        }.bind(this), 0);
+      },
+    })
+  </script>
+</dom-module>

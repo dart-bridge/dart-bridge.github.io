@@ -1,0 +1,41 @@
+<dom-module id='doc-menu'>
+  <style>
+    .dropdown {
+      position: absolute;
+      background-color: rgba(250, 250, 250, 0.95);
+      color: black;
+      font-size: 0.8em;
+    }
+    ul[label]:before {
+      content: attr(label);
+
+    }
+  </style>
+  <template>
+    <ul class='dropdown'>
+      <template is='dom-repeat' items="{{ categories }}">
+        <ul class="category" label$='{{ item.label }}'>
+          <template is="dom-repeat" items="{{ item.items }}">
+            <li>
+              <a href="{{ _toHashDocHref(item.url) }}">{{ item.title }}</a>
+            </li>
+          </template>
+        </ul>
+      </template>
+    </ul>
+  </template>
+  <script>
+    Polymer({
+      properties: {
+        categories: {
+          type: Array,
+          value: Docs.index
+        }
+      },
+
+      _toHashDocHref: function(url) {
+        return '#/docs' + url;
+      },
+    })
+  </script>
+</dom-module>

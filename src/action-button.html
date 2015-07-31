@@ -1,0 +1,41 @@
+<dom-module id='action-button'>
+  <style>
+    button {
+      background-color: #7596ff;
+      border-radius: 0.3em;
+      border: none;
+      border-bottom: 0.2em solid #587bc8;
+      padding: 1em 1.4em 0.9em;
+      font:inherit;
+      font-size: 1.2em;
+      color: white;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+    }
+    button:active {
+      border-top: 0.2em solid #587bc8;
+      border-bottom: none;
+    }
+  </style>
+  <template>
+    <button>
+      <content></content>
+    </button>
+  </template>
+  <script>
+    Polymer({
+      properties: {
+        href: String
+      },
+
+      listeners: {
+        'click': '_onClick'
+      },
+
+      _onClick: function () {
+        if (this.href) window.location = this.href;
+      },
+    })
+  </script>
+</dom-module>
