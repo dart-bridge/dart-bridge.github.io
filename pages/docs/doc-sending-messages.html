@@ -1,0 +1,82 @@
+<dom-module id="doc-sending-messages"><template><doc-page><h1 id="sending-messages">Sending Messages</h1>
+<p class="lead">
+Now, let's look into how to send messages between the server and the client.
+</p>
+
+<h2 id="tether">Tether</h2>
+<p>Bridge uses WebSockets to set up a messaging service called <em>Tether</em>.</p>
+<h3 id="server-side">Server side</h3>
+<p>If we go back to <mark>lib/api/api.dart</mark>, we
+can see a method called <code>tether</code>, which receives a <code>Tether</code> object. Like this:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">tether</span><span class="pun">(</span><span class="typ">Tether</span><span class="pln"> tether</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>Every connected browser session will be allocated a <code>Tether</code> instance, which will be sent through this method. We can
+both send and receive messages using a key.</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">tether</span><span class="pun">(</span><span class="typ">Tether</span><span class="pln"> tether</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  tether</span><span class="pun">.</span><span class="pln">send</span><span class="pun">(</span><span class="str">'message_to_client'</span><span class="pun">);</span><span class="pln">
+
+  tether</span><span class="pun">.</span><span class="pln">listen</span><span class="pun">(</span><span class="str">'message_from_client'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="pln">message</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="com">//</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>Whatever is returned within the closure (the second argument of the <code>listen</code> method), will be sent <em>back</em> to the client
+through the tether. Likewise, the <code>send</code> method will return a <code>Future</code> that will complete with the value that the client
+returns. So how does the code look in the client code?</p>
+<h3 id="client-side">Client side</h3>
+<p>Let's check out <mark>web/main.dart</mark>. You'll see something like this:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">import</span><span class="pln"> </span><span class="str">'package:bridge/tether_client.dart'</span><span class="pun">;</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> </span><span class="str">'package:app/client.dart'</span><span class="pun">;</span><span class="pln">
+
+main</span><span class="pun">()</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">await</span><span class="pln"> globalTether</span><span class="pun">();</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>That first line of the <code>main</code> function is important. It's where we shake hands with the server and agrees upon a Tether
+connection. From that point, there is a connected <code>Tether</code> object available as the global variable <code>tether</code>. At any
+point throughout the client code, the server can be queried for information, or told that something happened.</p>
+<h3 id="registering-shared-data-structures">Registering shared data structures</h3>
+<p>Since the messages sent through the WebSocket is serialized down to JSON, we can't send object instances directly
+through. However we can allow for that by making the server and the client agree upon how classes are broken down and
+reconstructed.</p>
+<p>Check out <mark>lib/shared/shared_structures.dart</mark>. It might look something like this:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">part of</span><span class="pln"> app</span><span class="pun">.</span><span class="pln">shared</span><span class="pun">;</span><span class="pln">
+
+</span><span class="typ">void</span><span class="pln"> registerSharedStructures</span><span class="pun">(</span><span class="typ">Tether</span><span class="pln"> tether</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>As long as both the server and the client import this file and sends their respective <code>Tether</code> instances through this 
+global function, we can teach the tethers how to reconstruct data structures on arrival.</p>
+<p>The first thing we need to do is implement the (de)serialization.</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">MyClass</span><span class="pln"> </span><span class="kwd">implements</span><span class="pln"> </span><span class="typ">Serializable</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="typ">String</span><span class="pln"> property </span><span class="pun">=</span><span class="pln"> </span><span class="str">'value'</span><span class="pun">;</span><span class="pln">
+
+  </span><span class="typ">MyClass</span><span class="pun">.</span><span class="pln">deserialize</span><span class="pun">(</span><span class="typ">Map</span><span class="pln"> serialized</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    property </span><span class="pun">=</span><span class="pln"> serialized</span><span class="pun">[</span><span class="str">'property'</span><span class="pun">];</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+
+  </span><span class="typ">Map</span><span class="pln"> serialize </span><span class="pun">=&gt;</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="str">'property'</span><span class="pun">:</span><span class="pln"> property
+  </span><span class="pun">};</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>Now we can make it transferable by registering it on the tether:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="typ">void</span><span class="pln"> registerSharedStructures</span><span class="pun">(</span><span class="typ">Tether</span><span class="pln"> tether</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  tether</span><span class="pun">.</span><span class="pln">registerStructure</span><span class="pun">(</span><span class="str">'MyClass'</span><span class="pun">,</span><span class="pln"> </span><span class="typ">MyClass</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="pln">serialized</span><span class="pun">)</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">MyClass</span><span class="pun">.</span><span class="pln">deserialize</span><span class="pun">(</span><span class="pln">serialized</span><span class="pun">));</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<h2 id="conversation">Conversation</h2>
+<p>Check this out. Let's say we want to get the <em>user of a specific id</em> from the server. Ignoring the logic behind the
+user handling, and given that we have registered both a <code>User</code> class and a <code>UserNotFoundException</code> class on the tethers,
+this is how we can set it up:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="com">// Server side</span><span class="pln">
+tether</span><span class="pun">.</span><span class="pln">listen</span><span class="pun">(</span><span class="str">'user.current'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="typ">int</span><span class="pln"> id</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(!</span><span class="kwd">await</span><span class="pln"> userExists</span><span class="pun">(</span><span class="pln">id</span><span class="pun">))</span><span class="pln">
+    </span><span class="kwd">throw</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">UserNotFoundException</span><span class="pun">();</span><span class="pln">
+
+  </span><span class="kwd">return</span><span class="pln"> findUserById</span><span class="pun">(</span><span class="pln">id</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="com">// Client side</span><span class="pln">
+</span><span class="kwd">try</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="typ">User</span><span class="pln"> user </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">await</span><span class="pln"> tether</span><span class="pun">.</span><span class="pln">send</span><span class="pun">(</span><span class="str">'user.current'</span><span class="pun">,</span><span class="pln"> userId</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln"> on </span><span class="typ">UserNotFoundException</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  print</span><span class="pun">(</span><span class="str">'User $userId was not found'</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>Isn't that neat?</p>
+
+</doc-page></template><script>Polymer({})</script></dom-module>

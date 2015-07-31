@@ -1,0 +1,39 @@
+<dom-module id="doc-input"><template><doc-page><h1 id="input-small-bridge-http-small-">Input <small>bridge.http</small></h1>
+<p class="lead">
+The HTTP protocol specifies different ways of sending data to a server. The <code>Input</code> class' job is to unify them all
+into a simple <code>Map</code>.
+</p>
+
+<p>Consider this route handler:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="typ">Input</span><span class="pln"> input</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> input</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">});</span></code></pre>
+<p>It will take whatever is in the input and return it. And since the input class can be cast to JSON, we can examine
+what we get from different HTTP data packet formats:</p>
+<pre><code class="prettyprint lang-http prettyprinted" data-lang="http" style=""><span class="pln">GET http</span><span class="pun">:</span><span class="com">//localhost:1337/?key=value</span></code></pre>
+<pre><code class="prettyprint lang-json prettyprinted" data-lang="json" style=""><span class="pun">{</span><span class="pln">
+  </span><span class="str">"key"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"value"</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>Easy enough. The query string of a GET request is included in the <code>Input</code> map.</p>
+<p>The same goes for other methods with <code>application/x-www-form-urlencoded</code> encoding type:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">router</span><span class="pun">.</span><span class="pln">post</span><span class="pun">(</span><span class="str">'/'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="typ">Input</span><span class="pln"> input</span><span class="pun">)</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> input</span><span class="pun">);</span></code></pre>
+<pre><code class="prettyprint lang-http prettyprinted" data-lang="http" style=""><span class="pln">POST http</span><span class="pun">:</span><span class="com">//localhost:1337/</span><span class="pln">
+key</span><span class="pun">=</span><span class="pln">value</span><span class="pun">&amp;</span><span class="pln">some</span><span class="pun">-</span><span class="pln">integer</span><span class="pun">=</span><span class="lit">42</span></code></pre>
+<pre><code class="prettyprint lang-json prettyprinted" data-lang="json" style=""><span class="pun">{</span><span class="pln">
+  </span><span class="str">"key"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"value"</span><span class="pun">,</span><span class="pln">
+  </span><span class="str">"some-integer"</span><span class="pun">:</span><span class="pln"> </span><span class="lit">42</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>Just as easily, Bridge handles <code>multipart/form-data</code> packets, with both primitives, and even files.</p>
+<h2 id="-uploadedfile-"><code>UploadedFile</code></h2>
+<p>When a file is uploaded using HTTP, it's represented by an <code>UploadedFile</code> object. The class itself is very simple,
+and only contains basic information about the uploaded file, as well as a <code>saveTo</code> method, which takes a
+<code>dart:io.File</code> and asynchronously saves the uploaded file to that location.</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">router</span><span class="pun">.</span><span class="pln">post</span><span class="pun">(</span><span class="str">'upload'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="typ">Input</span><span class="pln"> input</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="typ">UploadedFile</span><span class="pln"> uploadedFile </span><span class="pun">=</span><span class="pln"> input</span><span class="pun">[</span><span class="str">'file'</span><span class="pun">];</span><span class="pln"> </span><span class="com">// This is the name of the form input field</span><span class="pln">
+
+  </span><span class="kwd">await</span><span class="pln"> uploadedFile</span><span class="pun">.</span><span class="pln">saveTo</span><span class="pun">(</span><span class="kwd">new</span><span class="pln"> </span><span class="typ">File</span><span class="pun">(</span><span class="str">'storage/${uploadedFile.name}'</span><span class="pun">));</span><span class="pln">
+
+  </span><span class="kwd">return</span><span class="pln"> </span><span class="str">'Upload successful!'</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">});</span></code></pre>
+
+</doc-page></template><script>Polymer({})</script></dom-module>

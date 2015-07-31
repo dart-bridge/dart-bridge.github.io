@@ -1,0 +1,19 @@
+<dom-module id="doc-dart2js"><template><doc-page><h1 id="dart2js">dart2js</h1>
+<p class="lead">
+Before deploying your application, you must compile the client side Dart scripts into JavaScript using <code>dart2js</code>.
+</p>
+
+<p>This is very simple:</p>
+<pre><code class="prettyprint lang-bridge prettyprinted" data-lang="bridge" style=""><span class="lit">=</span><span class="pln"> build</span></code></pre>
+<p>That's it. This command will compile and minify every <mark>.dart</mark> file in the public directory (most likely
+<mark>web/</mark>) into <mark>.dart.js</mark> files in the same location.</p>
+<p>Your client side scripts should live in the <mark>lib/</mark> directory. The scripts in <mark>web/</mark> should only
+contain the <code>main</code> function, along with some initialization code, importing you main front end code base within the
+<mark>lib/</mark> directory.</p>
+<blockquote>
+<p><strong>Note:</strong> As a default, <mark>.dart.js</mark> files will be ignored by Git. Either issue this command on your live
+server, deploy using another method than Git, or simply modify the <mark>.gitignore</mark> file in the root of the
+project.</p>
+</blockquote>
+
+</doc-page></template><script>Polymer({})</script></dom-module>

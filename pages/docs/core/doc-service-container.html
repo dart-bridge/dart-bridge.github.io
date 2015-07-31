@@ -1,0 +1,85 @@
+<dom-module id="doc-service-container"><template><doc-page><h1 id="service-container-small-bridge-core-small-">Service Container <small>bridge.core</small></h1>
+<p class="lead">
+Bridge depends heavily on <em>Dependency Injection</em>. The Service Container will automatically resolve the dependencies of
+classes, to avoid long instantiation chains and help you to write testable code.
+</p>
+
+<h2 id="using-the-container-class-directly">Using the <code>Container</code> class directly</h2>
+<p>By injecting the container itself, we can use tap into the power of Bridge.</p>
+<h3 id="instantiation">Instantiation</h3>
+<p>Creating a class with the Service Container looks like this:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">MyClass</span><span class="pln"> </span><span class="pun">{}</span></code></pre>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="typ">MyClass</span><span class="pln"> instance </span><span class="pun">=</span><span class="pln"> container</span><span class="pun">.</span><span class="pln">make</span><span class="pun">(</span><span class="typ">MyClass</span><span class="pun">);</span></code></pre>
+<p>Simple, right? So, how is this different from just typing out <code>new MyClass()</code>. Well, there are a few differences.</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">MyClass</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="typ">Dependency</span><span class="pln"> dependency</span><span class="pun">;</span><span class="pln">
+  </span><span class="typ">MyClass</span><span class="pun">(</span><span class="typ">Dependency</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">dependency</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">Dependency</span><span class="pln"> </span><span class="pun">{}</span></code></pre>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="typ">MyClass</span><span class="pln"> instance </span><span class="pun">=</span><span class="pln"> container</span><span class="pun">.</span><span class="pln">make</span><span class="pun">(</span><span class="typ">MyClass</span><span class="pun">);</span><span class="pln">
+print</span><span class="pun">(</span><span class="pln">instance</span><span class="pun">.</span><span class="pln">dependency</span><span class="pun">);</span><span class="pln"> </span><span class="com">// Instance of 'Dependency'</span></code></pre>
+<p>The <code>make</code> method recursively instantiates the constructor arguments.</p>
+<h2 id="resolving-a-closure">Resolving a closure</h2>
+<p>Sometimes we might want to inject the dependencies of a single function, method or closure. We can use the <code>resolve</code>
+method:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="typ">MyClass</span><span class="pln"> instance </span><span class="pun">=</span><span class="pln"> container</span><span class="pun">.</span><span class="pln">resolve</span><span class="pun">((</span><span class="typ">MyClass</span><span class="pln"> myClass</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="com">// ...</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> myClass</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">});</span></code></pre>
+<p>Of course this can be remote functions as well. Simply put a reference as the argument:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">container</span><span class="pun">.</span><span class="pln">resolve</span><span class="pun">(</span><span class="pln">controller</span><span class="pun">.</span><span class="pln">method</span><span class="pun">);</span></code></pre>
+<h2 id="pre-resolving">Pre-resolving</h2>
+<p>If we don't want to <em>run</em> the function we can resolve it in advance instead, using the <code>presolve</code> method.</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">myFunction</span><span class="pun">(</span><span class="typ">Dependency</span><span class="pln"> dependency</span><span class="pun">,</span><span class="pln"> </span><span class="typ">MyClass</span><span class="pln"> myClass</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="com">// ...</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="kwd">var</span><span class="pln"> myResolvedFunction </span><span class="pun">=</span><span class="pln"> container</span><span class="pun">.</span><span class="pln">presolve</span><span class="pun">(</span><span class="pln">myFunction</span><span class="pun">);</span><span class="pln">
+
+myResolvedFunction</span><span class="pun">();</span></code></pre>
+<p>A cool thing about this is that any argument passed into the "presolved" function will be passed into the original
+function, injected by its type:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">var</span><span class="pln"> presolved </span><span class="pun">=</span><span class="pln"> container</span><span class="pun">.</span><span class="pln">presolve</span><span class="pun">((</span><span class="typ">MyClass</span><span class="pln"> myClass</span><span class="pun">,</span><span class="pln"> </span><span class="typ">String</span><span class="pln"> input</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  print</span><span class="pun">(</span><span class="pln">input</span><span class="pun">);</span><span class="pln"> </span><span class="com">// 'Some input string'</span><span class="pln">
+</span><span class="pun">});</span><span class="pln">
+
+presolved</span><span class="pun">(</span><span class="str">'Some input string'</span><span class="pun">);</span></code></pre>
+<h2 id="-injecting-and-namedparameters-"><code>injecting</code> and <code>namedParameters</code></h2>
+<p>All of these methods: <code>make</code>, <code>resolve</code> and <code>presolve</code> has two optional named parameters which change the way the
+container performs the injection.</p>
+<p><code>injecting</code> is a <code>Map&lt;Type, Object&gt;</code> where we can attach temporary objects to use when a specific class is requested:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">var</span><span class="pln"> myDependency </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Dependency</span><span class="pun">();</span><span class="pln">
+container</span><span class="pun">.</span><span class="pln">make</span><span class="pun">(</span><span class="typ">MyClass</span><span class="pun">,</span><span class="pln"> injecting</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="typ">Dependency</span><span class="pun">:</span><span class="pln"> myDependency</span><span class="pun">});</span></code></pre>
+<p>Above, the local instance of <code>Dependency</code> is injected in the <code>MyClass</code> constructor.</p>
+<p><code>namedParameters</code> is simply a way to bypass the signature analysis and insert arguments that will not be resolved. If a
+method or class constructor has named parameters, we can simply insert values into them with <code>namedParameters</code>:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">myFunction</span><span class="pun">(</span><span class="typ">MyClass</span><span class="pln"> myClass</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="typ">String</span><span class="pln"> value</span><span class="pun">:</span><span class="pln"> </span><span class="str">'default'</span><span class="pun">})</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> value</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+container</span><span class="pun">.</span><span class="pln">resolve</span><span class="pun">(</span><span class="pln">myFunction</span><span class="pun">);</span><span class="pln"> </span><span class="com">// 'default'</span><span class="pln">
+container</span><span class="pun">.</span><span class="pln">resolve</span><span class="pun">(</span><span class="pln">myFunction</span><span class="pun">,</span><span class="pln"> namedParameters</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="str">'value'</span><span class="pun">:</span><span class="pln"> </span><span class="str">'my value'</span><span class="pun">});</span><span class="pln"> </span><span class="com">// 'my value'</span></code></pre>
+<h2 id="the-service-registry">The Service Registry</h2>
+<p>These methods inject the dependencies with a simple instantiation. Using a few other methods, we can change the
+behaviour of the injections.</p>
+<h3 id="injecting-interfaces">Injecting interfaces</h3>
+<p>To inverse the flow of control, we can make a class depend of an interface (an abstract class) instead of a concrete
+implementation. Using the <code>bind</code> method, we can tell the container which implementation to use when an interface is
+requested:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">abstract</span><span class="pln"> </span><span class="kwd">class</span><span class="pln"> </span><span class="typ">Cloud</span><span class="pln"> </span><span class="pun">{}</span><span class="pln">
+
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">S3Cloud</span><span class="pln"> </span><span class="kwd">implements</span><span class="pln"> </span><span class="typ">Cloud</span><span class="pln"> </span><span class="pun">{}</span></code></pre>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">container</span><span class="pun">.</span><span class="pln">bind</span><span class="pun">(</span><span class="typ">Cloud</span><span class="pun">,</span><span class="pln"> </span><span class="typ">S3Cloud</span><span class="pun">);</span><span class="pln">
+print</span><span class="pun">(</span><span class="pln">container</span><span class="pun">.</span><span class="pln">make</span><span class="pun">(</span><span class="typ">Cloud</span><span class="pun">));</span><span class="pln"> </span><span class="com">// Instance of 'S3Cloud'</span></code></pre>
+<p>This way, we have a unified place to decide what implementation to use throughout the app. If we change our cloud
+storage provider to, say, Dropbox, we can just change the <code>bind</code> method, and we're done.</p>
+<h3 id="singletons">Singletons</h3>
+<p>Sometimes, we want the same instance of a class to be used every time. Instead of throwing everything into static
+methods, we can register a singleton on the container:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">container</span><span class="pun">.</span><span class="pln">singleton</span><span class="pun">(</span><span class="kwd">new</span><span class="pln"> </span><span class="typ">DropboxCloud</span><span class="pun">());</span></code></pre>
+<p>Now every time a <code>DropboxCloud</code> is requested, the same instance is injected. Even better, we can bind a singleton to
+an interface:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">container</span><span class="pun">.</span><span class="pln">singleton</span><span class="pun">(</span><span class="kwd">new</span><span class="pln"> </span><span class="typ">DropboxCloud</span><span class="pun">(),</span><span class="pln"> </span><span class="kwd">as</span><span class="pun">:</span><span class="pln"> </span><span class="typ">Cloud</span><span class="pun">);</span></code></pre>
+
+</doc-page></template><script>Polymer({})</script></dom-module>
