@@ -71,6 +71,10 @@ pre {
     font-size: inherit;
 }
 
+code {
+    white-space: pre-wrap;
+}
+
 pre code:before {
     float: right;
     right: 1em;
