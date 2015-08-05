@@ -1,0 +1,71 @@
+<dom-module id="docs-core-service-providers"><template><doc-page><h1 id="service-providers-small-bridge-core-small-">Service Providers <small>bridge.core</small></h1>
+<p class="lead">
+To attach anything to the Bridge application, we need an entry point where we can connect our entities to the
+<a href="#/docs/core/service-container">Service Container</a>. That's where Service Providers come in.
+</p>
+
+<p>What good is a <a href="#/docs/core/service-container">Service Container</a> if it isn't shared? And if we design all classes to conform
+to the dependency injection pattern, where does it... start?</p>
+<h2 id="setting-up-and-tearing-down">Setting up and tearing down</h2>
+<p>Imagine a database service. Somewhere in the lifecycle of our app, we need to establish a connection to the database,
+as well as disconnecting before the application exits. In a procedural style application, we would place this in the
+<em>beginning</em> and the <em>end</em> of our script. But that splits your service and places logically related code in two vastly
+different places.</p>
+<p>Here's how we do it in a Service Provider:</p>
+<pre><code class="prettyprint lang-yaml prettyprinted" data-lang="yaml" style=""><span class="com"># config/app.yaml</span><span class="pln">
+</span><span class="kwd">service_providers:
+</span><span class="pln">  </span><span class="pun">-</span><span class="pln"> app.MyDatabaseServiceProvider</span></code></pre>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">part of</span><span class="pln"> app</span><span class="pun">;</span><span class="pln">
+
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">MyDatabaseServiceProvider</span><span class="pln"> </span><span class="kwd">implements</span><span class="pln"> </span><span class="typ">ServiceProvider</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  setUp</span><span class="pun">(</span><span class="typ">Container</span><span class="pln"> container</span><span class="pun">,</span><span class="pln"> </span><span class="typ">MyDatabaseClass</span><span class="pln"> db</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    container</span><span class="pun">.</span><span class="pln">singleton</span><span class="pun">(</span><span class="pln">db</span><span class="pun">);</span><span class="pln">
+    </span><span class="kwd">await</span><span class="pln"> db</span><span class="pun">.</span><span class="pln">connect</span><span class="pun">();</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+
+  tearDown</span><span class="pun">(</span><span class="typ">MyDatabaseClass</span><span class="pln"> db</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">await</span><span class="pln"> db</span><span class="pun">.</span><span class="pln">disconnect</span><span class="pun">();</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>The <code>setUp</code> method will be executed as soon as the program is started with <code>dart bridge</code>. The <code>tearDown</code> method is
+executed when <code>exit</code> (or <kbd>^X</kbd>) is run.</p>
+<p>And since we are adding the <code>MyDatabaseClass</code> instance as a singleton, <em>everywhere</em> in your application, where a
+<code>MyDatabaseClass</code> is requested, the same instance will be used. Instead of using a global object (which makes the code
+hard to test), dependency injection is leveraged instead.</p>
+<p>All the methods are resolved out of the <a href="#/docs/core/service-container">Service Container</a>. So we can have all the
+dependencies we want in the constructor of <code>MyDatabaseClass</code>, and we can even add new dependencies, without having to
+change the Service Provider.</p>
+<h2 id="interaction">Interaction</h2>
+<p>Sometimes, a component of the system provides extensibility by itself. For example, the <code>bridge.http</code> library accepts
+registering middleware during initialization. For this interaction between services, two more methods can be declared
+in the Service Providers.</p>
+<p>The <code>load</code> method is where we inject entities from other services. And to run functionality <em>after</em> some other service
+has interacted with our service, the <code>run</code> method is used. This order of interactions could look like this:</p>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">PluginServiceProvider</span><span class="pln"> </span><span class="kwd">implements</span><span class="pln"> </span><span class="typ">ServiceProvider</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  setUp</span><span class="pun">(</span><span class="typ">Container</span><span class="pln"> container</span><span class="pun">,</span><span class="pln"> </span><span class="typ">PluginManager</span><span class="pln"> pluginManager</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    container</span><span class="pun">.</span><span class="pln">singleton</span><span class="pun">(</span><span class="pln">pluginManager</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+
+  run</span><span class="pun">(</span><span class="typ">PluginManager</span><span class="pln"> pluginManager</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    pluginManager</span><span class="pun">.</span><span class="pln">initializeAllRegisteredPlugins</span><span class="pun">();</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">MyPluginServiceProvider</span><span class="pln"> </span><span class="kwd">implements</span><span class="pln"> </span><span class="typ">ServiceProvider</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  load</span><span class="pun">(</span><span class="typ">PluginManager</span><span class="pln"> pluginManager</span><span class="pun">,</span><span class="pln"> </span><span class="typ">MySpecialPlugin</span><span class="pln"> plugin</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    pluginManager</span><span class="pun">.</span><span class="pln">registerPlugin</span><span class="pun">(</span><span class="pln">plugin</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>This way, we ensure that the Plugin Service doesn't depend on all the plugins. Instead, we make it so all the plugins
+exclusively depend on only the Plugin Service. And so, the plugins are now independently deployable, and can live in its
+own package.</p>
+<h2 id="lifecycle">Lifecycle</h2>
+<p>So, to sum it up, the lifecycle of a Service Provider looks like this:</p>
+<ol>
+<li>Run the <code>setUp</code> method, where the service is initialized and registered in the container.</li>
+<li>Run the <code>load</code> method, where the service injects other services and interact with them.</li>
+<li>Run the <code>run</code> method, where the service reacts to interactions from other services.</li>
+<li>The app goes to the idle running state.</li>
+<li>When the <code>exit</code> command is executed, run the <code>tearDown</code> method, where the service cleans up its loose ends.</li>
+</ol>
+
+</doc-page></template><script>Polymer({})</script></dom-module>

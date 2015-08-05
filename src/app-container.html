@@ -1,0 +1,30 @@
+<dom-module id='app-container'>
+  <style>
+    app-toolbar [left] img {
+      height:2.5em;
+      margin-left: 1em;
+    }
+  </style>
+  <template>
+    <header>
+      <app-toolbar>
+        <div left>
+          <a href="#/">
+            <img src="../images/logo.svg" alt="Bridge">
+          </a>
+        </div>
+        <div right>
+          <toolbar-item href='#/getting-started'>Getting started</toolbar-item>
+          <toolbar-item href='#/quick-tour'>Quick tour</toolbar-item>
+          <toolbar-item href='#/faq'>FAQ</toolbar-item>
+          <toolbar-item href='#/docs'>Docs</toolbar-item>
+        </div>
+      </app-toolbar>
+    </header>
+    <app-page></app-page>
+  </template>
+
+  <script>
+    Polymer({})
+  </script>
+</dom-module>

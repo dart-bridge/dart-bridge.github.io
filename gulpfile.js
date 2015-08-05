@@ -1,265 +1,70 @@
-// ============================================================
-//   $ npm install --save-dev gulp-util node-notifier gulp vinyl-source-stream vinyl-buffer gulp-uglify gulp-sourcemaps gulp-livereload browserify watchify babelify gulp-ruby-sass gulp-autoprefixer gulp-rename
-// ============================================================
-
-function Workflow() {
-    // Override workflow settings here
-
-    // Example:
-    // this.output.directory = 'public_html';
-    // this.watch.script = '**/*.ts';
-
-    //this.watch.build = 'content/**/*.md';
-
-    this.watch.style = this.input.directory + '/' + this.input.style.replace(/.+?\.(.+)$/, '**/*.$1');
-}
-
-// ============================================================
-// ============================================================
-
-Workflow.prototype.output = {
-    directory: '.',     // Default output directory. Override with [this.output.directory]
-    script: 'scripts.js', // Default output script. Override with [this.output.script]
-    style: 'styles.css'  // Default output stylesheet. Override with [this.output.style]
-};
-Workflow.prototype.input = {
-    directory: '.',     // Default input directory root. Override with [this.input.directory]
-    script: 'script/app.js', // Default main script file. Override with [this.input.script]
-    style: 'style/app.scss' // Default main stylesheet file. Override with [this.input.style]
-};
-Workflow.prototype.watch = {
-    // Key/value pairs for watching files and running tasks. Key is task name, value is glob to watch.
-};
-
-var workflow = new Workflow();
-
-var production = process.argv.indexOf('--production') !== -1;
-
-// ------------------------------------------------------------
-//     Imports
-// ------------------------------------------------------------
-var utilities = require('gulp-util');
-var notifier = require('node-notifier');
 var gulp = require('gulp');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var uglify = require('gulp-uglify');
-var sourcemaps = require('gulp-sourcemaps');
-var livereload = require('gulp-livereload');
-var browserify = require('browserify');
-var watchify = require('watchify');
-var babelify = require('babelify');
-var sass = require('gulp-ruby-sass');
-var autoprefixer = require('gulp-autoprefixer');
-var rename = require('gulp-rename');
 var markdown = require('gulp-markdown');
-var highlight = require('gulp-highlight');
+var rename = require('gulp-rename');
 var replace = require('gulp-replace');
-var entities = new (require('html-entities').XmlEntities)();
-// ------------------------------------------------------------
-//     Console
-// ------------------------------------------------------------
-
-var Console = {};
-
-Console.notify = function (options) {
-    options.title = options.title || 'Done';
-    options.message = options.message || 'Check your terminal!';
-    options.sound = options.sound || 'Pop';
-    options.icon = options.icon || 'https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-bell-128.png';
-
-    notifier.notify(options);
-}
-
-Console.notifyOptimistic = function (options) {
-    options.contentImage = options.contentImage || 'https://www.secureauth.com/SecureAuth/media/Product/check-mark-11-512_4.png';
-
-    Console.notify(options);
-}
-
-Console.notifyPessimistic = function (options) {
-    options.contentImage = options.contentImage || 'https://cdn4.iconfinder.com/data/icons/simplicio/128x128/notification_error.png';
-
-    Console.notify(options);
-}
-
-Console.log = function () {
-    utilities.log.apply(utilities, arguments);
-
-    var args = [];
-
-    for (var i = 0; i < arguments.length; i++) {
-
-        args.push(arguments[i]);
-    }
-
-    Console.notifyOptimistic({
-        message: args.join(' ')
-    });
-}
-
-Console.error = function (error) {
-    utilities.log.call(utilities, utilities.colors.red(error));
-
-    Console.notifyPessimistic({
-        title: error.name,
-        message: error.message
-    });
-
-    this.emit('end');
-}
-
-// ------------------------------------------------------------
-//     Script task
-// ------------------------------------------------------------
-
-var bundler = browserify({
-    entries: ['./' + workflow.input.directory + '/' + workflow.input.script],
-    debug: true,
-    transform: [[babelify, {global: true}]],
-    cache: {},
-    packageCache: {}
-});
-
-function bundle() {
-    var pipe = bundler.bundle()
-        .on('error', Console.error)
-        .pipe(source(workflow.output.script))
-        .pipe(buffer());
-
-    if (production) {
-
-        pipe.pipe(uglify())
-            .on('error', Console.error);
-
-    } else {
-
-        pipe.pipe(sourcemaps.init({loadMaps: true}))
-            .pipe(sourcemaps.write());
-    }
-    return pipe
-        .pipe(gulp.dest(workflow.output.directory))
-        .pipe(livereload());
-}
-
-function watchBundle() {
-    bundler = watchify(bundler);
-
-    bundler.on('update', bundle);
-    bundler.on('log', Console.log);
-
-    return bundle();
-}
-
-gulp.task('script', bundle);
-gulp.task('watchScript', watchBundle);
-
-// ------------------------------------------------------------
-//     Style task
-// ------------------------------------------------------------
-
-var sassOptions = {
-    style: (production) ? 'compressed' : 'expanded',
-    sourcemap: !production,
-    require: 'sass-globbing'
-}
-
-gulp.task('style', function () {
-    var pipe = sass(workflow.input.directory + '/' + workflow.input.style, sassOptions)
-        .on('error', Console.error)
-        .pipe(autoprefixer({map: {inline: true}}));
-
-    if (!production) {
-        pipe.pipe(sourcemaps.write());
-    }
-
-    pipe.pipe(rename(workflow.output.style))
-        .pipe(gulp.dest(workflow.output.directory))
-        .pipe(livereload())
-});
-
-// ------------------------------------------------------------
-//     Watch task
-// ------------------------------------------------------------
-
-gulp.task('watch', ['style', 'watchScript', 'watchBuild'], function () {
-    livereload.listen();
-
-    var watches = workflow.watch;
-
-    for (var task in watches) {
-
-        var glob = watches[task];
-
-        if (task == 'update') {
-
-            gulp.watch(glob, livereload.changed);
-
-        } else {
-
-            gulp.watch(glob, [task]);
-        }
-    }
-});
-
-// ------------------------------------------------------------
-//     Default task
-// ------------------------------------------------------------
-
-gulp.task('default', ['script', 'style', 'build']);
-
-// ------------------------------------------------------------
-//     Build task
-// ------------------------------------------------------------
-
 var tap = require('gulp-tap');
 var path = require('path');
+var rmdir = require('rimraf').sync;
+var glob = require('glob').sync;
 var spawn = require('child_process').execSync;
-var highlight = require('gulp-highlight');
-//var hljs = require('highlight.js');
-//hljs.registerLanguage('bridge', require('./bridge-html-hl'));
 
-gulp.task('build', function () {
-    return compileMarkdown('content/**/*.md');
-});
+gulp.task('default', ['build']);
 
-gulp.task('watchBuild', function () {
-    gulp.watch('content/**/*.md').on('change', function (file) {
-        return compileMarkdown(file.path);
+gulp.task('watch', ['build'], function () {
+    return gulp.watch('docs/**/*.md', function (file) {
+        return buildDocumentationFile(file.path);
     });
 });
 
-function compileMarkdown(target) {
-    var dest = (target == 'content/**/*.md') ? 'build' : 'build/' + path.relative(process.cwd() + '/content', path.dirname(target));
-    return gulp.src(target)
+gulp.task('build', function () {
+    rmdir('pages/docs');
+    var files = glob('docs/**/*.md');
+    for (var i = 0; i < files.length; i++)
+        buildDocumentationFile(files[i]);
+});
+
+var phantomHeader = '<html><head></head><body>';
+var phantomFooter =
+    '<script src="/build_task/prettify.js"></script>' +
+    '<script src="/build_task/lang-dart.js"></script>' +
+    '<script src="/build_task/lang-css.js"></script>' +
+    '<script src="/build_task/lang-yaml.js"></script>' +
+    '<script src="/build_task/lang-bridge-html.js"></script>' +
+    '<script>prettyPrint()</script></body></html>';
+
+function buildDocumentationFile(filename) {
+    filename = path.relative(process.cwd(), filename);
+    var dir = path.dirname(filename);
+    var name = filename.replace(/\//g, '-').replace(/\.md$/, '');
+    var destPath = 'pages/' + dir + '/' + name + '.html';
+    var destDir = path.dirname(destPath);
+    var destFilename = path.basename(destPath);
+    return gulp.src(filename)
         .pipe(markdown())
-        //.pipe(tap(function (file) {
-        //    function unescapeMatch(m, $1, $2, $3) {
-        //        return '<' + $1 + $2 + '>'
-        //            + entities.decode(entities.decode($3))
-        //            + '</' + $1 + '>';
-        //    }
-        //
-        //    function unescapeCodePre(str) {
-        //        return str
-        //            //.replace(/<(pre)(.*?)>([^]*?)<\/pre>/g, unescapeMatch)
-        //            .replace(/<(code)(.*?)>([^]*?)<\/code>/g, unescapeMatch);
-        //    }
-        //
-        //    file.contents = new Buffer(unescapeCodePre(file.contents.toString()));
-        //}))
         // <HORRIBLE HORRIBLE HORRIBLE HACKS>
-        .pipe(replace(/^/, '<html><head></head><body>'))
-        .pipe(replace(/$/, '<script src="/google-code-prettify/prettify.js"></script><script src="/google-code-prettify/lang-dart.js"></script><script src="/google-code-prettify/lang-css.js"></script><script src="/google-code-prettify/lang-yaml.js"></script><script src="/google-code-prettify/lang-bridge-html.js"></script><script>prettyPrint()</script></body></html>'))
-        //.pipe(replace(/class="lang-(?!bridge)(\w+)"/g, 'class="prettyprint lang-$1" data-lang="$1"'))
+        .pipe(replace(/^/, phantomHeader))
+        .pipe(replace(/$/, phantomFooter))
         .pipe(replace(/class="lang-(\w+)"/g, 'class="prettyprint lang-$1" data-lang="$1"'))
-        //.pipe(highlight())
-        .pipe(gulp.dest(dest))
+        .pipe(rename(destFilename))
+        .pipe(gulp.dest(destDir))
         .pipe(tap(function (file) {
-            file.contents = new Buffer(spawn('phantomjs pretty-print-phantom.js ' + path.relative(process.cwd(), file.path.toString()).replace(/^content/, '.build')));
+            var phantomOut = spawn('phantomjs build_task/pretty-print-phantom.js ' + destPath);
+
+            var cleaned = phantomOut.toString()
+                .replace(phantomFooter, '')
+                .replace(phantomHeader, '');
+
+            var polymerOutput = '<dom-module id="' + name + '">' +
+                '<template><doc-page>' + cleaned + '</doc-page></template>' +
+                '<script>Polymer({})</script>' +
+                '</dom-module>';
+
+            console.log('Wrote ' + destPath);
+
+            file.contents = new Buffer(polymerOutput);
             return file;
         }))
+        .pipe(replace('{{', '{<wbr>{'))
         // </OH THE HORROR>
-        .pipe(gulp.dest(dest))
-        .pipe(livereload())
+        .pipe(gulp.dest(destDir));
 }

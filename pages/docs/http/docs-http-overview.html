@@ -1,0 +1,23 @@
+<dom-module id="docs-http-overview"><template><doc-page><h1 id="bridge-http-library-small-bridge-http-small-">Bridge HTTP Library <small>bridge.http</small></h1>
+<p class="lead">
+A full featured HTTP service layer is essential for a web app framework. Bridge provides a simple, yet scalable,
+foundation for everything from a public JSON API to a large size web app. Powered by
+<a href="//pub.dartlang.org/packages/shelf">Shelf</a>.
+</p>
+
+<p><img src="/images/http-figure.svg" alt="Bridge Services"></p>
+<p>The request/response cycle is intuitive and familiar.</p>
+<ol>
+<li>A request comes in.</li>
+<li>The request passes through middleware.</li>
+<li>The Router delegates the request to the correct route, resolving the handler function through the
+<a href="#/docs/core/service-container">Service Container</a>.</li>
+<li>The return value of the handler gets passed through modulators, which transforms whatever object was returned to
+either a <code>shelf.Response</code>, a primitive value, or a JSON parsable value.</li>
+<li>The response is cast to a <code>shelf.Response</code> (if it isn't already one) and passed back through the middleware.</li>
+<li>The final response is sent to the client.</li>
+</ol>
+<p>Any exception thrown by the Router or the route handler can be handled by registering an Exception Handler, which is
+also resolved through the <a href="#/docs/core/service-container">Container</a>.</p>
+
+</doc-page></template><script>Polymer({})</script></dom-module>

@@ -1,0 +1,48 @@
+<dom-module id='app-page'>
+  <template>
+    <app-router mode='hash'>
+      <app-route path='/' import='pages/page-home.html'></app-route>
+      <app-route path='/quick-tour' import='pages/page-tour.html'></app-route>
+      <app-route path='/getting-started' import='pages/page-getting-started.html'></app-route>
+      <app-route path='/docs' import='pages/page-docs.html'></app-route>
+      <app-route path='/faq' import='pages/page-faq.html'></app-route>
+      <!-- DOCS -->
+      <template is="dom-repeat" items="{{ docRoutes }}">
+        <app-route path$='{{ item.url }}' import$='{{ item.page }}'></app-route>
+      </template>
+    </app-router>
+  </template>
+
+  <script>
+    Polymer({
+      properties: {
+        docRoutes: {
+          type: Array,
+          value: function () {
+            var docRoutes = [];
+            Docs.forEach(function (category, url) {
+              docRoutes.push({
+                url: '/docs' + url,
+                page: 'pages/docs' + url.replace(/^\/(.*)/, function ($0, $1) {
+                  var name = $1.replace(/\//g, '-');
+                  return '/'+$1.replace(/\/[^\/]*$/, '') + '/docs-' + name + '.html'
+                })
+              });
+            }.bind(this));
+            return docRoutes;
+          }
+        }
+      },
+
+      attached: function () {
+        window.addEventListener('hashchange', function () {
+          window.scrollTo(0, 0);
+        });
+
+        setTimeout(function () {
+          this.querySelector('app-router').go(window.location.hash.substring(1));
+        }.bind(this), 0);
+      },
+    })
+  </script>
+</dom-module>

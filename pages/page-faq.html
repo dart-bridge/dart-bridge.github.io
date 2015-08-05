@@ -1,0 +1,81 @@
+<dom-module id='page-faq'>
+  <style>
+    .q:before {
+      content: 'Q';
+    }
+
+    .a:before {
+      content: 'A';
+    }
+
+    .q:before, .a:before {
+      color: #a2a2a2;
+      position: absolute;
+      margin-left: -1em;
+      font-weight: 200;
+    }
+
+    app-article /deep/ article {
+      padding-left: 4em;
+    }
+  </style>
+
+  <template>
+    <app-submenu color='green' title='Frequently Asked Questions'></app-submenu>
+
+    <app-article>
+
+      <h2 class='q'>Does Bridge work on Windows?</h2>
+
+      <p class='a'>
+        Sadly, no. Not currently. The library used to create the Bridge shell does not play well with Windows. This
+        will change in the future. For now, Mac and Linux have support.
+      </p>
+
+      <h2 class='q'>Why should I use Bridge instead of other Dart server frameworks?</h2>
+
+      <p class='a'>
+        The most popular packages for creating server side apps in Dart are all very low level, meaning they leave a lot
+        of technical details exposed to the developer.
+      </p>
+      <p>
+        Bridge provides clean and easy-to-use high level abstractions of the concepts, leaving all the technical details
+        out of the way from the real work the developer want to do.
+      </p>
+      <p>
+        Of course, you can still access the low level details. But they are optional, and if you don't need to change
+        the default behaviour, you don't have to care about them.
+      </p>
+
+      <h2 class="q">Does Bridge work well with X?</h2>
+
+      <p class="a">
+        Bridge is a modular system, and only the <a href="#/docs/core/overview">core library</a> is needed to use a
+        Bridge app. Every other functionality can be disabled and/or replaced with another package from Pub. If a
+        package works in another app, it works in Bridge.
+      </p>
+      <p>
+        Using Bridge's <a href="#/docs/core/service-container">Service Container</a>, external library classes are
+        instantly available for use in <a href="#/docs/core/service-providers">Service Providers</a> and
+        <a href="#/docs/http/router">routes</a>.
+      </p>
+      <p>
+        <strong>Note:</strong> <code>bridge.http</code> is based on
+        <a href="//pub.dartlang.org/packages/shelf">Shelf</a>, so any middleware should work out of the box. Check
+        out the <a href="#/docs/http/middleware">docs</a>.
+      </p>
+
+      <h2 class="q">Why doesn't Bridge provide a front end templating framework?</h2>
+
+      <p class="a">
+        Currently, there are lots of great front end frameworks out there, like
+        <a href="//polymer-project.org">Polymer</a>. Bridge doesn't force you in any direction. The
+        Tether is available globally as <code>tether</code>, and can be used in any context.
+        That's all Bridge does right now.
+      </p>
+    </app-article>
+  </template>
+  <script>
+    Polymer({})
+  </script>
+</dom-module>

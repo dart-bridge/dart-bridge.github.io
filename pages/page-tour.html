@@ -1,0 +1,93 @@
+<link rel='import' href='../pages/docs/docs-hello-world.html'>
+<link rel='import' href='../pages/docs/docs-cli.html'>
+<link rel='import' href='../pages/docs/docs-database.html'>
+<link rel='import' href='../pages/docs/docs-templating.html'>
+<link rel='import' href='../pages/docs/docs-sending-messages.html'>
+
+<dom-module id='page-tour'>
+  <style>
+    app-article /deep/ app-submenu {
+      display: none;
+    }
+
+    .spoiler:not(.shown) > [content] {
+      display: none;
+    }
+
+    app-article /deep/ article article {
+      padding:0;
+    }
+
+    h3 {
+      color:#8451e3;
+      cursor: hand;
+      cursor: pointer;
+    }
+    h3:after {
+      content: '';
+      height:0.4em;
+      width: 0.4em;
+      display: inline-block;
+      background-color: white;
+      box-shadow: 0.15em 0.15em 0 #8451e3;
+      transform-origin: 100% 100%;
+      position: relative;
+      top:-0.3em;
+      left:0.4em;
+      transform: rotate(-45deg);
+      transition: transform 0.2s;
+      -webkit-transition: transform 0.2s;
+      -moz-transition: transform 0.2s;
+      -o-transition: transform 0.2s;
+    }
+    .spoiler.shown h3:after {
+      transform: rotate(45deg);
+    }
+  </style>
+  <template>
+    <app-submenu color='purple' title='Quick Tour'></app-submenu>
+    <app-article>
+      <div class="spoiler">
+        <h3>Command Line</h3>
+        <docs-cli content></docs-cli>
+      </div>
+      <div class="spoiler">
+        <h3>Hello World</h3>
+        <docs-hello-world content></docs-hello-world>
+      </div>
+      <div class="spoiler">
+        <h3>Database</h3>
+        <docs-database content></docs-database>
+      </div>
+      <div class="spoiler">
+        <h3>Templating</h3>
+        <docs-templating content></docs-templating>
+      </div>
+      <div class="spoiler">
+        <h3>Sending Messages</h3>
+        <docs-sending-messages content></docs-sending-messages>
+      </div>
+    </app-article>
+  </template>
+
+  <script>
+    Polymer({
+      ready: function () {
+        var spoilers = this.querySelectorAll('.spoiler');
+        for (var i = 0; i < spoilers.length; i++)
+          this._setUpSpoiler(spoilers[i]);
+      },
+
+      _setUpSpoiler: function (element) {
+        var shown = false;
+        element.querySelector('h3').addEventListener('click', function () {
+          shown = !shown;
+          if (shown)
+            element.classList.add('shown');
+          else
+            element.classList.remove('shown');
+        }.bind(this));
+      },
+    })
+  </script>
+</dom-module>

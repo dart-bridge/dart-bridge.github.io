@@ -1,0 +1,26 @@
+{
+  "name": "dart-bridge.github.io",
+  "version": "0.0.0",
+  "homepage": "http://dart-bridge.github.io",
+  "authors": [
+    "Emil Persson <emil.n.persson@gmail.com>"
+  ],
+  "description": "Home page and documentation site for Bridge",
+  "keywords": [
+    "docs",
+    "bridge",
+    "dart"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "app-router": "~2.6.1"
+  }
+}
