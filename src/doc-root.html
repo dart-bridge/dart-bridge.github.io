@@ -1,16 +1,5 @@
 <dom-module id='doc-root'>
   <style>
-    header {
-      padding: 5.5em 2em 0.75em;
-      background-color: #ff0051;
-    }
-    h3 {
-      text-align: right;
-      margin:0;
-      color: white;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-    }
     article {
       max-width: 60em;
       padding: 0 1em;
@@ -18,12 +7,9 @@
     }
   </style>
   <template>
-    <header>
-      <doc-menu></doc-menu>
-      <h3>
-        Docs
-      </h3>
-    </header>
+    <app-submenu color='red' title='Docs'>
+      <doc-menu menu></doc-menu>
+    </app-submenu>
     <article>
       <content></content>
     </article>

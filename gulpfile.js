@@ -33,6 +33,7 @@ var phantomFooter =
     '<script>prettyPrint()</script></body></html>';
 
 function buildDocumentationFile(filename) {
+    filename = path.relative(process.cwd(), filename);
     var dir = path.dirname(filename);
     var name = 'doc-' + path.basename(filename, '.md');
     var destPath = 'pages/' + dir + '/' + name + '.html';
@@ -57,6 +58,8 @@ function buildDocumentationFile(filename) {
                 '<template><doc-page>' + cleaned + '</doc-page></template>' +
                 '<script>Polymer({})</script>' +
                 '</dom-module>';
+
+            console.log('Wrote ' + destPath);
 
             file.contents = new Buffer(polymerOutput);
             return file;

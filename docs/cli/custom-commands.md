@@ -93,7 +93,7 @@ Type an argument as `List` to achieve a rest-like syntax
 @Command('Say hello to someone')
 @Option(#friends, 'The friends to say hello to')
 say_hello(List<String> friends) {
-  print('Hello to ${friends.join(', ')}!');
+  print("Hello to ${friends.join(', ')}!");
 }
 ```
 ```bridge

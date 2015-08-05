@@ -5,8 +5,9 @@
       <app-route path='/quick-tour' import='pages/page-tour.html'></app-route>
       <app-route path='/getting-started' import='pages/page-getting-started.html'></app-route>
       <app-route path='/docs' import='pages/page-docs.html'></app-route>
+      <app-route path='/faq' import='pages/page-faq.html'></app-route>
       <!-- DOCS -->
-      <template is="dom-repeat" items="{{ routes }}">
+      <template is="dom-repeat" items="{{ docRoutes }}">
         <app-route path$='{{ item.url }}' import$='{{ item.page }}'></app-route>
       </template>
     </app-router>
@@ -15,22 +16,26 @@
   <script>
     Polymer({
       properties: {
-        routes: {
+        docRoutes: {
           type: Array,
           value: function () {
-            var routes = [];
+            var docRoutes = [];
             Docs.forEach(function (category, url) {
-              routes.push({
+              docRoutes.push({
                 url: '/docs' + url,
                 page: 'pages/docs' + url.replace(/\/([^\/]*)$/, '/doc-$1.html')
               });
             }.bind(this));
-            return routes;
+            return docRoutes;
           }
         }
       },
 
       attached: function () {
+        window.addEventListener('hashchange', function () {
+          window.scrollTo(0, 0);
+        });
+
         setTimeout(function () {
           this.querySelector('app-router').go(window.location.hash.substring(1));
         }.bind(this), 0);

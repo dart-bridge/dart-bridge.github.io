@@ -15,10 +15,10 @@ PR.registerLangHandler(
             ["typ", /^\b(?:bool|double|dynamic|int|num|object|string|void)\b/i],
             ["typ", /^\b[_A-Z][A-Za-z0-9_]+\b/],
             ["kwd", /^\b(?:false|null|true)\b/i],
-            ["str", /^r?'''[\S\s]*?[^\\]'''/],
-            ["str", /^r?"""[\S\s]*?[^\\]"""/],
-            ["str", /^r?'('|[^\n\f\r]*?[^\\]')/],
-            ["str", /^r?"("|[^\n\f\r]*?[^\\]")/],
+            ["lang-in.string-dart", /^(r?'''[\S\s]*?[^\\]''')/],
+            ["lang-in.string-dart", /^(r?"""[\S\s]*?[^\\]""")/],
+            ["lang-in.string-dart", /^(r?'(?:'|[^\n\f\r]*?[^\\]'))/],
+            ["lang-in.string-dart", /^(r?"(?:"|[^\n\f\r]*?[^\\]"))/],
             ["pun", /^[!%&*+/:<-?^|~-]/],
             ["lit", /^\b0x[\da-f]+/i],
             ["lit", /^\b\d+(?:\.\d*)?(?:e[+-]?\d+)?/i],
@@ -28,3 +28,13 @@ PR.registerLangHandler(
         ]),
     ["dart"]
 );
+PR.registerLangHandler(
+    PR.createSimpleLexer(
+        [],
+        [
+            [PR.PR_LITERAL, /^\$[a-z_]\w*/i],
+            ['lang-in.expression-bridgehtml', /^(\$\{[^]*?})/i],
+            //['lang-dart', /^((?:[^](?!})[^])*)/],
+            [PR.PR_STRING, /^[^]/],
+        ]),
+    ["in.string-dart"]);
