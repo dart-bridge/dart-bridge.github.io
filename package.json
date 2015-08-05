@@ -1,0 +1,13 @@
+{
+  "name": "dart-bridge.github.io",
+  "devDependencies": {
+    "glob": "^5.0.14",
+    "gulp": "^3.9.0",
+    "gulp-markdown": "^1.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-tap": "^0.1.3",
+    "path": "^0.11.14",
+    "rimraf": "^2.4.2"
+  }
+}

@@ -1,0 +1,40 @@
+<dom-module id='app-submenu'>
+  <style>
+    header {
+      padding: 5.5em 2em 0.75em;
+      background-color: #606060;
+    }
+    header.red {
+      background-color: #ff0051;
+    }
+    header.blue {
+      background-color: #7596ff;
+    }
+    header.green {
+      background-color: #4bbe00;
+    }
+    h3 {
+      text-align: right;
+      margin:0;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+  </style>
+
+  <template>
+    <header class$='{{ color }}'>
+      <content select='[menu]'></content>
+      <h3>{{ title }}</h3>
+    </header>
+  </template>
+
+  <script>
+    Polymer({
+      properties: {
+        title: String,
+        color: String,
+      }
+    })
+  </script>
+</dom-module>

@@ -36,7 +36,7 @@ and ignoring the extension:</p>
     </span><span class="tag">&lt;title&gt;</span><span class="pln">My website - </span><span class="kwd">@block</span><span class="pln"> </span><span class="pun">(</span><span class="str">'title'</span><span class="pun">)</span><span class="tag">&lt;/title&gt;</span><span class="pln">
   </span><span class="tag">&lt;/head&gt;</span><span class="pln">
   </span><span class="tag">&lt;body&gt;</span><span class="pln">
-    </span><span class="kwd">@block</span><span class="pln"> </span><span class="pun">(</span><span class="str">'contents')</span><span class="pln">
+    </span><span class="kwd">@block</span><span class="pln"> </span><span class="pun">(</span><span class="str">'contents'</span><span class="pun">)</span><span class="pln">
   </span><span class="tag">&lt;/body&gt;</span><span class="pln">
 </span><span class="tag">&lt;/html&gt;</span></code></pre>
 <pre><code class="prettyprint lang-bridgehtml prettyprinted" data-lang="bridgehtml" style=""><span class="com">// lib/templates/index.html</span><span class="pln">
@@ -46,7 +46,7 @@ and ignoring the extension:</p>
   Home
 </span><span class="kwd">@end block</span><span class="pln">
 
-</span><span class="kwd">@block</span><span class="pln"> </span><span class="pun">(</span><span class="str">'contents')</span><span class="pln">
+</span><span class="kwd">@block</span><span class="pln"> </span><span class="pun">(</span><span class="str">'contents'</span><span class="pun">)</span><span class="pln">
   </span><span class="tag">&lt;h1&gt;</span><span class="pln">Welcome to my website!</span><span class="tag">&lt;/h1&gt;</span><span class="pln">
 </span><span class="kwd">@end block</span></code></pre>
 <h2 id="pre-processors">Pre-processors</h2>
@@ -75,11 +75,11 @@ block </span><span class="str">'contents'</span><span class="pln">
   </span><span class="lit">${</span><span class="pln">post</span><span class="pun">.</span><span class="pln">title</span><span class="lit">}</span><span class="pln">
 </span><span class="kwd">@end block</span><span class="pln">
 
-</span><span class="kwd">@block</span><span class="pln"> </span><span class="pun">(</span><span class="str">'header')</span><span class="pln">
+</span><span class="kwd">@block</span><span class="pln"> </span><span class="pun">(</span><span class="str">'header'</span><span class="pun">)</span><span class="pln">
   </span><span class="tag">&lt;h1&gt;</span><span class="lit">${</span><span class="pln">post</span><span class="pun">.</span><span class="pln">title</span><span class="lit">}</span><span class="tag">&lt;/h1&gt;</span><span class="pln">
 </span><span class="kwd">@end block</span><span class="pln">
 
-</span><span class="kwd">@block</span><span class="pln"> </span><span class="pun">(</span><span class="str">'body')</span><span class="pln">
+</span><span class="kwd">@block</span><span class="pln"> </span><span class="pun">(</span><span class="str">'body'</span><span class="pun">)</span><span class="pln">
   </span><span class="kwd">@include</span><span class="pln"> </span><span class="pun">(</span><span class="pln">post</span><span class="pun">.</span><span class="pln">name</span><span class="pun">)</span><span class="pln">
 </span><span class="kwd">@end block</span></code></pre>
 <p>Okay, so in this template we threw in some variables. We also used the <code>include</code> directive. That directive will just

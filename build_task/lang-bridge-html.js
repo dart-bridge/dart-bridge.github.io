@@ -54,7 +54,7 @@ PR.registerLangHandler(
         [
             [PR.PR_KEYWORD, /^@(?:if|else\s*if|for|(?:start\s*)?block|include|extends)/],
             [PR.PR_LITERAL, /^(?:\$\{|}$)/i],
-            ['lang-dart', /^((?:[^](?!})[^])*)/],
+            ['lang-dart', /^((?:[^](?!}))*[^])/],
         ]),
     ["in.expression-bridgehtml"]);
 PR.registerLangHandler(

@@ -33,7 +33,7 @@ method</p>
 <h2 id="logic">Logic</h2>
 <p>Trivial logic can be performed with directives, like so:</p>
 <pre><code class="prettyprint lang-bridgehtml prettyprinted" data-lang="bridgehtml" style=""><span class="tag">&lt;p&gt;</span><span class="pln">
-  </span><span class="kwd">@if</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">true)</span><span class="pln">
+  </span><span class="kwd">@if</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">true</span><span class="pun">)</span><span class="pln">
     This content will always be shown
   </span><span class="kwd">@else if</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">false</span><span class="pun">)</span><span class="pln">
     This content will never be shown
@@ -41,7 +41,7 @@ method</p>
     Neither will this
   </span><span class="kwd">@end if</span><span class="pln">
 
-  </span><span class="kwd">@for</span><span class="pln"> </span><span class="pun">(</span><span class="pln">item </span><span class="kwd">in</span><span class="pln"> someList)
+  </span><span class="kwd">@for</span><span class="pln"> </span><span class="pun">(</span><span class="pln">item </span><span class="kwd">in</span><span class="pln"> someList</span><span class="pun">)</span><span class="pln">
     </span><span class="lit">$item</span><span class="pln">
   </span><span class="kwd">@end for</span><span class="pln">
 </span><span class="tag">&lt;/p&gt;</span></code></pre>
@@ -50,7 +50,7 @@ method</p>
 the <code>include</code> directive:</p>
 <pre><code class="prettyprint lang-bridgehtml prettyprinted" data-lang="bridgehtml" style=""><span class="com">// lib/templates/index.html</span><span class="pln">
 </span><span class="tag">&lt;header&gt;</span><span class="pln">
-  </span><span class="kwd">@include</span><span class="pln"> </span><span class="pun">(</span><span class="str">'partials.nav')</span><span class="pln">
+  </span><span class="kwd">@include</span><span class="pln"> </span><span class="pun">(</span><span class="str">'partials.nav'</span><span class="pun">)</span><span class="pln">
 </span><span class="tag">&lt;/header&gt;</span></code></pre>
 <pre><code class="prettyprint lang-bridgehtml prettyprinted" data-lang="bridgehtml" style=""><span class="com">// lib/templates/partials/nav.html</span><span class="pln">
 </span><span class="tag">&lt;nav</span><span class="pln"> </span><span class="atn">role</span><span class="pun">=</span><span class="atv">'navigation'</span><span class="tag">&gt;</span><span class="pln">
@@ -92,7 +92,7 @@ the <code>include</code> directive:</p>
 </span><span class="tag">&lt;/html&gt;</span></code></pre>
 <p>Since the <code>@block</code> directive is used in multiple contexts – to allow for nested extends – <code>@block</code>/<code>@end block</code> is
 indent sensitive. To create one-liner blocks, you have to use <code>@start block</code> instead:</p>
-<pre><code class="prettyprint lang-bridgehtml prettyprinted" data-lang="bridgehtml" style=""><span class="kwd">@extends</span><span class="pln"> </span><span class="pun">(</span><span class="str">'master')</span><span class="pln">
+<pre><code class="prettyprint lang-bridgehtml prettyprinted" data-lang="bridgehtml" style=""><span class="kwd">@extends</span><span class="pln"> </span><span class="pun">(</span><span class="str">'master'</span><span class="pun">)</span><span class="pln">
 
 </span><span class="kwd">@start block</span><span class="pln"> </span><span class="pun">(</span><span class="str">'title'</span><span class="pun">)</span><span class="pln"> My title </span><span class="kwd">@end block</span></code></pre>
 <p>This behaviour doesn't make any difference in the output. It's only to allow for alternative organization in the

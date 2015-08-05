@@ -75,7 +75,7 @@ tether</span><span class="pun">.</span><span class="pln">listen</span><span clas
 </span><span class="kwd">try</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
   </span><span class="typ">User</span><span class="pln"> user </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">await</span><span class="pln"> tether</span><span class="pun">.</span><span class="pln">send</span><span class="pun">(</span><span class="str">'user.current'</span><span class="pun">,</span><span class="pln"> userId</span><span class="pun">);</span><span class="pln">
 </span><span class="pun">}</span><span class="pln"> on </span><span class="typ">UserNotFoundException</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
-  print</span><span class="pun">(</span><span class="str">'User $userId was not found'</span><span class="pun">);</span><span class="pln">
+  print</span><span class="pun">(</span><span class="str">'User </span><span class="lit">$userId</span><span class="str"> was not found'</span><span class="pun">);</span><span class="pln">
 </span><span class="pun">}</span></code></pre>
 <p>Isn't that neat?</p>
 

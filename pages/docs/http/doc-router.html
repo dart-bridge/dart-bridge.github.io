@@ -35,7 +35,7 @@ HTTP status code:</p>
 dependencies you like:</p>
 <pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">Greeter</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
   </span><span class="typ">String</span><span class="pln"> greet</span><span class="pun">(</span><span class="typ">String</span><span class="pln"> name</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
-    </span><span class="kwd">return</span><span class="pln"> </span><span class="str">'Hello, $name!'</span><span class="pun">;</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> </span><span class="str">'Hello, </span><span class="lit">$name</span><span class="str">!'</span><span class="pun">;</span><span class="pln">
   </span><span class="pun">}</span><span class="pln">
 </span><span class="pun">}</span></code></pre>
 <pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="typ">Greeter</span><span class="pln"> greeter</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
@@ -82,7 +82,7 @@ argument in the handler. The order doesn't matter, but the named argument must m
 <pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="pln">router</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="pln">
     </span><span class="str">'greet/:lastName/:firstName'</span><span class="pun">,</span><span class="pln">
       </span><span class="pun">(</span><span class="typ">Greeter</span><span class="pln"> greeter</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="typ">String</span><span class="pln"> firstName</span><span class="pun">,</span><span class="pln"> </span><span class="typ">String</span><span class="pln"> lastName</span><span class="pun">})</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
-    </span><span class="kwd">var</span><span class="pln"> name </span><span class="pun">=</span><span class="pln"> </span><span class="str">'$firstName $lastName'</span><span class="pun">;</span><span class="pln">
+    </span><span class="kwd">var</span><span class="pln"> name </span><span class="pun">=</span><span class="pln"> </span><span class="str">'</span><span class="lit">$firstName</span><span class="str"> </span><span class="lit">$lastName</span><span class="str">'</span><span class="pun">;</span><span class="pln">
     </span><span class="kwd">return</span><span class="pln"> greeter</span><span class="pun">.</span><span class="pln">greet</span><span class="pun">(</span><span class="pln">name</span><span class="pun">);</span><span class="pln">
   </span><span class="pun">});</span></code></pre>
 <pre><code class="prettyprint lang-http prettyprinted" data-lang="http" style=""><span class="pln">GET http</span><span class="pun">:</span><span class="com">//localhost:1337/greet/Draper/Don</span></code></pre>
@@ -117,7 +117,7 @@ its specified type:</p>
     server</span><span class="pun">.</span><span class="pln">handleException</span><span class="pun">(</span><span class="typ">HttpNotFoundException</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="typ">Greeter</span><span class="pln"> greeter</span><span class="pun">,</span><span class="pln"> </span><span class="typ">HttpNotFoundException</span><span class="pln"> exception</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
       </span><span class="kwd">var</span><span class="pln"> greeting </span><span class="pun">=</span><span class="pln"> greeter</span><span class="pun">.</span><span class="pln">greet</span><span class="pun">(</span><span class="str">'Guest'</span><span class="pun">);</span><span class="pln">
       </span><span class="kwd">return</span><span class="pln"> shelf</span><span class="pun">.</span><span class="typ">Response</span><span class="pun">.</span><span class="pln">notFound</span><span class="pun">(</span><span class="str">'''
-        &lt;h1&gt;$greeting&lt;/h1&gt;
+        &lt;h1&gt;</span><span class="lit">$greeting</span><span class="str">&lt;/h1&gt;
         Oops! This page wasn't found!
       '''</span><span class="pun">);</span><span class="pln">
     </span><span class="pun">});</span><span class="pln">
