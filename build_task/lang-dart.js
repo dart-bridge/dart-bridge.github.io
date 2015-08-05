@@ -8,7 +8,7 @@ PR.registerLangHandler(
             ["com", /^\/\/.*/],
             ["com", /^\/\*[^*]*\*+(?:[^*/][^*]*\*+)*\//],
             ["kwd", /^\b(?:class|async|await)\b/i],
-            ["kwd", /^\b(?:assert|break|case|catch|continue|default|do|else|finally|for|if|in|is|new|return|super|switch|this|throw|try|while)\b/i],
+            ["kwd", /^\b(?:assert|break|case|catch|continue|default|do|else|finally|for|if|in|on|is|new|return|super|switch|this|throw|try|while)\b/i],
             ["kwd", /^\b(?:abstract|const|extends|factory|final|get|implements|native|operator|set|static|typedef|var)\b/i],
             ["lit", /^@\w+\b/i],
 
@@ -24,7 +24,8 @@ PR.registerLangHandler(
             ["lit", /^\b\d+(?:\.\d*)?(?:e[+-]?\d+)?/i],
             ["lit", /^\b\.\d+(?:e[+-]?\d+)?/i],
             ["pln", /^[$_a-z]\w*/i],
-            ["pun", /^[(),.;[\]{}]/]
+            ["pun", /^[(),.;[\]{}]/],
+            ["pln", /^./],
         ]),
     ["dart"]
 );

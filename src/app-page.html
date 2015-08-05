@@ -23,7 +23,10 @@
             Docs.forEach(function (category, url) {
               docRoutes.push({
                 url: '/docs' + url,
-                page: 'pages/docs' + url.replace(/\/([^\/]*)$/, '/doc-$1.html')
+                page: 'pages/docs' + url.replace(/^\/(.*)/, function ($0, $1) {
+                  var name = $1.replace(/\//g, '-');
+                  return '/'+$1.replace(/\/[^\/]*$/, '') + '/docs-' + name + '.html'
+                })
               });
             }.bind(this));
             return docRoutes;

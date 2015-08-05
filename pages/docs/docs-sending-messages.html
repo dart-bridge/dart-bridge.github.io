@@ -1,4 +1,4 @@
-<dom-module id="doc-sending-messages"><template><doc-page><h1 id="sending-messages">Sending Messages</h1>
+<dom-module id="docs-sending-messages"><template><doc-page><h1 id="sending-messages">Sending Messages</h1>
 <p class="lead">
 Now, let's look into how to send messages between the server and the client.
 </p>
@@ -74,7 +74,7 @@ tether</span><span class="pun">.</span><span class="pln">listen</span><span clas
 <pre><code class="prettyprint lang-dart prettyprinted" data-lang="dart" style=""><span class="com">// Client side</span><span class="pln">
 </span><span class="kwd">try</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
   </span><span class="typ">User</span><span class="pln"> user </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">await</span><span class="pln"> tether</span><span class="pun">.</span><span class="pln">send</span><span class="pun">(</span><span class="str">'user.current'</span><span class="pun">,</span><span class="pln"> userId</span><span class="pun">);</span><span class="pln">
-</span><span class="pun">}</span><span class="pln"> on </span><span class="typ">UserNotFoundException</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+</span><span class="pun">}</span><span class="pln"> </span><span class="kwd">on</span><span class="pln"> </span><span class="typ">UserNotFoundException</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
   print</span><span class="pun">(</span><span class="str">'User </span><span class="lit">$userId</span><span class="str"> was not found'</span><span class="pun">);</span><span class="pln">
 </span><span class="pun">}</span></code></pre>
 <p>Isn't that neat?</p>

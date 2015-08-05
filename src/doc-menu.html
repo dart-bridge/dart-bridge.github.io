@@ -11,6 +11,7 @@
       background-color: inherit;
       height: 2em;
       width: 2em;
+      top: -0.4em;
       position: relative;
     }
 
@@ -24,7 +25,8 @@
       opacity: 1;
       left: 0;
       transition: transform 0.3s, background-color 0.2s;
-      transition-timing-function: cubic-bezier(.29,.82,.34,.99);
+      transition-timing-function: cubic-bezier(.29, .82, .34, .99);
+      transform-origin: 50.1%;
       border-radius: 0.2em;
     }
 
@@ -54,12 +56,12 @@
     }
 
     .dropdown {
-      width:100%;
-      left:0;
-      margin-top: 0.9em;
+      width: 100%;
+      left: 0;
+      margin-top: 0.6em;
       box-sizing: border-box;
       transition-property: opacity;
-      transition-timing-function: cubic-bezier(.29,.82,.34,.99);
+      transition-timing-function: cubic-bezier(.29, .82, .34, .99);
       transition-duration: 0.3s;
       position: absolute;
       background-color: rgba(250, 250, 250, 0.95);
@@ -68,21 +70,44 @@
       font-size: 0.8em;
       z-index: 5000;
     }
+    .dropdown a {
+      color:white;
+    }
+
     ul {
       list-style: none;
-      margin:0;
-      padding:0 !important;
+      margin: 0;
+      padding: 0 !important;
+      text-align: center;
     }
+
     ul ul {
-      float:left;
-      width:25%;
+      text-align: left;
+      vertical-align: top;
+      display: inline-block;
+      width: 50%;
+      max-width: 18.75em;
       box-sizing: border-box;
       margin-top: 2em;
       margin-bottom: 2em;
     }
-    ul ul:nth-child(4n + 1) {
-      clear: both;
+
+    @media (max-width: 34.99999999999em) {
+      ul ul:nth-child(2n + 1) {
+        clear: both;
+      }
     }
+
+    @media (min-width: 35em) {
+      ul ul {
+        width: 21%;
+      }
+
+      ul ul:nth-child(4n + 1) {
+        clear: both;
+      }
+    }
+
     ul ul li a, ul[label]:before {
       display: block;
       padding: 0.3em 2em;
@@ -91,10 +116,56 @@
     ul[label]:before {
       content: attr(label);
     }
+
+    .hint.disposed {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .hint {
+      background-color: black;
+      color: #e2e2e2;
+      padding: 0.3em 0.6em;
+      font-size: 0.8em;
+      position: absolute;
+      z-index: 1000;
+      display: inline-block;
+      border-radius: 0.2em;
+      margin-left: 2em;
+      transition:opacity 0.2s;
+      animation: bob 1s infinite ease;
+    }
+
+    .hint:before {
+      content: '';
+      background-color: black;
+      position: absolute;
+      transform: rotate(45deg);
+      height: 0.7em;
+      width: 0.7em;
+      left: -0.2em;
+      top: 0.6em;
+      z-index: 900;
+    }
+
+    @keyframes bob {
+      0% {
+        transform: translateX(0em);
+      }
+
+      50% {
+        transform: translateX(0.3em);
+      }
+
+      100% {
+        transform: translateX(0em);
+      }
+    }
   </style>
   <template>
     <div class$='{{ _shownClass(shown) }}'>
-      <button class='toggle' on-click='_toggle'></button>
+      <button class='toggle' on-click='toggle'></button>
+      <span class$="{{ _hintClass(shown) }}">Use this menu to browse the documentation</span>
       <ul class='dropdown'>
         <template is='dom-repeat' items="{{ categories }}">
           <ul class="category" label$='{{ item.label }}'>
@@ -129,8 +200,13 @@
         return '#/docs' + url;
       },
 
-      _toggle: function () {
+      toggle: function () {
+        document.body.classList.add('hint-disposed');
         this.shown = !this.shown;
+      },
+
+      _hintClass: function (shown) {
+        return 'hint' + (document.body.classList.contains('hint-disposed') ? ' disposed' : '');
       },
     })
   </script>

@@ -1,4 +1,4 @@
-<dom-module id="doc-templating"><template><doc-page><h1 id="templating">Templating</h1>
+<dom-module id="docs-templating"><template><doc-page><h1 id="templating">Templating</h1>
 <p class="lead">
 Now that we know how to return a template response. Let's look into how templating works in Bridge.
 </p>
@@ -116,8 +116,8 @@ support for a few other formats. All the following will have equal output:</p>
 $key</span></code></pre>
 <pre><code class="prettyprint lang-jade prettyprinted" data-lang="jade" style=""><span class="com">// lib/templates/index.jade</span><span class="pln">
 p</span><span class="pun">=</span><span class="pln"> key</span></code></pre>
-<pre><code class="prettyprint lang-hbs prettyprinted" data-lang="hbs" style=""><span class="pun">{{--</span><span class="pln"> lib</span><span class="pun">/</span><span class="pln">templates</span><span class="pun">/</span><span class="pln">index</span><span class="pun">.</span><span class="pln">hbs </span><span class="pun">--}}</span><span class="pln">
-</span><span class="str">&lt;p&gt;</span><span class="pun">{{</span><span class="pln"> key </span><span class="pun">}}&lt;/</span><span class="pln">p</span><span class="pun">&gt;</span></code></pre>
+<pre><code class="prettyprint lang-hbs prettyprinted" data-lang="hbs" style=""><span class="pun">{<wbr>{--</span><span class="pln"> lib</span><span class="pun">/</span><span class="pln">templates</span><span class="pun">/</span><span class="pln">index</span><span class="pun">.</span><span class="pln">hbs </span><span class="pun">--}}</span><span class="pln">
+</span><span class="str">&lt;p&gt;</span><span class="pun">{<wbr>{</span><span class="pln"> key </span><span class="pun">}}&lt;/</span><span class="pln">p</span><span class="pun">&gt;</span></code></pre>
 <hr>
 <pre><code class="prettyprint lang-html prettyprinted" data-lang="html" style=""><span class="tag">&lt;p&gt;</span><span class="pln">value</span><span class="tag">&lt;/p&gt;</span></code></pre>
 

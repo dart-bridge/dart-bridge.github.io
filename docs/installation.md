@@ -15,6 +15,8 @@ Then, you can create new applications just by running the following command.
 $ new_bridge my_blog
 ```
 
+After the project has been created, check out the [Quick Tour](#/quick-tour) to learn how to get started.
+
 ---
 
 ## Manual install

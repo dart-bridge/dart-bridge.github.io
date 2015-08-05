@@ -35,7 +35,7 @@ var phantomFooter =
 function buildDocumentationFile(filename) {
     filename = path.relative(process.cwd(), filename);
     var dir = path.dirname(filename);
-    var name = 'doc-' + path.basename(filename, '.md');
+    var name = filename.replace(/\//g, '-').replace(/\.md$/, '');
     var destPath = 'pages/' + dir + '/' + name + '.html';
     var destDir = path.dirname(destPath);
     var destFilename = path.basename(destPath);
@@ -64,6 +64,7 @@ function buildDocumentationFile(filename) {
             file.contents = new Buffer(polymerOutput);
             return file;
         }))
+        .pipe(replace('{{', '{<wbr>{'))
         // </OH THE HORROR>
         .pipe(gulp.dest(destDir));
 }

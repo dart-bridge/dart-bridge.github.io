@@ -283,6 +283,9 @@ kbd {
     border-radius: 0.2em;
     color:white;
     text-shadow: 0 -0.08em gray;
+    font:inherit;
+    font-size: 0.9em;
+    letter-spacing: 0.05em;
 }
 article img {
     box-sizing: border-box;

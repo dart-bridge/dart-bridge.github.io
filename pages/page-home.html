@@ -230,10 +230,18 @@
         setTimeout(this._onScroll.bind(this), 100);
       },
 
+      _shouldntShow: function (section) {
+        return section.getBoundingClientRect().top > window.innerHeight / 3 * 2;
+      },
+
+      _isntScrolledToBottom: function () {
+        return window.innerHeight + document.body.scrollTop < document.body.offsetHeight;
+      },
+
       _onScroll: function () {
         for (var i = 0; i < this._sections.length; i++) {
           var section = this._sections[i];
-          if (section.getBoundingClientRect().top > window.innerHeight / 3 * 2) continue;
+          if (this._isntScrolledToBottom() && this._shouldntShow(section)) continue;
           section.classList.add('shown');
           this._sections.splice(this._sections.indexOf(section), 1);
         }
