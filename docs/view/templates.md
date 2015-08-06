@@ -64,7 +64,7 @@ We don't want our entire HTML boilerplate in each page template. So we extract a
 ```
 
 ## Pre-processors
-Now why let's create an article template for some kind of blog. And let's we use [Jade](//jade-lang.com)!
+Now let's create an article template for some kind of blog. And let's use [Jade](//jade-lang.com)!
 
 ```jade
 // lib/templates/article.jade
